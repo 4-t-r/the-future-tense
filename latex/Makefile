@@ -2,6 +2,15 @@
 
 .ONESHELL:
 
+.PHONY: help
+help:
+> @echo "Targets:"
+> @echo "... expose"
+> @echo "... expose-full"
+> @echo "... paper"
+> @echo "... paper-full"
+> @echo "... clean"
+
 .PHONY: expose
 expose: clean
 > cd expose
