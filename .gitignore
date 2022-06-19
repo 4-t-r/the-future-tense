@@ -1,3 +1,6 @@
+.DS_Store
+latex/.DS_Store
+
 latex/*.pdf
 
 # Byte-compiled / optimized / DLL files
