@@ -14,6 +14,14 @@ help:
 expose: clean
 > pdflatex expose
 
+.PHONY: expose-full
+expose-full: clean
+> pdflatex expose
+> bibtex expose
+> pdflatex expose
+> pdflatex expose
+> pdflatex expose
+
 .PHONY: paper
 paper: clean
 > cd paper
