@@ -8,8 +8,6 @@ Big Data and Language Technologies 2022
 
 `make expose`
 
-`make expose-full` (with bibliography)
-
 ### Paper
 
 `cd latex`

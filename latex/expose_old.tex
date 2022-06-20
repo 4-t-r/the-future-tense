@@ -1,0 +1,88 @@
+% This must be in the first 5 lines to tell arXiv to use pdfLaTeX, which is strongly recommended.
+\pdfoutput=1
+
+\documentclass[11pt]{article}
+
+% Remove the "review" option to generate the final version.
+\usepackage{acl}
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+
+% For proper rendering and hyphenation of words containing Latin characters (including in bib files)
+\usepackage[T1]{fontenc}
+
+% This assumes your files are encoded as UTF8
+\usepackage[utf8]{inputenc}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+
+\usepackage{verbatim}
+
+\author{
+  Dünya Baradari, Finn Bartels, Artur Dewald and Julia Peters
+}
+\begin{comment}
+    \author{
+      Baradari, Dünya\\
+      \texttt{ub43ovir@studserv.uni-leipzig.de}
+      \and
+      Bartels, Finn\\
+      \texttt{aq60qovu@studserv.uni-leipzig.de}
+      \and
+      Dewald, Artur\\
+      \texttt{phi12eps@studserv.uni-leipzig.de}
+      \and
+      Peters, Julia\\
+      \texttt{wd83zadi@studserv.uni-leipzig.de}
+    }
+\end{comment}
+
+\title{The Future Tense - Exposé}
+\date{June 20th 2022}
+\maketitle
+
+\begin{document}
+
+\section{Introduction}
+
+The topic of artificial intelligence (AI) is an ever-evolving one. New inventions bring new possibilities for mankind, but could there also be risks? Especially for those which are not tech-savvy, the idea of a “rogue AI” can induce feelings of fear and uncertainty. Not least because of the large amount of popular movies which are telling the same story over and over again. In our project, we will address this subject matter of public perception of AI. More precisely, we will ask ourselves the question:
+
+\\ \textit{How do people’s perceptions of AI change over time?}
+
+Our research focuses on sentiments in several topics of AI. Our approach claims to be able to point out the evaluation of differences and development over a period of time and where they  are grounded in sentiment about AI. Having insights about such trends, we have the chance to monitor cultural perceptions over time in disrupting fields within the context of AI. The research can be summarized in three main research questions:
+
+\begin{itemize}
+\item How was the general sentiment towards AI in the past several years up to a decade?
+\item What were the trends in order of the development perceptions especially in common AI topics?
+\item How does the general sentiment differ between different AI topics?
+\end{itemize}
+
+For modern historians and anthropologists, the web has become one of the most important datasets for understanding the changes and trends underpinning society. This source will serve as the all subordinate, to build a model which we aim to handle even statements of specific and granular topics in aspect of future. Here our main focus is on Tweets and Reddit-Posts primerily, to have a better data set in order of a clearly tailored HTML-structure in the extraction process.
+
+Furthermore with our research we aim to bring a good baseline to be able to build a dataset upon in future, which is focused on future oriented statements.
+
+\section{Technical Implementation}
+
+We divide the technical implementation in the following steps:
+
+\begin{enumerate}
+\item We will design an array of suitable regular expressions for including only future statements, and generate a list of keywords which belongs to the field of AI. We will use prompt engineering to achieve that. Utilizing the web-archive-keras pipeline, we will then extract a large number of data from WARC files obtained with the pipeline.
+
+\item While we plan to investigate sentiments in statements about various topics in AI, we have to classify the statements to get topic labels. This will be achieved by working with a pre-trained zero-shot classification model like Facebook’s bart-large-mnli.
+\\ Sentiment classification of training and test data has to be classified as well. As expected we will differentiate this section into positively and negatively directed statements. Here, distilbert-base-uncased-finetuned-sst-2-english seems to be an accepted opportunity to possibly go with.
+\\ At this point we will have obtained data in the form of a 4-tuple (statement, sentiment, topic, publication date).
+    
+\item We will then use a train/test-split. The training set will be further divided in actual training set and a validation set. To avoid train-test leakage, we have to be clear about the separation of training data and test data. Since we will extract the whole data set in step 1 and use a predefined train-test split function, we will circumvent the problem of train-test leakage.
+\item To be able to answer the research questions mentioned before, we plan to perform a data analysis on the results of the previous steps which includes data visualization.
+\end{enumerate}
+
+\section{Research Plan}
+
+The research plan started with the definition of three research questions, which have emerged from the issue of the people’s perception of AI in the future. This continues with the technical implementation of our methodology with an aim on the classification of the statements in topic and sentiment (and subsequent analysis thereof). While we have the effort to develop our skills in the field of Deep Learning, we distribute the different tasks according to the personal experience of our team members as well as the fields of interest. Here, Dünya mainly focuses on data evaluation and scientific writing, Finn and Julia mainly focuses on the modeling process and Artur  mainly focuses on pipeline execution, deployment and data extraction. These roles are not set in stone, but are prone to be adjusted over the course of the project if personal preferences change.
+
+\end{document}
