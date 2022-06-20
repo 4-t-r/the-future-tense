@@ -10,35 +10,70 @@
 \maketitle
 \thispagestyle{empty}
 
-\section{Introduction}
 
-The topic of artificial intelligence (AI) is an ever-evolving one. New inventions introduce new possibilities for mankind, but could there also be risks? Especially for those which are not tech-savvy, the idea of a “rogue AI” can induce feelings of uncertainty. On the other hand, AI technologies simplify many areas of everyday life, be it text translation, digital voice assistants or smart home devices. In our project, we will address this subject matter of public perception of AI. More precisely, we will ask ourselves the question: \textit{How do people’s perceptions of AI change over time?} \\ Our research focuses on sentiments in several areas of AI. With our approach we claim to point out the evaluation of differences and development over a period of time and where they are grounded on, regarding the sentiment of AI. Having insights about such trends, we have the chance to monitor cultural perceptions over time in disrupting fields within the context of AI. \\For modern historians and anthropologists, the web has become one of the most important datasets for understanding the changes and trends underpinning society. This source will serve as the basis for building a model that we will use in the future to address statements on specific and granular issues. Here our focus is on Tweets and Reddit posts primarily, to have a better data set in order of a clearly tailored HTML-structure in the extraction process. Our research can be summarized in three main research questions:
+\section{Introduction}
+The topic of artificial intelligence (AI) is an ever-evolving one.
+New inventions introduce new possibilities for mankind, but could there also be risks?
+Especially for those which are not tech-savvy, the idea of a “rogue AI” can induce feelings of uncertainty.
+On the other hand, AI technologies simplify many areas of everyday life, be it text translation, digital voice assistants or smart home devices.
+In our project, we will address this subject matter of public perception of AI.
+More precisely, we will ask ourselves the question:
+\textit{How do people’s perceptions of AI change over time?}
+\\
+Our research focuses on sentiments in several areas of AI.
+With our approach we claim to point out the evaluation of differences and development over a period of time and where they are grounded on, regarding the sentiment of AI.
+Having insights about such trends, we have the chance to monitor cultural perceptions over time in disrupting fields within the context of AI.
+\\
+For modern historians and anthropologists, the web has become one of the most important datasets for understanding the changes and trends underpinning society.
+This source will serve as the basis for building a model that we will use in the future to address statements on specific and granular issues.
+Here our focus is on Tweets and Reddit posts primarily, to have a better data set in order of a clearly tailored HTML-structure in the extraction process.
+Our research can be summarized in three main research questions:
 
 \begin{itemize}
-\item How have perceptions towards AI evolved over the course of the last decade?
-\item Can we observe significant redistribution of sentiment among topic clusters over the last decade?
-\item How is sentiment distributed among topic clusters in small time frame?
+\item \textit{How have perceptions towards AI evolved over the course of the last decade?}
+\item \textit{Can we observe significant redistribution of sentiment among topic clusters over the last decade?}
+\item \textit{How is sentiment distributed among topic clusters in small time frame?}
 \end{itemize}
-
+%
 In addition, we want our research to create a good starting point on which we can build a data set in the future that is focused on forward-looking statements.
 
-\section{Technical Implementation}
 
+\section{Technical Implementation}
 We divide the technical implementation in the following steps:
 
 \begin{enumerate}
-\item We will design an array of suitable regular expressions for including only future statements, and generate a list of keywords which belongs to the field of AI. We will use prompt engineering to achieve that. Utilizing the web-archive-keras pipeline, we will then extract a large number of data from WARC files obtained with the pipeline.
+\item%
+We will design an array of suitable regular expressions for including only future statements, and generate a list of keywords which belongs to the field of AI.
+We will use prompt engineering to achieve that.
+Utilizing the web-archive-keras pipeline, we will then extract a large number of data from WARC files obtained with the pipeline.
 
-\item While we plan to investigate sentiments in statements about various topics in AI, we have to classify the statements to obtain topic labels. This will be achieved by working with a pre-trained zero-shot classification model like Facebook’s bart-large-mnli.
-\\ Sentiment classification of training and test data has to be classified as well. Therefore we will differentiate this section into positively and negatively directed statements. Here, distilbert-base-uncased-finetuned-sst-2-english seems to be an accepted opportunity to possibly go with.
-\\ At this point we will have obtained data in the form of a 4-tuple (statement, sentiment, topic, publication date).
-    
-\item We will then use a train/test-split. The training set will be further divided into the actual training set and a validation set. To avoid train-test leakage, we have to be clear about the separation of training data and test data. Since we will extract the whole data set in step 1 and use a predefined train-test split function, we will circumvent the problem of train-test leakage.
-\item To be able to answer the research questions mentioned before, we plan to perform a data analysis on the results of the previous steps which includes data visualization.
+\item%
+While we plan to investigate sentiments in statements about various topics in AI, we have to classify the statements to obtain topic labels.
+This will be achieved by working with a pre-trained zero-shot classification model like Facebook’s \textit{bart-large-mnli}.
+\\
+Sentiment classification of training and test data has to be classified as well.
+Therefore we will differentiate this section into positively and negatively directed statements.
+Here, \textit{distilbert-base-uncased-finetuned-sst-2-english} seems to be an accepted opportunity to possibly go with.
+\\
+At this point we will have obtained data in the form of a 4-tuple (statement, sentiment, topic, publication date).
+
+\item%
+We will then use a train/test-split.
+The training set will be further divided into the actual training set and a validation set.
+To avoid train-test leakage, we have to be clear about the separation of training data and test data.
+Since we will extract the whole data set in step 1 and use a predefined train-test split function, we will circumvent the problem of train-test leakage.
+
+\item%
+To be able to answer the research questions mentioned before, we plan to perform a data analysis on the results of the previous steps which includes data visualization.
 \end{enumerate}
 
-\section{Research Plan}
 
-The research plan starts with the definition of three research questions, which have emerged from the issue of people’s perception of AI in the future. This continues with the technical implementation of our methodology with the aim on the classification of the statements in topic and sentiment (and subsequent analysis thereof). Since we have the effort to develop our skills in the field of Deep Learning, we distribute the different tasks according to the personal experience of our team members as well as the fields of interest. Here, Dünya mainly focuses on data evaluation and scientific writing, while Finn and Julia primarily concentrate on the modeling process and Artur's major focus lies on pipeline execution, deployment and data extraction. These roles are not set in stone, but are prone to be adjusted over the course of the project if personal preferences change.
+\section{Research Plan}
+The research plan starts with the definition of three research questions, which have emerged from the issue of people’s perception of AI in the future.
+This continues with the technical implementation of our methodology with the aim on the classification of the statements in topic and sentiment (and subsequent analysis thereof).
+Since we have the effort to develop our skills in the field of Deep Learning, we distribute the different tasks according to the personal experience of our team members as well as the fields of interest.
+Here, Dünya mainly focuses on data evaluation and scientific writing, while Finn and Julia primarily concentrate on the modeling process.
+Artur's major focus lies on pipeline execution, deployment and data extraction.
+These roles are not set in stone, but are prone to be adjusted over the course of the project if personal preferences change.
 
 \end{document}
