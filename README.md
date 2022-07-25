@@ -3,6 +3,8 @@ Big Data and Language Technologies 2022
 
 ## Example: Build future statements model
 
+`source venv/bin/activate`
+
 `cd datasets/future_statements_dataset`
 
 `./extract.py`
