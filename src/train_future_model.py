@@ -22,8 +22,8 @@ pd.plotting.register_matplotlib_converters()
 pd.set_option('display.max_colwidth', None)
 
 # Load data as series
-X_train = pd.read_csv('../data/processed/future_statements_dataset/X_train.csv')["statement"]
-y_train = pd.read_csv('../data/processed/future_statements_dataset/y_train.csv')["future"]
+X_train = pd.read_csv('../datasets/future_statements_dataset/X_train.csv')["statement"]
+y_train = pd.read_csv('../datasets/future_statements_dataset/y_train.csv')["future"]
 
 # Create train/test split
 X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.2)
