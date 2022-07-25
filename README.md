@@ -3,29 +3,29 @@ Big Data and Language Technologies 2022
 
 ## Example: Build future statements model
 
-`source venv/bin/activate`
+1) Activate venv
 
-`cd datasets/future_statements_dataset`
+2) `cd datasets/future_statements_dataset`
 
-`./extract.py`
+3) `./extract.py`
 
-`cd src`
+4) `cd src`
 
-`./train_future_model.py`
+5) `./train_future_model.py`
 
 ## Compiling LaTeX
 ### Exposé
 
-`cd latex`
+1) `cd latex`
 
-`make expose`
+2) `make expose`
 
-`make expose-full` (with bibliography)
+3) `make expose-full` (with bibliography)
 
 ### Paper
 
-`cd latex`
+1) `cd latex`
 
-`make paper`
+2) `make paper`
 
-`make paper-full` (with bibliography)
+3) `make paper-full` (with bibliography)
