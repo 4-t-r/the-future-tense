@@ -1,0 +1,18 @@
+#!/bin/bash -l 
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=5
+#SBATCH --mem=20G
+
+#SBATCH --job-name=run_future_statements
+#SBATCH --time=2:00:00
+
+#SBATCH --gres=gpu:1g.5gb
+
+#SBATCH -o slurm_logs/%j.%x.out
+#SBATCH -e slurm_logs/%j.%x.err
+
+#pip install -r ../requirements.txt --user
+
+
+srun python3 train_future_model.py
+#srun python3 hyper_sweeping/train_future_model_hyper.py

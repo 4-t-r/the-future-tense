@@ -133,3 +133,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# individual ignores
+src/slurm_logs/
+
+/src/test_finn.py

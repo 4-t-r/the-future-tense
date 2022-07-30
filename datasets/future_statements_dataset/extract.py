@@ -3,7 +3,7 @@
 import pandas as pd
 
 if __name__ == "__main__":
-    df = pd.read_csv("from_notion_artur.csv")
+    df = pd.read_csv("future_dataset.csv", sep='|')
 
     with open("X_train.csv", "w") as f:
         f.write("statement\n")
@@ -13,4 +13,4 @@ if __name__ == "__main__":
     with open("y_train.csv", "w") as f:
         f.write("future\n")
         for row in df["future"]:
-            f.write("0\n" if row == "No" else "1\n")
+            f.write("0\n" if row == "no" else "1\n")
