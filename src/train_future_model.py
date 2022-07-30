@@ -17,6 +17,8 @@ from tensorflow import keras
 from transformers import DistilBertTokenizerFast
 from transformers import TFDistilBertModel, DistilBertConfig
 
+print('Start train_future_model')
+
 pd.plotting.register_matplotlib_converters()
 # Don't truncate text
 pd.set_option('display.max_colwidth', None)
@@ -47,12 +49,13 @@ y_train.reset_index(drop=True, inplace=True)
 y_valid.reset_index(drop=True, inplace=True)
 y_test.reset_index(drop=True, inplace=True)
 
-print('Training data:   ', len(X_train.index), ' rows.')
-print('Validation data: ', len(X_valid.index), ' rows.')
-print('Test data:       ', len(X_test.index), ' rows.')
+print('Training data:   ', len(X_train.index), ' rows. Negatives:', (y_train==0).sum(), 'Positives:', (y_train==1).sum())
+print('Validation data: ', len(X_valid.index), ' rows. Negatives:', (y_valid==0).sum(), 'Positives:', (y_valid==1).sum())
+print('Test data:       ', len(X_test.index), ' rows. Negatives:', (y_test==0).sum(), 'Positives:', (y_test==1).sum())
 
 params = {'MAX_LENGTH': 128,
-          'EPOCHS': 6,
+          'EPOCHS': 50,
+          #learningrate
           'LEARNING_RATE': 5e-5,
           'FT_EPOCHS': 2,
           'OPTIMIZER': 'adam',
@@ -60,6 +63,7 @@ params = {'MAX_LENGTH': 128,
           'FL_ALPHA': 0.2,
           'BATCH_SIZE': 64,
           'NUM_STEPS': len(X_train.index) // 64,
+          #dropouts:
           'DISTILBERT_DROPOUT': 0.2,
           'DISTILBERT_ATT_DROPOUT': 0.2,
           'LAYER_DROPOUT': 0.2,
@@ -300,11 +304,21 @@ train_history2 = model.fit(
 ##############################################################################################
 # Generate predictions
 y_pred = model.predict([X_test_ids, X_test_attention])
+#print('y_pred',y_pred)
+#print('---------------------')
 y_pred_thresh = np.where(y_pred >= params['POS_PROBA_THRESHOLD'], 1, 0)
+#print('y_pred_thresh',y_pred_thresh)
 
 # Get evaluation results
 accuracy = accuracy_score(y_test, y_pred_thresh)
 auc_roc = roc_auc_score(y_test, y_pred)
+
+#test_pred = (y_pred != y_test)
+#print('test_pred: ',test_pred)
+
+pred_df = pd.DataFrame(zip(X_test, y_test, y_pred_thresh, y_pred), columns=['statement', 'test', 'pred', 'pred_prob'])
+print(pred_df)
+pred_df.to_csv('test_predict.csv', sep='|')
 
 # Log the ROC curve
 fpr, tpr, thresholds = roc_curve(y_test.to_numpy(), y_pred)
@@ -329,7 +343,7 @@ plt.ylabel('Focal Loss', labelpad=16, fontsize=14)
 print("Minimum Validation Loss: {:0.4f}".format(history_df['val_loss'].min()))
 
 # Save figure
-plt.savefig('../figures/future_statements_trainvalloss.png', dpi=300.0, transparent=True)
+plt.savefig('../figures/future_statements_trainvalloss.png', dpi=300.0, transparent=False)
 ##############################################################################################
 
 # Plot the Confusion Matrix
@@ -344,8 +358,10 @@ plt.xlabel('Predicted Label', labelpad=14)
 plt.ylabel('True Label', labelpad=14)
 
 # Save the figure
-plt.savefig('../figures/future_statements_confusionmatrix.png', dpi=300.0, transparent=True)
+plt.savefig('../figures/future_statements_confusionmatrix.png', dpi=300.0, transparent=False)
 ##############################################################################################
 
 # Save model
-tf.saved_model.save(model, '../models/future_statements_model')
+#tf.saved_model.save(model, '../models/future_statements_model')
+#tf.saved_model.save(model, '../models/future_statements_model/future_model.h5')
+model.save('../models/future_statements_model/future_model.h5', save_format='h5')
