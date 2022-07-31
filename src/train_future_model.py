@@ -57,7 +57,7 @@ params = {'MAX_LENGTH': 128,
           'EPOCHS': 50,
           #learningrate
           'LEARNING_RATE': 5e-5,
-          'FT_EPOCHS': 2,
+          'FT_EPOCHS': 10,
           'OPTIMIZER': 'adam',
           'FL_GAMMA': 2.0,
           'FL_ALPHA': 0.2,
@@ -316,7 +316,7 @@ auc_roc = roc_auc_score(y_test, y_pred)
 #test_pred = (y_pred != y_test)
 #print('test_pred: ',test_pred)
 
-pred_df = pd.DataFrame(zip(X_test, y_test, y_pred_thresh, y_pred), columns=['statement', 'test', 'pred', 'pred_prob'])
+pred_df = pd.DataFrame(zip(y_test, y_pred_thresh, y_pred, X_test), columns=['test', 'pred', 'pred_prob', 'statement'])
 print(pred_df)
 pred_df.to_csv('test_predict.csv', sep='|')
 
