@@ -1,0 +1,9 @@
+http://www.kaggle.com/unitednations/un-general-debates
+http://data.world/ian/united-nations-general-debate-corpus
+http://gadebate.un.org/
+http://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/0TJX8Y
+http://www.wsj.com/
+http://www.vox.com/
+http://futechblog.com/
+http://www.weforum.org/
+http://wired.com/
