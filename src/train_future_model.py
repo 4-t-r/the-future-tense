@@ -168,7 +168,7 @@ def build_model(transformer, max_length=params['MAX_LENGTH']):
     # DistilBERT outputs a tuple where the first element at index 0
     # represents the hidden-state at the output of the model's last layer.
     # It is a tf.Tensor of shape (batch_size, sequence_length, hidden_size=768).
-    last_hidden_state = transformer([input_ids_layer, input_attention_layer])[0]
+    last_hidden_state = transformer.distilbert([input_ids_layer, input_attention_layer])[0]
 
     # We only care about DistilBERT's output for the [CLS] token, which is located
     # at index 0.  Splicing out the [CLS] tokens gives us 2D data.
@@ -364,4 +364,4 @@ plt.savefig('../figures/future_statements_confusionmatrix.png', dpi=300.0, trans
 # Save model
 #tf.saved_model.save(model, '../models/future_statements_model')
 #tf.saved_model.save(model, '../models/future_statements_model/future_model.h5')
-model.save('../models/future_statements_model/future_model.h5', save_format='h5')
+model.save('../models/future_statements_model/future_model.tf', save_format='tf')
