@@ -7,3 +7,6 @@ http://www.vox.com/
 http://futechblog.com/
 http://www.weforum.org/
 http://wired.com/
+http://openai.com/blog/
+http://techcrunch.com/
+http://futurism.com
