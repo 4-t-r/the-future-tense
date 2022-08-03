@@ -1,6 +1,9 @@
 .DS_Store
 latex/.DS_Store
 
+datasets/future_statements_dataset/X_train.csv
+datasets/future_statements_dataset/y_train.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -130,3 +133,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# individual ignores
+src/slurm_logs/
+
+/src/test_finn.py
