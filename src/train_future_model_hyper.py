@@ -57,10 +57,10 @@ print('Validation data: ', len(X_valid.index), ' rows. Negatives:', (y_valid==0)
 print('Test data:       ', len(X_test.index), ' rows. Negatives:', (y_test==0).sum(), 'Positives:', (y_test==1).sum())
 
 params = {'MAX_LENGTH': 128,
-          'EPOCHS': 50,
+          'EPOCHS': 40,
           #learningrate
           'LEARNING_RATE': 5e-5,
-          'FT_EPOCHS': 10,
+          'FT_EPOCHS': 20,
           'OPTIMIZER': 'adam',
           'FL_GAMMA': 2.0,
           'FL_ALPHA': 0.2,
@@ -292,7 +292,7 @@ def train_model(define_callbacks, model, X_train_ids, X_valid_ids, X_train_atten
 '''
 Unfreeze DistilBERT and Fine-tune All Weights
 '''
-def ft_model(define_callbacks, model, X_train_ids, X_valid_ids, X_train_attention, X_valid_attention):
+def ft_model(distilBERT, define_callbacks, model, X_train_ids, X_valid_ids, X_train_attention, X_valid_attention):
     # Unfreeze DistilBERT weights to enable fine-tuning
     for layer in distilBERT.layers:
         layer.trainable = True
@@ -324,10 +324,7 @@ Evaluate Model Predictions
 def eval_model(model, X_test_ids, X_test_attention):
     # Generate predictions
     y_pred = model.predict([X_test_ids, X_test_attention])
-    print('y_pred',y_pred)
-    print('---------------------')
     y_pred_thresh = np.where(y_pred >= params['POS_PROBA_THRESHOLD'], 1, 0)
-    print('y_pred_thresh',y_pred_thresh)
 
     # Get evaluation results
     accuracy = accuracy_score(y_test, y_pred_thresh)
@@ -335,7 +332,6 @@ def eval_model(model, X_test_ids, X_test_attention):
 
     # save testet data
     pred_df = pd.DataFrame(zip(y_test, y_pred_thresh, y_pred, X_test), columns=['test', 'pred', 'pred_prob', 'statement'])
-    print(pred_df)
     pred_df.to_csv('test_predict.csv', sep='|')
 
     # Log the ROC curve
@@ -368,7 +364,7 @@ def plot_loss(train_history1, train_history2):
 '''
 Plot the Confusion Matrix
 '''
-def plot_conf():
+def plot_conf(y_pred_thresh):
     # Plot confusion matrix
     skplt.metrics.plot_confusion_matrix(y_test.to_list(),
                                         y_pred_thresh.tolist(),
@@ -399,11 +395,11 @@ if __name__ == "__main__":
     _init_model = init_model(bert_model)
     define_callbacks = define_callbacks()
     train_hist1 = train_model(define_callbacks, _init_model, tokenize_encode[0], tokenize_encode[1], tokenize_encode[3], tokenize_encode[4])
-    train_hist2 = ft_model(define_callbacks, _init_model, tokenize_encode[0], tokenize_encode[1], tokenize_encode[3], tokenize_encode[4])
+    train_hist2 = ft_model(bert_model, define_callbacks, _init_model, tokenize_encode[0], tokenize_encode[1], tokenize_encode[3], tokenize_encode[4])
     eval_model = eval_model(_init_model, tokenize_encode[2], tokenize_encode[5])
     plot_loss(train_hist1[0], train_hist2[0])
     plot_conf(eval_model)
     save_model(train_hist2[1])
 
     # finish time
-    print_and_log('Finished in %ds' % (time.time()-start_time), log=log)
+    print('Finished in %ds' % (time.time()-start_time))

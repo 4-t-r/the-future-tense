@@ -14,5 +14,6 @@
 #pip install -r ../requirements.txt --user
 
 
-#srun python3 train_future_model.py
-srun python3 train_future_model_hyper.py
+srun python3 train_future_model.py
+#srun python3 train_future_model_hyper.py
+

@@ -54,10 +54,10 @@ print('Validation data: ', len(X_valid.index), ' rows. Negatives:', (y_valid==0)
 print('Test data:       ', len(X_test.index), ' rows. Negatives:', (y_test==0).sum(), 'Positives:', (y_test==1).sum())
 
 params = {'MAX_LENGTH': 128,
-          'EPOCHS': 50,
+          'EPOCHS': 10,
           #learningrate
           'LEARNING_RATE': 5e-5,
-          'FT_EPOCHS': 10,
+          'FT_EPOCHS': 2,
           'OPTIMIZER': 'adam',
           'FL_GAMMA': 2.0,
           'FL_ALPHA': 0.2,
@@ -168,6 +168,8 @@ def build_model(transformer, max_length=params['MAX_LENGTH']):
     # DistilBERT outputs a tuple where the first element at index 0
     # represents the hidden-state at the output of the model's last layer.
     # It is a tf.Tensor of shape (batch_size, sequence_length, hidden_size=768).
+    
+    #last_hidden_state = transformer([input_ids_layer, input_attention_layer])[0]
     last_hidden_state = transformer.distilbert([input_ids_layer, input_attention_layer])[0]
 
     # We only care about DistilBERT's output for the [CLS] token, which is located
@@ -364,4 +366,5 @@ plt.savefig('../figures/future_statements_confusionmatrix.png', dpi=300.0, trans
 # Save model
 #tf.saved_model.save(model, '../models/future_statements_model')
 #tf.saved_model.save(model, '../models/future_statements_model/future_model.h5')
-model.save('../models/future_statements_model/future_model.tf', save_format='tf')
+model.save('../models/future_statements_model/future_model.h5', save_format='h5')
+#model.save('../models/future_statements_model/future_model.tf', save_format='tf')

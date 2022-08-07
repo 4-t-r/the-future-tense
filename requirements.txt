@@ -131,3 +131,4 @@ Werkzeug==2.2.0
 widgetsnbextension==3.6.1
 wrapt==1.14.1
 wurlitzer==3.0.2
+torch==1.12.1
