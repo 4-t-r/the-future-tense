@@ -47,7 +47,12 @@ predict a statement
 '''
 def pred_model(model, statement_tokenized):
     prediction = model(statement_tokenized)
+    prediction2 = model.predict(statement_tokenized)
     #pred = model.predict(statement)
+    print('pred1 type', type(prediction))
+    print('pred1', prediction)
+    print('pred2 type', type(prediction2))
+    print('pred2', prediction2)
 
     return prediction
 
@@ -62,6 +67,7 @@ if __name__ == "__main__":
     pred = pred_model(model, tokenized_statement)
     prediction_logits = pred[0]
     prediction_probs = tf.nn.softmax(prediction_logits,axis=1).numpy()
+    print(type(pred))
     print('----')
     print(f'Prediction logits: {prediction_logits}')
     print(f'Prediction probs: {prediction_probs}')
