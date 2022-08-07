@@ -138,6 +138,7 @@ if not os.path.exists('./checkpoints/'):
     model.save_weights('./checkpoints/my_checkpoint')
 else:
     print('Already trained weights available...')
+model.load_weights('./checkpoints/my_checkpoint')
 loss, acc = model.evaluate(x=[X_test_ids, X_test_attention], y=y_test, verbose=1)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
 y_pred = model.predict([X_test_ids, X_test_attention], verbose=1)
