@@ -138,13 +138,9 @@ if not os.path.exists('./checkpoints/'):
     model.save_weights('./checkpoints/my_checkpoint')
 else:
     print('Already trained weights available...')
-loss, acc = model.evaluate(x=[X_test_ids, X_test_attention]
-                           #, y=y_test
-                           , verbose=1)
+loss, acc = model.evaluate(x=[X_test_ids, X_test_attention], y=y_test, verbose=1)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
-if not y_pred:
-    y_pred = model.predict([X_test_ids, X_test_attention]
-                           , verbose=1)
+y_pred = model.predict([X_test_ids, X_test_attention], verbose=1)
 prediction_logits = y_pred[0]
 prediction_probs = tf.nn.softmax(prediction_logits,axis=1).numpy()
 y_pred_thresh = np.where(prediction_probs > params['POS_PROBA_THRESHOLD'], 1, 0)
