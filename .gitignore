@@ -138,7 +138,16 @@ dmypy.json
 src/slurm_logs/
 
 /src/test_finn.py
+
 /models
-/topic_model/checkpoints
-/topic_model/saved_model
-/topic_model/topic_model_slurm_logs
+
+/src/future_model_ft/slurm_logs
+/src/future_model_ft/.ipynb_checkpoints
+
+/src/future_model_tl_ft/slurm_logs
+/src/future_model_tl_ft/.ipynb_checkpoints
+
+/src/topic_model/checkpoints
+/src/topic_model/saved_model
+/src/topic_model/slurm_logs
+/src/topic_model/.ipynb_checkpoints

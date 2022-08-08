@@ -139,8 +139,14 @@ if not os.path.exists('../../models/future_statements_model/checkpoints/'):
 else:
     print('Already trained weights available...')
     model.load_weights('../../models/future_statements_model/checkpoints/my_checkpoint')
+
+print('Evaluate model:')
+print('\"model.evaluate\":')
 loss, acc = model.evaluate(x=[X_test_ids, X_test_attention], y=y_test, verbose=1)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
+print('')
+
+print('\"model.predict\":')
 y_pred = model.predict([X_test_ids, X_test_attention], verbose=1)
 prediction_logits = y_pred[0]
 prediction_probs = tf.nn.softmax(prediction_logits,axis=1).numpy()
@@ -151,8 +157,9 @@ y_pred_t = pd.Series([el[1] for el in y_pred_thresh])
 accuracy = accuracy_score(y_test, y_pred_t)
 auc_roc = roc_auc_score(y_test, y_pred_t)
 
-print(accuracy)
-print(auc_roc)
+print('Accuracy:',accuracy)
+print('AUC:', auc_roc)
+
 skplt.metrics.plot_confusion_matrix(y_pred_t.tolist()
                                     , y_test.to_list()
                                     , figsize=(6, 6)
@@ -162,5 +169,6 @@ plt.xlabel('Predicted Label', labelpad=14)
 plt.ylabel('True Label', labelpad=14)
 
 plt.savefig('../../figures/future_statements_confusionmatrix_ft.png', dpi=300.0, transparent=False)
+print('... finished.')
 #model.save('saved_model/my_model2', save_format='h5')
 #data_collator = DefaultDataCollator(return_tensors="tf")
