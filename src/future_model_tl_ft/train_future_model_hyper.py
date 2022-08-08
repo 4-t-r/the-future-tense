@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import os
+import time
+import datetime
+
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 import pandas as pd
 import random
 import scikitplot as skplt
@@ -17,15 +20,15 @@ from tensorflow import keras
 from transformers import DistilBertTokenizerFast
 from transformers import TFDistilBertModel, DistilBertConfig
 
-print('Start train_future_model')
+print('Start train_future_model...')
 
 pd.plotting.register_matplotlib_converters()
 # Don't truncate text
 pd.set_option('display.max_colwidth', None)
 
 # Load data as series
-X_train = pd.read_csv('../datasets/future_statements_dataset/X_train.csv')["statement"]
-y_train = pd.read_csv('../datasets/future_statements_dataset/y_train.csv')["future"]
+X_train = pd.read_csv('../../datasets/future_statements_dataset/X_train.csv')["statement"]
+y_train = pd.read_csv('../../datasets/future_statements_dataset/y_train.csv')["future"]
 
 # Create train/test split
 X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.2)
@@ -54,10 +57,10 @@ print('Validation data: ', len(X_valid.index), ' rows. Negatives:', (y_valid==0)
 print('Test data:       ', len(X_test.index), ' rows. Negatives:', (y_test==0).sum(), 'Positives:', (y_test==1).sum())
 
 params = {'MAX_LENGTH': 128,
-          'EPOCHS': 10,
+          'EPOCHS': 40,
           #learningrate
           'LEARNING_RATE': 5e-5,
-          'FT_EPOCHS': 2,
+          'FT_EPOCHS': 20,
           'OPTIMIZER': 'adam',
           'FL_GAMMA': 2.0,
           'FL_ALPHA': 0.2,
@@ -168,9 +171,7 @@ def build_model(transformer, max_length=params['MAX_LENGTH']):
     # DistilBERT outputs a tuple where the first element at index 0
     # represents the hidden-state at the output of the model's last layer.
     # It is a tf.Tensor of shape (batch_size, sequence_length, hidden_size=768).
-    
-    #last_hidden_state = transformer([input_ids_layer, input_attention_layer])[0]
-    last_hidden_state = transformer.distilbert([input_ids_layer, input_attention_layer])[0]
+    last_hidden_state = transformer([input_ids_layer, input_attention_layer])[0]
 
     # We only care about DistilBERT's output for the [CLS] token, which is located
     # at index 0.  Splicing out the [CLS] tokens gives us 2D data.
@@ -216,155 +217,189 @@ def build_model(transformer, max_length=params['MAX_LENGTH']):
                    metrics=['accuracy'])
 
     return _model
-##############################################################################################
-# End of helper functions
+
+'''
+tokenize_encode function
+
+Instantiate DistilBERT tokenizer...we use the Fast version to optimize runtime
+Encode attributes
+'''
+def tokenize_encode():
+    # Tokenize text
+    tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
+
+    # Encode X_train
+    X_train_ids, X_train_attention = batch_encode(tokenizer, X_train.tolist())
+
+    # Encode X_valid
+    X_valid_ids, X_valid_attention = batch_encode(tokenizer, X_valid.tolist())
+
+    # Encode X_test
+    X_test_ids, X_test_attention = batch_encode(tokenizer, X_test.tolist())
+
+    return X_train_ids, X_valid_ids, X_test_ids, X_train_attention, X_valid_attention, X_test_attention
+
+'''
+The bare, pre-trained DistilBERT transformer model outputting raw hidden-states
+and without any specific head on top.
+'''
+def bert_model_config():
+    config = DistilBertConfig(dropout=params['DISTILBERT_DROPOUT'],
+                            attention_dropout=params['DISTILBERT_ATT_DROPOUT'],
+                            output_hidden_states=True)
+    distilBERT = TFDistilBertModel.from_pretrained('distilbert-base-uncased', config=config)
+
+    # Freeze DistilBERT layers to preserve pre-trained weights
+    for layer in distilBERT.layers:
+        layer.trainable = False
+    return distilBERT
+
+'''
+Build model
+'''
+def init_model(distilBERT):
+    model = build_model(distilBERT)
+    return model
+
+'''
+Define callbacks
+'''
+def define_callbacks():
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
+                                                    mode='min',
+                                                    min_delta=0,
+                                                    patience=0,
+                                                    restore_best_weights=True)
+    return early_stopping
+
+'''
+Train Weights of Added Layers and Classification Head
+'''
+def train_model(define_callbacks, model, X_train_ids, X_valid_ids, X_train_attention, X_valid_attention):
+    # Train the model
+    train_history1 = model.fit(
+        x=[X_train_ids, X_train_attention],
+        y=y_train.to_numpy(),
+        epochs=params['EPOCHS'],
+        batch_size=params['BATCH_SIZE'],
+        steps_per_epoch=params['NUM_STEPS'],
+        validation_data=([X_valid_ids, X_valid_attention], y_valid.to_numpy()),
+        #callbacks=[define_callbacks],
+        verbose=2
+    )
+    return train_history1, model
+
+'''
+Unfreeze DistilBERT and Fine-tune All Weights
+'''
+def ft_model(distilBERT, define_callbacks, model, X_train_ids, X_valid_ids, X_train_attention, X_valid_attention):
+    # Unfreeze DistilBERT weights to enable fine-tuning
+    for layer in distilBERT.layers:
+        layer.trainable = True
+
+    # Lower the learning rate to prevent destruction of pre-trained weights
+    optimizer = tf.keras.optimizers.Adam(lr=2e-5)
+
+    # Recompile model after unfreezing
+    model.compile(optimizer=optimizer,
+                loss=focal_loss(),
+                metrics=['accuracy'])
+
+    # Train the model
+    train_history2 = model.fit(
+        x=[X_train_ids, X_train_attention],
+        y=y_train.to_numpy(),
+        epochs=params['FT_EPOCHS'],
+        batch_size=params['BATCH_SIZE'],
+        steps_per_epoch=params['NUM_STEPS'],
+        validation_data=([X_valid_ids, X_valid_attention], y_valid.to_numpy()),
+        #callbacks=[define_callbacks],
+        verbose=2
+    )
+    return train_history2, model
+
+'''
+Evaluate Model Predictions
+'''
+def eval_model(model, X_test_ids, X_test_attention):
+    # Generate predictions
+    y_pred = model.predict([X_test_ids, X_test_attention])
+    y_pred_thresh = np.where(y_pred >= params['POS_PROBA_THRESHOLD'], 1, 0)
+
+    # Get evaluation results
+    accuracy = accuracy_score(y_test, y_pred_thresh)
+    auc_roc = roc_auc_score(y_test, y_pred)
+
+    # save testet data
+    pred_df = pd.DataFrame(zip(y_test, y_pred_thresh, y_pred, X_test), columns=['test', 'pred', 'pred_prob', 'statement'])
+    pred_df.to_csv('test_predict.csv', sep='|')
+
+    # Log the ROC curve
+    fpr, tpr, thresholds = roc_curve(y_test.to_numpy(), y_pred)
+
+    print('Accuracy:  ', accuracy)   # 0.9218
+    print('ROC-AUC:   ', auc_roc)    # 0.9691
+
+    return y_pred_thresh
+
+'''
+Plot Training and Validation Loss
+'''
+def plot_loss(train_history1, train_history2):
+    # Build train_history
+    history_df1 = pd.DataFrame(train_history1.history)
+    history_df2 = pd.DataFrame(train_history2.history)
+    history_df = history_df1.append(history_df2, ignore_index=True)
+
+    # Plot training and validation loss over each epoch
+    history_df.loc[:, ['loss', 'val_loss']].plot()
+    plt.title(label='Training + Validation Loss Over Time', fontsize=17, pad=19)
+    plt.xlabel('Epoch', labelpad=14, fontsize=14)
+    plt.ylabel('Focal Loss', labelpad=16, fontsize=14)
+    print("Minimum Validation Loss: {:0.4f}".format(history_df['val_loss'].min()))
+
+    # Save figure
+    plt.savefig('../../figures/future_statements_trainvalloss_tl_ft.png', dpi=300.0, transparent=False)
+
+'''
+Plot the Confusion Matrix
+'''
+def plot_conf(y_pred_thresh):
+    # Plot confusion matrix
+    skplt.metrics.plot_confusion_matrix(y_test.to_list(),
+                                        y_pred_thresh.tolist(),
+                                        figsize=(6, 6),
+                                        text_fontsize=14)
+    plt.title(label='Test Confusion Matrix', fontsize=20, pad=17)
+    plt.xlabel('Predicted Label', labelpad=14)
+    plt.ylabel('True Label', labelpad=14)
+
+    # Save the figure
+    plt.savefig('../../figures/future_statements_confusionmatrix_tl_ft.png', dpi=300.0, transparent=False)
+
+'''
+Save model
+'''
+def save_model(model):
+    tf.saved_model.save(model, '../../models/future_statements_model/saved_model_tl_ft.pb')
+    model.save('../../models/future_statements_model/saved_model_tl_ft.h5')
 
 
-# Tokenize text
-##############################################################################################
-# Instantiate DistilBERT tokenizer...we use the Fast version to optimize runtime
-tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
+if __name__ == "__main__":
 
-# Encode X_train
-X_train_ids, X_train_attention = batch_encode(tokenizer, X_train.tolist())
+    # start time
+    start_time = time.time()
 
-# Encode X_valid
-X_valid_ids, X_valid_attention = batch_encode(tokenizer, X_valid.tolist())
+    tokenize_encode = tokenize_encode()
+    bert_model = bert_model_config()
+    _init_model = init_model(bert_model)
+    define_callbacks = define_callbacks()
+    train_hist1 = train_model(define_callbacks, _init_model, tokenize_encode[0], tokenize_encode[1], tokenize_encode[3], tokenize_encode[4])
+    train_hist2 = ft_model(bert_model, define_callbacks, _init_model, tokenize_encode[0], tokenize_encode[1], tokenize_encode[3], tokenize_encode[4])
+    eval_model = eval_model(_init_model, tokenize_encode[2], tokenize_encode[5])
+    plot_loss(train_hist1[0], train_hist2[0])
+    plot_conf(eval_model)
+    save_model(train_hist2[1])
 
-# Encode X_test
-X_test_ids, X_test_attention = batch_encode(tokenizer, X_test.tolist())
-##############################################################################################
-
-
-# The bare, pre-trained DistilBERT transformer model outputting raw hidden-states
-# and without any specific head on top.
-config = DistilBertConfig(dropout=params['DISTILBERT_DROPOUT'],
-                          attention_dropout=params['DISTILBERT_ATT_DROPOUT'],
-                          output_hidden_states=True)
-distilBERT = TFDistilBertModel.from_pretrained('distilbert-base-uncased', config=config)
-
-# Freeze DistilBERT layers to preserve pre-trained weights
-for layer in distilBERT.layers:
-    layer.trainable = False
-
-# Build model
-model = build_model(distilBERT)
-
-
-# Train Weights of Added Layers and Classification Head
-##############################################################################################
-# Define callbacks
-early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
-                                                  mode='min',
-                                                  min_delta=0,
-                                                  patience=0,
-                                                  restore_best_weights=True)
-
-# Train the model
-train_history1 = model.fit(
-    x=[X_train_ids, X_train_attention],
-    y=y_train.to_numpy(),
-    epochs=params['EPOCHS'],
-    batch_size=params['BATCH_SIZE'],
-    steps_per_epoch=params['NUM_STEPS'],
-    validation_data=([X_valid_ids, X_valid_attention], y_valid.to_numpy()),
-    callbacks=[early_stopping],
-    verbose=2
-)
-##############################################################################################
-
-
-# Unfreeze DistilBERT and Fine-tune All Weights
-##############################################################################################
-# Unfreeze DistilBERT weights to enable fine-tuning
-for layer in distilBERT.layers:
-    layer.trainable = True
-
-# Lower the learning rate to prevent destruction of pre-trained weights
-optimizer = tf.keras.optimizers.Adam(lr=2e-5)
-
-# Recompile model after unfreezing
-model.compile(optimizer=optimizer,
-              loss=focal_loss(),
-              metrics=['accuracy'])
-
-# Train the model
-train_history2 = model.fit(
-    x=[X_train_ids, X_train_attention],
-    y=y_train.to_numpy(),
-    epochs=params['FT_EPOCHS'],
-    batch_size=params['BATCH_SIZE'],
-    steps_per_epoch=params['NUM_STEPS'],
-    validation_data=([X_valid_ids, X_valid_attention], y_valid.to_numpy()),
-    callbacks=[early_stopping],
-    verbose=2
-)
-##############################################################################################
-
-
-# Evaluate Model Predictions
-##############################################################################################
-# Generate predictions
-y_pred = model.predict([X_test_ids, X_test_attention])
-#print('y_pred',y_pred)
-#print('---------------------')
-y_pred_thresh = np.where(y_pred >= params['POS_PROBA_THRESHOLD'], 1, 0)
-#print('y_pred_thresh',y_pred_thresh)
-
-# Get evaluation results
-accuracy = accuracy_score(y_test, y_pred_thresh)
-auc_roc = roc_auc_score(y_test, y_pred)
-
-#test_pred = (y_pred != y_test)
-#print('test_pred: ',test_pred)
-
-pred_df = pd.DataFrame(zip(y_test, y_pred_thresh, y_pred, X_test), columns=['test', 'pred', 'pred_prob', 'statement'])
-print(pred_df)
-pred_df.to_csv('test_predict.csv', sep='|')
-
-# Log the ROC curve
-fpr, tpr, thresholds = roc_curve(y_test.to_numpy(), y_pred)
-
-print('Accuracy:  ', accuracy)   # 0.9218
-print('ROC-AUC:   ', auc_roc)    # 0.9691
-##############################################################################################
-
-
-# Plot Training and Validation Loss
-##############################################################################################
-# Build train_history
-history_df1 = pd.DataFrame(train_history1.history)
-history_df2 = pd.DataFrame(train_history2.history)
-history_df = history_df1.append(history_df2, ignore_index=True)
-
-# Plot training and validation loss over each epoch
-history_df.loc[:, ['loss', 'val_loss']].plot()
-plt.title(label='Training + Validation Loss Over Time', fontsize=17, pad=19)
-plt.xlabel('Epoch', labelpad=14, fontsize=14)
-plt.ylabel('Focal Loss', labelpad=16, fontsize=14)
-print("Minimum Validation Loss: {:0.4f}".format(history_df['val_loss'].min()))
-
-# Save figure
-plt.savefig('../figures/future_statements_trainvalloss.png', dpi=300.0, transparent=False)
-##############################################################################################
-
-# Plot the Confusion Matrix
-##############################################################################################
-# Plot confusion matrix
-skplt.metrics.plot_confusion_matrix(y_test.to_list(),
-                                    y_pred_thresh.tolist(),
-                                    figsize=(6, 6),
-                                    text_fontsize=14)
-plt.title(label='Test Confusion Matrix', fontsize=20, pad=17)
-plt.xlabel('Predicted Label', labelpad=14)
-plt.ylabel('True Label', labelpad=14)
-
-# Save the figure
-plt.savefig('../figures/future_statements_confusionmatrix.png', dpi=300.0, transparent=False)
-##############################################################################################
-
-# Save model
-#tf.saved_model.save(model, '../models/future_statements_model')
-#tf.saved_model.save(model, '../models/future_statements_model/future_model.h5')
-model.save('../models/future_statements_model/future_model.h5', save_format='h5')
-#model.save('../models/future_statements_model/future_model.tf', save_format='tf')
+    # finish time
+    print('Finished in %ds' % (time.time()-start_time))

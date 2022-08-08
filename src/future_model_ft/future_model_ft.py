@@ -16,8 +16,8 @@ from transformers import DefaultDataCollator
 
 from transformers import AutoTokenizer
 from transformers import TFAutoModelForSequenceClassification
-X_train = pd.read_csv('../datasets/future_statements_dataset/X_train.csv')["statement"]
-y_train = pd.read_csv('../datasets/future_statements_dataset/y_train.csv')["future"]
+X_train = pd.read_csv('../../datasets/future_statements_dataset/X_train.csv')["statement"]
+y_train = pd.read_csv('../../datasets/future_statements_dataset/y_train.csv')["future"]
 params = {'MAX_LENGTH': 128,
           'EPOCHS': 50,
           #learningrate
@@ -124,7 +124,7 @@ model.compile(
     metrics=tf.metrics.SparseCategoricalAccuracy(),
 )
 
-if not os.path.exists('./checkpoints/'):
+if not os.path.exists('../../models/future_statements_model/checkpoints/'):
     print('Train model...')
     model.fit(x=[X_train_ids, X_train_attention]
               , y=y_train.to_numpy()
@@ -135,10 +135,10 @@ if not os.path.exists('./checkpoints/'):
               #, callbacks=[early_stopping]
               , verbose=1
              )
-    model.save_weights('./checkpoints/my_checkpoint')
+    model.save_weights('../../models/future_statements_model/checkpoints/my_checkpoint')
 else:
     print('Already trained weights available...')
-model.load_weights('./checkpoints/my_checkpoint')
+    model.load_weights('../../models/future_statements_model/checkpoints/my_checkpoint')
 loss, acc = model.evaluate(x=[X_test_ids, X_test_attention], y=y_test, verbose=1)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
 y_pred = model.predict([X_test_ids, X_test_attention], verbose=1)
@@ -161,6 +161,6 @@ plt.title(label='Test Confusion Matrix', fontsize=20, pad=17)
 plt.xlabel('Predicted Label', labelpad=14)
 plt.ylabel('True Label', labelpad=14)
 
-plt.savefig('../figures/future_statements_confusionmatrix.png', dpi=300.0, transparent=False)
+plt.savefig('../../figures/future_statements_confusionmatrix_ft.png', dpi=300.0, transparent=False)
 #model.save('saved_model/my_model2', save_format='h5')
 #data_collator = DefaultDataCollator(return_tensors="tf")
