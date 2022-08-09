@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import pdb
 import pandas as pd
 import tensorflow as tf
 import numpy as np
@@ -83,7 +84,8 @@ def evaluate_model(_X_test_ids, _X_test_attention, _y_test, threshold):
     prediction = model([_X_test_ids, _X_test_attention], training=False)
     logits = prediction["logits"]
     _probabilities = tf.nn.softmax(logits)
-    _probabilities = _probabilities[:, 0]
+    pdb.set_trace()
+    _probabilities = _probabilities[:, 1]
     _y_pred_thresh = np.where(_probabilities >= threshold, 1, 0)
     accuracy = accuracy_score(_y_test, _y_pred_thresh)
     auc_roc = roc_auc_score(_y_test, _probabilities)
@@ -154,13 +156,13 @@ if __name__ == "__main__":
     train_history = model.fit(
         x=[X_train_ids, X_train_attention_mask],
         y=np.asarray(y_train),
-        epochs=1,
+        epochs=6,
         batch_size=64,
         steps_per_epoch=len(X_train) // 64,
         validation_data=([X_valid_ids, X_valid_attention_mask],
                          np.asarray(y_valid)),
         callbacks=[early_stopping],
-        verbose=2
+        verbose=1
     )
     print(f"{OKGREEN}Training done...{ENDC}")
 
@@ -173,4 +175,4 @@ if __name__ == "__main__":
 
     plot_confusion_matrix(y_test, y_pred_thresh)
 
-    model.save("../models/ftr_mdl.tf", save_format="tf")
+    model.save_pretrained("../models/ftr_mdl")
