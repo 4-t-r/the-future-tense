@@ -1,0 +1,17 @@
+list_sq = ["AI will be led by companies like Tesla.",
+            "AI could be a risk for many workers.",
+            "I am sure that social networks like facebook should use AI to counteract hatespeech comments.",
+            "In the future, cars will be powered by alternative energy sources such as solar and wind power.",
+            "In the future, there will be driverless cars.",
+            "In the future, flying cars will be a common form of transport.",
+            "In the future, hoverboards will be a common form of transport.",
+            "In the future, the use of public transport will increase as it becomes more efficient and affordable.",
+            "In the future, the number of people working from home will increase as technology advances.",
+            "In the future, there will be more jobs in the service sector as automation increases.",
+            "In the future, there will be more jobs in the green economy as we move away from fossil fuels.",
+            "In the future, artificial intelligence will lead to the creation of new jobs in fields such as healthcare and finance.",
+            "In the future, social media will be used more for business networking and less for personal use.",
+            "In the future, there will be more regulation of social media to protect people's privacy.",
+            "In the future, virtual reality will be used more for social interaction and entertainment.",
+            "In the future, augmented reality will be used"
+            ]
