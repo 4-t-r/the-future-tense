@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="da64d605-8b93-45bb-a988-4229f174d256" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/add_sentiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/add_sentiment.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,8 +97,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/main.py</url>
-          <line>41</line>
+          <line>92</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/main.py</url>
+          <line>89</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/main.py</url>
+          <line>36</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
