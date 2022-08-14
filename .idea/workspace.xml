@@ -96,7 +96,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/main.py</url>
-          <line>26</line>
+          <line>41</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
