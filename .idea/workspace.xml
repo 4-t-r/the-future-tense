@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da64d605-8b93-45bb-a988-4229f174d256" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/model_pipeline/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/test_sentiment_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/add_sentiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model_pipeline/add_sentiment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/add_topic.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model_pipeline/add_topic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/negative_by_model.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/neutral_by_model.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/positive_by_model.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/satements.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model_pipeline/satements.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/test_sentiment_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model_pipeline/test_sentiment_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +39,33 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/49151/the-future-tense/src/raw_data_preprocessing_pipeline/main.py",
+    "last_opened_file_path": "C:/Users/49151/the-future-tense/src/model_pipeline/main.py",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration name="test_sentiment_model" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="the-future-tense" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\49151\AppData\Local\Programs\Python\Python310\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/model_pipeline" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/model_pipeline/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_sentiment_model" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="the-future-tense" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -49,7 +77,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\49151\the-future-tense\src\raw_data_preprocessing_pipeline\test_sentiment_model.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/test_sentiment_model.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -58,11 +86,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.test_sentiment_model" />
-      </list>
-    </recent_temporary>
+    <list>
+      <item itemvalue="Python.test_sentiment_model" />
+      <item itemvalue="Python.main" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -90,32 +117,32 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/add_sentiment.py</url>
+          <url>file://$PROJECT_DIR$/src/model_pipeline/add_sentiment.py</url>
           <line>22</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/test_sentiment_model.py</url>
+          <url>file://$PROJECT_DIR$/src/model_pipeline/test_sentiment_model.py</url>
           <line>96</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/test_sentiment_model.py</url>
+          <url>file://$PROJECT_DIR$/src/model_pipeline/test_sentiment_model.py</url>
           <line>93</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/test_sentiment_model.py</url>
+          <url>file://$PROJECT_DIR$/src/model_pipeline/test_sentiment_model.py</url>
           <line>40</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/test_sentiment_model.py</url>
+          <url>file://$PROJECT_DIR$/src/model_pipeline/test_sentiment_model.py</url>
           <line>26</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/raw_data_preprocessing_pipeline/test_sentiment_model.py</url>
+          <url>file://$PROJECT_DIR$/src/model_pipeline/test_sentiment_model.py</url>
           <line>75</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
