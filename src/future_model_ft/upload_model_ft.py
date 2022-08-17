@@ -97,7 +97,7 @@ early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
                                                   restore_best_weights=True)
 push_cb = [PushToHubCallback("model_output/", 
                                tokenizer=tokenizer,
-                               hub_model_id="bert-fine-tuned-cola")]
+                               hub_model_id="distilbert-base-future")]
 train_history = model.fit(
     x=[X_train_ids, X_train_attention_mask],
     y=np.asarray(y_train),
