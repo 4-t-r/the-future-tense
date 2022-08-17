@@ -22,19 +22,23 @@ def get_sentiment_classification(statements, sentiment_classifier):
 
 def get_sentiment_class_mapping(sentiments):
     sentiment_class = []
+    probabilities = []
     for sentiment in sentiments:
         sentiment_class.append(sentiment_dict[sentiment.output])
-    return sentiment_class
+        probabilities.append(sentiment.probas[sentiment.output])
+    return sentiment_class, probabilities
 
 
 def label_chunks(statement_chunks, sentiment_classifier):
     y_pred = []
+    probas = []
     for chunk in statement_chunks:
         chunk_sentiments = get_sentiment_classification(chunk, sentiment_classifier)
-        chunk_sentiments_class = get_sentiment_class_mapping(chunk_sentiments)
+        chunk_sentiments_class, probabilities = get_sentiment_class_mapping(chunk_sentiments)
         y_pred = y_pred + chunk_sentiments_class
+        probas = probas + probabilities
         print(y_pred)
-    return y_pred
+    return y_pred, probas
 
 
 
@@ -44,7 +48,7 @@ def split_statements_in_chunks(statements, chunksize = 32):
 
 
 def get_labeled_test_data():
-    statements = list(csv.reader(open(test_set_path, encoding="utf8")))
+    statements = list(csv.reader(open(test_set_path, encoding="utf8"), delimiter="|"))
     statements = [x[0] for x in statements]
     labels = list(csv.reader(open(test_set_label_path, encoding="utf8" )))
     labels = [int(x[0]) for x in labels]
@@ -56,27 +60,27 @@ def get_confusion_matrix(y_true, y_pred):
     print(cm(np.asarray(y_true), np.asarray(y_pred)))
 
 
-def save_wrong_classified(y_true, y_pred, statements):
+def save_wrong_classified(y_true, y_pred, statements, probas):
     negative_by_model = open("negative_by_model.csv", 'w+', newline='')
     neutral_by_model = open("neutral_by_model.csv", 'w+', newline='')
     positive_by_model = open("positive_by_model.csv", 'w+', newline='')
 
-    csv_writer_neg = csv.writer(negative_by_model, delimiter=',',
+    csv_writer_neg = csv.writer(negative_by_model, delimiter='|',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    csv_writer_neu = csv.writer(neutral_by_model, delimiter=',',
+    csv_writer_neu = csv.writer(neutral_by_model, delimiter='|',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    csv_writer_pos = csv.writer(positive_by_model, delimiter=',',
+    csv_writer_pos = csv.writer(positive_by_model, delimiter='|',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
 
     for i in range(len(y_true)):
         if y_true[i] != y_pred[i]:
             if y_pred[i] == 0:
-                csv_writer_neg.writerow([statements[i], y_true[i]])
+                csv_writer_neg.writerow([statements[i], y_true[i], probas[i]])
             elif y_pred[i] == 1:
-                csv_writer_neu.writerow([statements[i], y_true[i]])
+                csv_writer_neu.writerow([statements[i], y_true[i], probas[i]])
             elif y_pred[i] == 2:
-                csv_writer_pos.writerow([statements[i], y_true[i]])
+                csv_writer_pos.writerow([statements[i], y_true[i], probas[i]])
 
 
 
@@ -85,9 +89,9 @@ def main():
     sentiment_classifier = SentimentClassifier()
     statements, y_true = get_labeled_test_data()
     statement_chunks = split_statements_in_chunks(statements)
-    y_pred = label_chunks(statement_chunks, sentiment_classifier)
+    y_pred, probas = label_chunks(statement_chunks, sentiment_classifier)
     get_confusion_matrix(y_true, y_pred)
-    save_wrong_classified(y_true, y_pred, statements)
+    save_wrong_classified(y_true, y_pred, statements, probas)
 
 
 
