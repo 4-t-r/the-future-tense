@@ -89,16 +89,20 @@ Hence, it should be of great importance to policy makers, social scientists but 
 
 \section{Methodology}
 This section will address our approach of establishing our data set containing statements about the future with a sentiment and a topic label for every record. In addition, we describe our methodology to conduct an analysis on the society's general perception towards the future of AI. Initially, the raw data extraction with the pipeline of N. Deckers is outlined. This is followed by the training of the future model and its integration into the model pipeline together with the sentiment model and the topic model. Afterwards, the model pipeline is employed to generate the final data set with the attributes future statement, sentiment and topic.
-Finally the latter created data set serves as a base for a sentiment analysis about the future of AI divided in several subtopics.
-
+Finally, the latter created data set serves as a base for a sentiment analysis about the future of AI divided in several subtopics.
 
 \subsection{WARC Data Extraction}
 
 \subsection{Future Model Training}
-Since this paper focuses on analyzing statements about the future, a system for distinguishing between future statements and other expressions is required. In this context, we decided to train a model that accomplishes this task. Therefore, in this subsection, the collection of the appropriate training data and the subsequent training of this model is thematized.
-
-\subsubsection{Dataset}
-
+Since this paper focuses on analyzing statements about the future, a system for distinguishing between future statements and other expressions is required. In this context, we decided to finetune the DistilBERT base model that accomplishes this task. Therefore, in this subsection, the collection of appropriate training data and the subsequent finetuning of the corresponding model is thematized. 
+\subsubsection{Data Set}
+In order to provide a suitable data set to establish the future model, we adopted multiple approaches. At this point, our goal was to compose the data in such a way that we would have a balanced data set with two classes. The first class should contain future statements and the second all other types of terms.
+While two of our group members manually annotated 500 observations each, the other two used an automated mechanism with subsequent verification of the collected data. \\
+One of the automatized approaches involves a web crawler developed on the basis of the python library Beautiful Soup. The text on a page is divided into sentences. Subsequently every sentence is examined for occurrence of certain terms, as "going to", "will", "won't" or " 'll".\\
+The second automated approach is the sentence extraction tool, which works in several aspects, similar to the web crawler. 
+At the beginning, it searches the given directory for a txt files. If those exist the text is splitted into sentences and observed for specific expressions, as described above.\\
+To find the phrases that are not future statements, both the web crawler and the sentence extraction tool look only at the corresponding records that do not contain the previously considered expressions. A careful manual review of all terms gathered by the automated systems was subsequently performed to remove the incorrect records. \\
+Finally, we constructed a data set with 1250 future statements and 1250 other phrases that did not contain future statements.
 \subsubsection{Training}
 
 \subsection{Model Pipeline}
