@@ -1,10 +1,10 @@
+import os
 import transformers
 import pandas as pd
 import torch
 from huggingface_hub import notebook_login
 from transformers import pipeline
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModel
-import os
 
 list_sq = ["AI will be led by companies like Tesla.",
             "AI could be a risk for many workers.",
