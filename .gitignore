@@ -141,6 +141,8 @@ src/slurm_logs/
 
 /models
 
+/figures
+
 /src/future_model_ft/slurm_logs
 /src/future_model_ft/.ipynb_checkpoints
 
