@@ -25,8 +25,42 @@
 % and will typically save some space.
 \usepackage{microtype}
 
-
 \usepackage{graphicx}
+
+
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{0.5em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{1.25ex plus 1ex minus .2ex}{0.5ex plus .2ex}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\makeatother
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
 
 % If the title and author information does not fit in the area allocated, uncomment the following
 %
@@ -65,10 +99,12 @@ The document itself conforms to its own specifications, and is therefore an exam
 These instructions should be used both for papers submitted for review and for final versions of accepted papers.
 \end{abstract} 
 
+
 \section{Introduction}
 
 Human-like artificial intelligence (AI) has been exciting and frightening humanity since the antiquity. Often intertwined with the concept of an artificial man, humanoid automata with the supposed capacity to answer questions and feel emotions have been present among all civilisations, including the ancient Egyptians and Greek \citep{Newquist1994}, Chinese \citep{cohen1986} and Mesopotamians \citep{unat2008}. Yet, it has been in the past decades that the rise of computing power according to Moore’s Law has enabled a wide-scale application of AI technologies. At the time of writing, use cases range from self-driving cars, personalisation of ads in online browsing to highly complex predication tasks for protein folding \citep{jumper2021}. \\
 This rapid development of ‘intelligent machines’ in everyday life and application has led to both hopes and fears among the general population. \citet{cave2019} identify four dichotomy categories of excitement and fears about artificial intelligence. These are immortality and inhumanity, ease and obsolescence, gratification and alienation and dominance and uprising (Table~\ref{dichotomy-categories}).
+
 
 \begin{table}
 \setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
@@ -96,34 +132,42 @@ Hence, it should be of great importance to policy makers, social scientists but 
 }
 \end{table}
 
+
 \section{Implementation}
-This section will address our approach of establishing our data set containing statements about the future with a sentiment and a topic label for every record. In addition, we describe our methodology to conduct an analysis on the society's general perception towards the future of AI. Initially, the raw data extraction with the pipeline of N. Deckers is outlined. This is followed by the training of the future model and its integration into the model pipeline together with the sentiment model and the topic model. Afterwards, the model pipeline is employed to generate the final data set with the attributes future statement, sentiment and topic.
+This section will address our approach of establishing our data set containing statements about the future with a sentiment and a topic label for every record. In addition, we describe our implementation to conduct an analysis on the society's general perception towards the future of AI. Initially, the raw data extraction with the pipeline of N. Deckers is outlined. This is followed by the training of the future model and its integration into the model pipeline together with the sentiment model and the topic model. Afterwards, the model pipeline is employed to generate the final data set with the attributes future statement, sentiment and topic.
 Finally, the latter created data set serves as a base for a sentiment analysis about the future of AI divided in several subtopics.
 
 \subsection{WARC Data Extraction}
 
-\subsection{Future Model Training}
-Since this paper focuses on analyzing statements about the future, a system for distinguishing between future statements and other expressions is required. In this context, we decided to finetune the DistilBERT base model that accomplishes this task. Therefore, in this subsection, the collection of appropriate training data and the subsequent finetuning of the corresponding model is thematized. 
-\subsubsection{Data Set}
-In order to provide a suitable data set to establish the future model, we adopted multiple approaches. At this point, our goal was to compose the data in such a way that we would have a balanced data set with two classes. The first class should contain future statements and the second all other types of terms.
-While two of our group members manually annotated 500 observations each, the other two used an automated mechanism with subsequent verification of the collected data. \\
-One of the automatized approaches involves a web crawler developed on the basis of the python library Beautiful Soup. The text on a page is divided into sentences. Subsequently every sentence is examined for occurrence of certain terms, as "going to", "will", "won't" or " 'll".\\
-The second automated approach is the sentence extraction tool, which works in several aspects, similar to the web crawler. 
-At the beginning, it searches the given directory for text files. If those exist the text is splitted into sentences and observed for specific expressions, as described above.\\
-To find the phrases that are not future statements, both the web crawler and the sentence extraction tool look only at the corresponding records that do not contain the previously considered expressions. A careful manual review of all terms gathered by the automated systems was subsequently performed to remove the incorrect records. \\
-Finally, we constructed a data set with 1250 future statements and 1250 other phrases that did not contain future statements.
-\subsubsection{Training}
-
-\subsection{Model Pipeline}
+\subsection {Model Pipeline}
 The model pipeline follows the WARC data extraction step and is designed to prepare our final dataset, which consists of the future statements and their associated sentiment and topic labels.
 The processing within the model pipeline is performed on batches of 30 records each from the WARC-DL output.\\
 First the future model filters out future statements from the corresponding batch.
 Subsequently, the sentiment model assigns a senitment to each future statement.
 Also in this step some future terms can be sorted out. This concerns the statements to which a sentiment is classified with a probability of less than 70\%.
-The remaining future statements receive a topic.\\
-Finally those are  persisted in a csv file.\\\\
+The remaining future statements receive a topic.
+Finally those are  persisted in a csv file.\\
 In the following parts of this paragraph we will go into detail about each individual model. In this context, we describe how the future model was trained and justify our decision for the sentiment and the topic model selection.
 Furthermore we outline the choice of our topics and explain, why only those statements are kept which a sentiment with a probability above 70\% can be attributed.
+
+\subsubsection{Future Model}
+Since this paper focuses on analyzing statements about the future, a system for distinguishing between future statements and other expressions is required. In this context, we decided to finetune the DistilBERT base model that accomplishes this task. Therefore, in this subsection, the collection of appropriate training data and the subsequent finetuning of the corresponding model is thematized. 
+
+\subsubsubsection{Training Data Set}
+In order to provide a suitable data set to establish the future model, we adopted multiple approaches. At this point, our goal was to compose the data in such a way that we would have a balanced data set with two classes. The first class should contain future statements and the second all other types of terms.
+While two of our group members manually annotated 500 observations each, the other two used an automated mechanism with subsequent verification of the collected data. \\
+One of the automatized approaches involves a web crawler developed on the basis of the python library Beautiful Soup. The text on a page is divided into sentences. Subsequently every sentence is examined for occurrence of certain terms, as "going to", "will", "won't" or " 'll".\\
+The second automated approach is the sentence extraction tool, which works in several aspects, similar to the web crawler. 
+At the beginning, it searches the given directory for text files. If those exist the text is splitted into sentences and observed for specific expressions, as described above.\\
+To find the phrases that are not future statements, both the web crawler and the sentence extraction tool look only at the corresponding records that do not contain the previously considered expressions. 
+A careful manual review of all terms gathered by the automated systems was subsequently performed to remove the incorrect records. \\
+Finally, we constructed a data set with 1250 future statements and 1250 other phrases that did not contain future statements.
+
+\subsubsubsection{Training}
+
+\subsubsection{Sentiment Model}
+
+\subsubsection{Topic Model}
 
 \section{Result}
 
