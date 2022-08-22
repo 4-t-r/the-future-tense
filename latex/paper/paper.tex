@@ -211,8 +211,8 @@ Training Results
 \hline
 & 1 & 2\\
 \hline
-true future statement & 237 & 18 \\
-true no future statements & 13 & 232 \\
+true future statement & 232 & 13 \\
+true no future statements & 18 & 237 \\
 \hline
 \end{tabular}
 \caption{\label{cm}
@@ -227,6 +227,15 @@ column 2: classified as no future statements
 In order to assign sentiments to future statements for later analysis, we decided to select a ready-trained model.
 The chosen sentiment model is the SentimentAnalyzer of the open-source library pysentimiento \citep{perez2021pysentimiento}, which was further trained on about 40k tweets. 
 It uses the BERTweet \citep{bertweet} as a base model, pre-trained on english tweets.
+
+\subsubsection{Evaluation}
+To evaluate the SentimentAnalyzer, we annotated 500 future statements, which were previously used for training the future model, as negative, positive or neutral and received an accuracy of about 65\%.\\
+We then analyzed all misclassified statements. 
+We noticed that some of the statements could not be assigned impartially to one of the three categories.
+An Example is "AI will reinvent how we think about education". 
+In the case of the sentence, we disagreed on whether we should value the sentence as neutral or positive and decided to use the neutral label. Subsequently, this statement was given a positive rating by the model.
+On closer examination of the statements that were labeled differently by us and by the model, we found over 90\% of the labels given by the model to be valid, if these annotations were assigned with probability over 70\%.
+For this reason, we decided to keep only statements about the future if the sentiment model assigned an annotation with a confidence above 70\%.
 
 \subsection{Topic Model}
 \label{topic-model}
