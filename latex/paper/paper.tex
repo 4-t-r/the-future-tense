@@ -115,6 +115,15 @@ Finally, we constructed a data set with 1250 future statements and 1250 other ph
 \subsubsection{Training}
 
 \subsection{Model Pipeline}
+The model pipeline follows the WARC data extraction step and is designed to prepare our final dataset, which consists of the future statements and their associated sentiment and topic labels.
+The processing within the model pipeline is performed on batches of 30 records each from the WARC-DL output.\\
+First the future model filters out future statements from the corresponding batch.
+Subsequently, the sentiment model assigns a senitment to each future statement.
+Also in this step some future terms can be sorted out. This concerns the statements to which a sentiment is classified with a probability of less than 70\%.
+The remaining future statements receive a topic.\\
+Finally those are  persisted in a csv file.\\\\
+In the following parts of this paragraph we will go into detail about each individual model. In this context, we describe how the future model was trained and justify our decision for the sentiment and the topic model selection.
+Furthermore we outline the choice of our topics and explain, why only those statements are kept which a sentiment with a probability above 70\% can be attributed.
 
 \section{Result}
 
