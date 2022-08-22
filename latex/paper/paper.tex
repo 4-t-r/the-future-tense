@@ -25,6 +25,9 @@
 % and will typically save some space.
 \usepackage{microtype}
 
+
+\usepackage{graphicx}
+
 % If the title and author information does not fit in the area allocated, uncomment the following
 %
 %\setlength\titlebox{<dim>}
@@ -67,10 +70,17 @@ These instructions should be used both for papers submitted for review and for f
 Human-like artificial intelligence (AI) has been exciting and frightening humanity since the antiquity. Often intertwined with the concept of an artificial man, humanoid automata with the supposed capacity to answer questions and feel emotions have been present among all civilisations, including the ancient Egyptians and Greek \citep{Newquist1994}, Chinese \citep{cohen1986} and Mesopotamians \citep{unat2008}. Yet, it has been in the past decades that the rise of computing power according to Moore’s Law has enabled a wide-scale application of AI technologies. At the time of writing, use cases range from self-driving cars, personalisation of ads in online browsing to highly complex predication tasks for protein folding \citep{jumper2021}. \\
 This rapid development of ‘intelligent machines’ in everyday life and application has led to both hopes and fears among the general population. \citet{cave2019} identify four dichotomy categories of excitement and fears about artificial intelligence. These are immortality and inhumanity, ease and obsolescence, gratification and alienation and dominance and uprising (Table~\ref{dichotomy-categories}).
 
-\begin{table*}
-\centering
-\begin{tabular}{lll}
+\begin{table}
+\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
+\footnotesize\centering
+\captionsetup{size=footnotesize}
+\resizebox{\columnwidth}{!}{%
+%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
+\begin{tabular}{
+    c|c|c}
+
 \hline
+
 \textbf{Dichotomy} & \textbf{Hope} & \textbf{Fear}\\
 \hline
 Immortality and Inhumanity & Much longer lives & long one's identity \\
@@ -78,14 +88,13 @@ Ease and Obsolescence & Life free of work & Becoming redundant \\
 Gratification and Alienation  & AI can fulfil one's desires & Humans will become redundant to each other \\
 Dominance and uprising & AI offers power over others & AI will turn against humans \\
 \hline
-\end{tabular}
+\end{tabular}}
 \caption{\label{dichotomy-categories}
 Categories of dichotomies of hopes and fears towards AI. Based on \citet{cave2019}.
 They further argue that such perceptions, which may not align with reality, can yet influence the development, regulation, and applications of AI. The encouragement of research into AI ethics by various public policy groups and governments may be a reflection of this point \citep{leslie2019}. \\
 Hence, it should be of great importance to policy makers, social scientists but also researchers working on artificial intelligence how general society perceives the future of the rapid advances in this field. In our work, we employ a large language model approach to analyse Web Archive* data of the past ~10 years concerning statements about the future of AI. Applying a topic clustering approach, we thereby seek to go beyond \citet{cave2019} categorisation and understand the most common topics regarding AI in online content. By examining the prevalence and sentiment of clusters and topics within clusters, we can learn how to direct education, ethics, and research efforts for a better future with AI. 
 }
-\end{table*}
-
+\end{table}
 
 \section{Methodology}
 This section will address our approach of establishing our data set containing statements about the future with a sentiment and a topic label for every record. In addition, we describe our methodology to conduct an analysis on the society's general perception towards the future of AI. Initially, the raw data extraction with the pipeline of N. Deckers is outlined. This is followed by the training of the future model and its integration into the model pipeline together with the sentiment model and the topic model. Afterwards, the model pipeline is employed to generate the final data set with the attributes future statement, sentiment and topic.
