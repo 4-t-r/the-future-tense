@@ -34,7 +34,7 @@ def keep_token(token) -> bool:
                    "hoping",
                    ]
 
-    with open("./english_verbs", mode="r") as ff:
+    with open("english_verbs", mode="r") as ff:
         english_verbs = ff.readlines()
     for future_keyword in future_keywords:
         for english_verb in english_verbs:

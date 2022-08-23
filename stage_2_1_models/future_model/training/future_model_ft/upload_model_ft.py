@@ -22,11 +22,11 @@ def load_data():
     # Load data as series
     _X_train = \
         pd.read_csv(
-            '../../datasets/future_statements_dataset/X_train.csv'
+            '../../warc_dl_output/dataset/X_train.csv'
         )['statement']
     _y_train = \
         pd.read_csv(
-            '../../datasets/future_statements_dataset/y_train.csv'
+            '../../warc_dl_output/dataset/y_train.csv'
         )['future']
 
     # Create train/test split

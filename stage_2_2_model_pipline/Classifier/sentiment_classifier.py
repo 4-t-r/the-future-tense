@@ -6,7 +6,7 @@ class SentimentClassifier:
     def __init__(self):
         self.sentiment_analyzer = SentimentAnalyzer(lang='en')
 
-    def predict_sentiment(self, statement_list, urls):
+    def predict_sentiment(self, statement_list, urls = None):
         predictions = self.sentiment_analyzer.predict(statement_list)
         sentiments = [sentiment.output for sentiment in predictions]
         probabilities = [sentiment.probas[sentiment.output] for sentiment in predictions]

@@ -22,16 +22,16 @@ ENDC = '\033[0m'
 
 
 def load_data():
-    print(f'{OKBLUE}Loading data...{ENDC}')
+    print(f"{OKBLUE}Loading data...{ENDC}")
     # Load data as series
     _X_train = \
         pd.read_csv(
-            '../../datasets/future_statements_dataset/X_train.csv'
-        )['statement']
+            '../warc_dl_output/dataset/X_train.csv'
+        )["statement"]
     _y_train = \
         pd.read_csv(
-            '../../datasets/future_statements_dataset/y_train.csv'
-        )['future']
+            '../warc_dl_output/dataset/y_train.csv'
+        )["future"]
 
     # Create train/test split
     _X_train, _X_test, _y_train, _y_test = \
@@ -61,30 +61,30 @@ def load_data():
     print('Validation data: ', len(_X_valid.index), ' rows.')
     print('Test data:       ', len(_X_test.index), ' rows.')
 
-    print(f'{OKGREEN}Loading done...{ENDC}')
+    print(f"{OKGREEN}Loading done...{ENDC}")
     return _X_train.tolist(), _X_valid.tolist(), _X_test.tolist(), \
         _y_train.tolist(), _y_valid.tolist(), _y_test.tolist()
 
 
 def encode_data(dataset, _tokenizer):
-    print(f'{OKBLUE}Encoding data...{ENDC}')
+    print(f"{OKBLUE}Encoding data...{ENDC}")
     inputs = _tokenizer(dataset,
                         max_length=128,
-                        padding='max_length',
+                        padding="max_length",
                         truncation=True,
                         return_token_type_ids=False)
-    ids = inputs['input_ids']
-    attention_mask = inputs['attention_mask']
-    print(f'{OKGREEN}Encoding done...{ENDC}')
+    ids = inputs["input_ids"]
+    attention_mask = inputs["attention_mask"]
+    print(f"{OKGREEN}Encoding done...{ENDC}")
     return tf.convert_to_tensor(ids), tf.convert_to_tensor(attention_mask)
 
 
 def evaluate_model(_X_test_ids, _X_test_attention, _y_test, threshold):
-    print(f'{OKBLUE}Evaluating model...{ENDC}')
+    print(f"{OKBLUE}Evaluating model...{ENDC}")
     prediction = model([_X_test_ids, _X_test_attention], training=False)
-    logits = prediction['logits']
+    logits = prediction["logits"]
     _probabilities = tf.nn.softmax(logits)
-    #pdb.set_trace()
+    pdb.set_trace()
     _probabilities = _probabilities[:, 1]
     _y_pred_thresh = np.where(_probabilities >= threshold, 1, 0)
     accuracy = accuracy_score(_y_test, _y_pred_thresh)
@@ -92,7 +92,7 @@ def evaluate_model(_X_test_ids, _X_test_attention, _y_test, threshold):
     # fpr, tpr, thresholds = roc_curve(_y_test.to_numpy(), _y_pred)
     print('Accuracy:  ', accuracy)
     print('ROC-AUC:   ', auc_roc)
-    print(f'{OKGREEN}Evaluating done...{ENDC}')
+    print(f"{OKGREEN}Evaluating done...{ENDC}")
     return _probabilities, _y_pred_thresh
 
 
@@ -104,9 +104,9 @@ def plot_training_and_val_loss(_train_history):
               pad=19)
     plt.xlabel('Epoch', labelpad=14, fontsize=14)
     plt.ylabel('Focal Loss', labelpad=16, fontsize=14)
-    print('Minimum Validation Loss: {:0.4f}'
+    print("Minimum Validation Loss: {:0.4f}"
           .format(_train_history_df['val_loss'].min()))
-    plt.savefig('../../figures/future_statements_trainvalloss.png',
+    plt.savefig('./figures/future_statements_trainvalloss.png',
                 dpi=300.0,
                 transparent=False)
 
@@ -119,16 +119,16 @@ def plot_confusion_matrix(_y_test, _y_pred_thresh):
     plt.title(label='Test Confusion Matrix', fontsize=20, pad=17)
     plt.xlabel('Predicted Label', labelpad=14)
     plt.ylabel('True Label', labelpad=14)
-    plt.savefig('../../figures/future_statements_confusionmatrix.png',
+    plt.savefig('./figures/future_statements_confusionmatrix.png',
                 dpi=300.0,
                 transparent=False)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     X_train, X_valid, X_test, y_train, y_valid, y_test = load_data()
 
     model = TFAutoModelForSequenceClassification.from_pretrained(
-        'distilbert-base-uncased',
+        "distilbert-base-uncased",
         num_labels=2
     )
     model.compile(
@@ -137,7 +137,7 @@ if __name__ == '__main__':
         metrics=tf.metrics.SparseCategoricalAccuracy(),
     )
     tokenizer = DistilBertTokenizerFast.from_pretrained(
-        'distilbert-base-uncased'
+        "distilbert-base-uncased"
     )
 
     # Get train_ids and attention_mask
@@ -152,7 +152,7 @@ if __name__ == '__main__':
                                                       patience=0,
                                                       restore_best_weights=True)
 
-    print(f'{OKBLUE}Training model...{ENDC}')
+    print(f"{OKBLUE}Training model...{ENDC}")
     train_history = model.fit(
         x=[X_train_ids, X_train_attention_mask],
         y=np.asarray(y_train),
@@ -164,7 +164,7 @@ if __name__ == '__main__':
         callbacks=[early_stopping],
         verbose=1
     )
-    print(f'{OKGREEN}Training done...{ENDC}')
+    print(f"{OKGREEN}Training done...{ENDC}")
 
     plot_training_and_val_loss(train_history)
 
@@ -175,4 +175,4 @@ if __name__ == '__main__':
 
     plot_confusion_matrix(y_test, y_pred_thresh)
 
-    model.save_pretrained('../../models/ftr_mdl')
+    model.save_pretrained("../models/ftr_mdl")

@@ -5,8 +5,8 @@ import os
 from sklearn.metrics import confusion_matrix as cm
 import numpy as np
 
-test_set_path = os.path.abspath("../../datasets/sentiment_dataset/sentiment_dataset.csv")
-test_set_label_path = os.path.abspath("../../datasets/sentiment_dataset/labels.csv")
+test_set_path = os.path.abspath("sentiment_dataset/sentiment_dataset.csv")
+test_set_label_path = os.path.abspath("sentiment_dataset/labels.csv")
 
 sentiment_dict = {
     'NEG': 0,
@@ -16,7 +16,7 @@ sentiment_dict = {
 
 
 def get_sentiment_classification(statements, sentiment_classifier):
-    sentiments = sentiment_classifier.add_sentiment_three_labels(statements)
+    sentiments = sentiment_classifier.add_sentiment(statements)
     return sentiments
 
 
@@ -71,7 +71,6 @@ def save_wrong_classified(y_true, y_pred, statements, probas):
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
     csv_writer_pos = csv.writer(positive_by_model, delimiter='|',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
-
 
     for i in range(len(y_true)):
         if y_true[i] != y_pred[i]:

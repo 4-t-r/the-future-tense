@@ -16,8 +16,8 @@ from transformers import DefaultDataCollator
 
 from transformers import AutoTokenizer
 from transformers import TFAutoModelForSequenceClassification
-X_train = pd.read_csv('../../datasets/future_statements_dataset/X_train.csv')["statement"]
-y_train = pd.read_csv('../../datasets/future_statements_dataset/y_train.csv')["future"]
+X_train = pd.read_csv('../../warc_dl_output/dataset/X_train.csv')["statement"]
+y_train = pd.read_csv('../../warc_dl_output/dataset/y_train.csv')["future"]
 params = {'MAX_LENGTH': 128,
           'EPOCHS': 50,
           #learningrate
@@ -124,7 +124,7 @@ model.compile(
     metrics=tf.metrics.SparseCategoricalAccuracy(),
 )
 
-if not os.path.exists('../../models/future_statements_model/checkpoints/'):
+if not os.path.exists('../future_statements_model/checkpoints/'):
     print('Train model...')
     model.fit(x=[X_train_ids, X_train_attention]
               , y=y_train.to_numpy()
@@ -135,10 +135,10 @@ if not os.path.exists('../../models/future_statements_model/checkpoints/'):
               #, callbacks=[early_stopping]
               , verbose=1
              )
-    model.save_weights('../../models/future_statements_model/checkpoints/my_checkpoint')
+    model.save_weights('../../future_statements_model/checkpoints/my_checkpoint')
 else:
     print('Already trained weights available...')
-    model.load_weights('../../models/future_statements_model/checkpoints/my_checkpoint')
+    model.load_weights('../../future_statements_model/checkpoints/my_checkpoint')
 
 print('Evaluate model:')
 print('\"model.evaluate\":')
