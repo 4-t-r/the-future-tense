@@ -1,0 +1,3 @@
+[submodule "datasets"]
+	path = datasets
+	url = ssh://bd-github/atr2384/the-future-tense-datasets
