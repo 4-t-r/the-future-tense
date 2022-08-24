@@ -32,7 +32,7 @@ Since this paper focuses on analyzing statements about the future, a system for 
 In this context, we decided to finetune the DistilBERT \citep{Sanh2019DistilBERTAD} base model that accomplishes this task.
 Therefore, in this subsection, the collection of appropriate training data and the subsequent finetuning of the corresponding model is thematized.
 
-\subsubsection{Training Data Set.}
+\subsubsection{Training Data Set}
 \label{training}
 In order to provide a suitable data set to establish the future model, we adopted multiple approaches.
 At this point, our goal was to compose the data in such a way that we would have a balanced data set with two classes.
@@ -41,7 +41,7 @@ While two of our group members manually annotated 500 observations each, the oth
 \\
 One of the automatized approaches involves a web crawler developed on the basis of the python library Beautiful Soup \citep{Richardson2022}.
 The text on a page is divided into sentences.
-Subsequently every sentence is examined for occurrence of certain terms, as "going to", "will", "won't" or " 'll".
+Subsequently every sentence is examined for occurrence of certain terms, as \emph{going to}, \emph{will}, \emph{won't} or \emph{'ll}.
 \\
 The second automated approach is the sentence extraction tool, which works in several aspects, similar to the web crawler.
 At the beginning, it searches the given directory for text files.
@@ -52,7 +52,7 @@ A careful manual review of all terms gathered by the automated systems was subse
 \\
 Finally, we constructed a data set with 1250 future statements and 1250 other phrases that did not contain future statements.
 
-\subsubsection{Training.}
+\subsubsection{Training}
 As previously described we used the DistilBERT base model and finetuned it with the data set specified in \ref{training}.
 We split the data set of 2500 records into a training and a test set, where the test set contains 20\% of the records.
 From the training set we split further 20\% for validation data.
@@ -120,12 +120,12 @@ In order to assign sentiments to future statements for later analysis, we decide
 The chosen sentiment model is the SentimentAnalyzer of the open-source library pysentimiento \citep{perez2021pysentimiento}, which was further trained on about 40k tweets.
 It uses the BERTweet \citep{bertweet} as a base model, pre-trained on english tweets.
 
-\subsubsection{Evaluation.}
+\subsubsection{Evaluation}
 To evaluate the SentimentAnalyzer, we annotated 500 future statements, which were previously used for training the future model, as negative, positive or neutral and received an accuracy of about 65\%.
 \\
 We then analyzed all misclassified statements.
 We noticed that some of the statements could not be assigned impartially to one of the three categories.
-An Example is "AI will reinvent how we think about education".
+An Example is \emph{``AI will reinvent how we think about education''}.
 In the case of the sentence, we disagreed on whether we should value the sentence as neutral or positive and decided to use the neutral label.
 Subsequently, this statement was given a positive rating by the model.
 On closer examination of the statements that were labeled differently by us and by the model, we found over 90\% of the labels given by the model to be valid, if these annotations were assigned with probability over 70\%.
