@@ -1,0 +1,57 @@
+\section{Methodology}
+
+For analyzing society's perception of the future of AI, divided into different fields, we have to achieve the following objectives:
+\begin{enumerate}
+    \item Obtaining of a sufficiently large data set with different expressions about the topic of AI.
+    \item Transformation of this raw data into a data set that includes only statements about the future, with a topic and a sentiment for each record.
+    \item Creation of a visualization from which society's perceptions on different topics of AI can be extracted.
+\end{enumerate}
+
+The following paragraphs discuss how the individual steps could be realised.\\\\
+For the purpose of extracting sufficiently large data sets about AI, an appropriate sized source is required.
+An option would be to crawl a correspondingly large amount of data on the web.
+If available, an already existing data set or web archive can be consulted. 
+Since such a web archive was actually already at our disposal, we decided to utilize this one.
+If the data set consists of long texts, it would be reasonable to split this texts into separate sentences.
+Then, regex can be applied to extract sentences about AI for later processing.\\\\
+After the raw data extraction, a transformation of this data to an appropriate form for visualization and analysis is required.
+(Table~\ref{data-schema}) illustrates such a target schema.
+To achieve this, several challenges have to be handled within this stage. \\
+First, statements about the future must be extracted from all the expressions. 
+One way to solve this could be using regex. 
+Another possibility would be to train a model with the ability to distinguish between statements about the future and all other types of terms.\\
+To add a sentiment to each record, an existing model can be applied. 
+If this model does not perform sufficiently, finetuning is an option for improvement.\\
+Finally, a topic has to be associated with each statement.
+The domain of Deep Learning offers possibilities in this regard as well. 
+After a detailed examination of the different statements and subsequent determination of the topics, an existing model can likewise be employed and finetuned if required.\\
+Now the corresponding data set is prepared for further analysis.\\\\
+For the analysis it would be beneficial to start with a graphical visualization.
+Therefore, we decided to group all statements according to their topics.
+For each topic, a chart can be generated indicating which proportion of the corresponding statements is negative, neutral or positive.\\
+In this way, it is possible to become aware of problems that society perceives and to intervene in time if these concerns are indeed justified. Another possibility would be to take fears, in the general society.
+
+\begin{table}
+\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
+\footnotesize\centering
+\captionsetup{size=footnotesize}
+\resizebox{\columnwidth}{!}{%
+%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{
+    ccc}
+
+\hline
+
+\textbf{statement} & \textbf{Sentiment} & \textbf{Topic} \\
+\hline
+AI can be a risk for many workers. & NEG & job market \\
+AI will definitely revolutionize games! & POS &  gaming\\
+... & ... & ... \\
+\hline
+\end{tabular}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\caption{\label{data-schema}
+Data schema for visualization and analysis
+}
+\end{table}
