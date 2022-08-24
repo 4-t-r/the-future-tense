@@ -94,155 +94,17 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This document is a supplement to the general instructions for *ACL authors. It contains instructions for using the \LaTeX{} style files for ACL conferences.
+This document is a supplement to the general instructions for *ACL authors.
+It contains instructions for using the \LaTeX{} style files for ACL conferences.
 The document itself conforms to its own specifications, and is therefore an example of what your manuscript should look like.
 These instructions should be used both for papers submitted for review and for final versions of accepted papers.
-\end{abstract} 
+\end{abstract}
 
-
-\section{Introduction}
-
-Human-like artificial intelligence (AI) has been exciting and frightening humanity since the antiquity. 
-Often intertwined with the concept of an artificial man, humanoid automata with the supposed capacity to answer questions and feel emotions have been present among all civilisations, including the ancient Egyptians and Greek \citep{Newquist1994}, Chinese \citep{cohen1986} and Mesopotamians \citep{unat2008}. 
-Yet, it has been in the past decades that the rise of computing power according to Moore’s Law has enabled a wide-scale application of AI technologies. At the time of writing, use cases range from self-driving cars, personalisation of ads in online browsing to highly complex predication tasks for protein folding \citep{jumper2021}. \\
-This rapid development of ‘intelligent machines’ in everyday life and application has led to both hopes and fears among the general population. 
-\citet{cave2019} identify four dichotomy categories of excitement and fears about artificial intelligence. These are immortality and inhumanity, ease and obsolescence, gratification and alienation and dominance and uprising (Table~\ref{dichotomy-categories}).
-
-
-\begin{table}
-\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
-\footnotesize\centering
-\captionsetup{size=footnotesize}
-\resizebox{\columnwidth}{!}{%
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-\begin{tabular}{
-    c|c|c}
-
-\hline
-
-\textbf{Dichotomy} & \textbf{Hope} & \textbf{Fear}\\
-\hline
-Immortality and Inhumanity & Much longer lives & long one's identity \\
-Ease and Obsolescence & Life free of work & Becoming redundant \\
-Gratification and Alienation  & AI can fulfil one's desires & Humans will become redundant to each other \\
-Dominance and uprising & AI offers power over others & AI will turn against humans \\
-\hline
-\end{tabular}}
-\caption{\label{dichotomy-categories}
-Categories of dichotomies of hopes and fears towards AI. Based on \citet{cave2019}.
-They further argue that such perceptions, which may not align with reality, can yet influence the development, regulation, and applications of AI. The encouragement of research into AI ethics by various public policy groups and governments may be a reflection of this point \citep{leslie2019}. \\
-Hence, it should be of great importance to policy makers, social scientists but also researchers working on artificial intelligence how general society perceives the future of the rapid advances in this field. 
-In our work, we employ a large language model approach to analyse Web Archive* data of the past ~10 years concerning statements about the future of AI. 
-Applying a topic clustering approach, we thereby seek to go beyond \citet{cave2019} categorisation and understand the most common topics regarding AI in online content. 
-By examining the prevalence and sentiment of clusters and topics within clusters, we can learn how to direct education, ethics, and research efforts for a better future with AI. 
-}
-\end{table}
-
-
-\section{Methodology \& Implementation}
-This section will address our approach of establishing our data set containing statements about the future with a sentiment and a topic label for every record. In addition, we describe our implementation to conduct an analysis on the society's general perception towards the future of AI. Initially, the raw data extraction with the WARC-DL pipeline \citep{Deckers2022} is outlined. This is followed by the training of the future model and its integration into the model pipeline together with the sentiment model and the topic model. Afterwards, the model pipeline is employed to generate the final data set with the attributes future statement, sentiment and topic.
-Finally, the latter created data set serves as a base for a sentiment analysis about the future of AI divided in several subtopics.
-
-\subsection{WARC Data Extraction}
-
-\subsection {Model Pipeline}
-The model pipeline follows the WARC data extraction step and is designed to prepare our final dataset, which consists of the future statements and their associated sentiment and topic labels.
-The processing within the model pipeline is performed on batches of 30 records each from the WARC-DL output.\\
-First the future model filters out future statements from the corresponding batch.
-Subsequently, the chosen sentiment model assigns a senitment to each future statement.
-In this step some future terms can be sorted out. This concerns the statements to which a sentiment is classified with a probability of less than 70\%.
-The remaining future statements receive a topic.
-Finally those are  persisted in a csv file.\\
-In the following sections \ref{future-model} - \ref{topic-model} we will go into detail about each individual model. 
-In this context, we describe how the future model was trained and justify our decision for the sentiment and the topic model selection.
-Furthermore we outline the choice of our topics and explain, why only those statements are kept which a sentiment with a probability above 70\% can be attributed.
-
-\subsection{Future Model}
-\label{future-model}
-Since this paper focuses on analyzing statements about the future, a system for distinguishing between future statements and other expressions is required. 
-In this context, we decided to finetune the DistilBERT \citep{Sanh2019DistilBERTAD} base model that accomplishes this task. Therefore, in this subsection, the collection of appropriate training data and the subsequent finetuning of the corresponding model is thematized. 
-
-\subsubsection{Training Data Set}
-\label{training}
-In order to provide a suitable data set to establish the future model, we adopted multiple approaches. At this point, our goal was to compose the data in such a way that we would have a balanced data set with two classes. The first class should contain future statements and the second all other types of terms.
-While two of our group members manually annotated 500 observations each, the other two used an automated mechanism with subsequent verification of the collected data. \\
-One of the automatized approaches involves a web crawler developed on the basis of the python library Beautiful Soup \citep{Richardson2022}. The text on a page is divided into sentences. Subsequently every sentence is examined for occurrence of certain terms, as "going to", "will", "won't" or " 'll".\\
-The second automated approach is the sentence extraction tool, which works in several aspects, similar to the web crawler. 
-At the beginning, it searches the given directory for text files. If those exist the text is splitted into sentences and observed for specific expressions, as described above.\\
-To find the phrases that are not future statements, both the web crawler and the sentence extraction tool look only at the corresponding records that do not contain the previously considered expressions. 
-A careful manual review of all terms gathered by the automated systems was subsequently performed to remove the incorrect records. \\
-Finally, we constructed a data set with 1250 future statements and 1250 other phrases that did not contain future statements.
-
-\subsubsection{Training}
-As previously described we used the DistilBERT base model and finetuned it with the dataset specified in \ref{training}.
-We splitted the data set of 2500 records into a training and a test set, where the test set contains 20\% of the records. From the training set we splitted further 20\% for validation data.\\
-After only two epochs the training ended with an accuracy over 96\% as displayed in (Table~\ref{future-model-train}).\\
-Subsequently we tested the model on our test set containing 500 records never seen by the model and achieved an accuracy of 93.8\%, as seen in the confusion matrix in (Table~\ref{cm}).
-
-
-\begin{table}
-\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
-\footnotesize\centering
-\captionsetup{size=footnotesize}
-\resizebox{\columnwidth}{!}{%
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-\begin{tabular}{
-    ccccc}
-
-\hline
-
-\textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Accuracy} & \textbf{Val. Loss} & \textbf{Val. Accuracy}\\
-\hline
-0 & 0.3816 & 0.8594 & 0.1547 & 0.9475 \\
-1 & 0.1142 & 0.9613 & 0.1272 & 0.9625 \\
-\hline
-\end{tabular}}
-\caption{\label{future-model-train}
-Training Results
-}
-\end{table}
-
-\begin{table}
-\small
-\captionsetup{size=footnotesize}
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-\begin{tabular}{
-    c|cc}
-\hline
-& 1 & 2\\
-\hline
-true future statement & 232 & 13 \\
-true no future statements & 18 & 237 \\
-\hline
-\end{tabular}
-\caption{\label{cm}
-Confusion Matrix\\
-column 1: classified as future statements\\
-column 2: classified as no future statements
-}
-\end{table}
-
-
-\subsection{Sentiment Model}
-In order to assign sentiments to future statements for later analysis, we decided to select a ready-trained model.
-The chosen sentiment model is the SentimentAnalyzer of the open-source library pysentimiento \citep{perez2021pysentimiento}, which was further trained on about 40k tweets. 
-It uses the BERTweet \citep{bertweet} as a base model, pre-trained on english tweets.
-
-\subsubsection{Evaluation}
-To evaluate the SentimentAnalyzer, we annotated 500 future statements, which were previously used for training the future model, as negative, positive or neutral and received an accuracy of about 65\%.\\
-We then analyzed all misclassified statements. 
-We noticed that some of the statements could not be assigned impartially to one of the three categories.
-An Example is "AI will reinvent how we think about education". 
-In the case of the sentence, we disagreed on whether we should value the sentence as neutral or positive and decided to use the neutral label. Subsequently, this statement was given a positive rating by the model.
-On closer examination of the statements that were labeled differently by us and by the model, we found over 90\% of the labels given by the model to be valid, if these annotations were assigned with probability over 70\%.
-For this reason, we decided to keep only statements about the future if the sentiment model assigned an annotation with a confidence above 70\%.
-
-\subsection{Topic Model}
-\label{topic-model}
-
-\section{Result}
-
-\section{Conclusion}
+\input{content/001-introduction}
+\input{content/002-methodology-and-implementation}
+\input{content/003-results}
+\input{content/004-discussion}
+\input{content/005-conclusion}
 
 % Entries for the entire Anthology, followed by custom entries
 \bibliography{anthology,custom}
