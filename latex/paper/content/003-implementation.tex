@@ -1,25 +1,27 @@
-\section{Methodology \& Implementation}
-
-This section will address our approach of establishing our data set containing statements about the future with a sentiment and a topic label for every record.
-In addition, we describe our implementation to conduct an analysis on the society's general perception towards the future of AI.
-Initially, the raw data extraction with the WARC-DL pipeline \citep{Deckers2022} is outlined.
-This is followed by the training of the future model and its integration into the model pipeline together with the sentiment model and the topic model.
-Afterwards, the model pipeline is employed to generate the final data set with the attributes future statement, sentiment and topic.
-Finally, the latter created data set serves as a base for a sentiment analysis about the future of AI divided in several subtopics.
+\section{Implementation}
+As previously described, our approach consists of three steps.
+Initially, we outline the raw data acquiring cotaining AI expressions.
+Towards this objective, we utilize the WARC-DL pipeline \citep{Deckers2022} to extract the data from the given web archive.
+For the preparation of this data for analysis, we developed the Model Pipeline which sequentially applies three models to the AI sentences:
+\begin{itemize}
+    \item Future statements extraction model
+    \item Sentiment assignment model
+    \item Topic assignment model
+\end{itemize}
+The Model Pipeline and all the incorporated models are covered in detail below. This way the final data set is generated with the attributes future statement, sentiment and topic.
+Finally, the latter created data set serves as a base for a sentiment analysis about the future of AI divided in several subtopics, which we will also address.
 
 \subsection{WARC Data Extraction}
 
 \subsection {Model Pipeline}
 The model pipeline follows the WARC data extraction step and is designed to prepare our final dataset, which consists of the future statements and their associated sentiment and topic labels.
-The processing within the model pipeline is performed on batches of 30 records each from the WARC-DL output.
-\\
+The processing within the model pipeline is performed on batches of 30 records each from the WARC-DL output.\\
 First the future model filters out future statements from the corresponding batch.
-Subsequently, the chosen sentiment model assigns a senitment to each future statement.
+Subsequently, the chosen sentiment model assigns a sentiment to each future statement.
 In this step some future terms can be sorted out.
 This concerns the statements to which a sentiment is classified with a probability of less than 70\%.
 The remaining future statements receive a topic.
-Finally those are persisted in a csv file.
-\\
+Finally those are persisted in a csv file.\\
 In the following sections \ref{future-model} - \ref{topic-model} we will go into detail about each individual model.
 In this context, we describe how the future model was trained and justify our decision for the sentiment and the topic model selection.
 Furthermore we outline the choice of our topics and explain, why only those statements are kept which a sentiment with a probability above 70\% can be attributed.
