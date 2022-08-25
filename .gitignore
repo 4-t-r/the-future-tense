@@ -153,3 +153,6 @@ src/slurm_logs/
 /src/topic_model/saved_model
 /src/topic_model/slurm_logs
 /src/topic_model/.ipynb_checkpoints
+
+/src/topic_model/.env
+/src/topic_model/slurm_logs

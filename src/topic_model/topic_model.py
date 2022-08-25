@@ -1,52 +1,52 @@
 import os
-import transformers
+import time
 import pandas as pd
-import torch
-from huggingface_hub import notebook_login
+
+import transformers
 from transformers import pipeline
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModel
 
-list_sq = ["AI will be led by companies like Tesla.",
-            "AI could be a risk for many workers.",
-            "I am sure that social networks like facebook should use AI to counteract hatespeech comments.",
-            "In the future, cars will be powered by alternative energy sources such as solar and wind power.",
-            "In the future, there will be driverless cars.",
-            "In the future, flying cars will be a common form of transport.",
-            "In the future, hoverboards will be a common form of transport.",
-            "In the future, the use of public transport will increase as it becomes more efficient and affordable.",
-            "In the future, the number of people working from home will increase as technology advances.",
-            "In the future, there will be more jobs in the service sector as automation increases.",
-            "In the future, there will be more jobs in the green economy as we move away from fossil fuels.",
-            "In the future, artificial intelligence will lead to the creation of new jobs in fields such as healthcare and finance.",
-            "In the future, social media will be used more for business networking and less for personal use.",
-            "In the future, there will be more regulation of social media to protect people's privacy.",
-            "In the future, virtual reality will be used more for social interaction and entertainment.",
-            "In the future, augmented reality will be used"
-            ]
+t_minus_one = time.time()
+print('topic model starts...')
+
+path = '../../datasets/test_dataset_model_pipeline/collected_statements_v0.5.csv'
+df = pd.read_csv(path, sep='|', error_bad_lines=False)
 
 ## Topics
+#set topic label
+candidate_label = ['Robot Design', 'Autonomous Robotics', 'Forex trading']
 
 #topic classifier
 classifier = pipeline("zero-shot-classification",
                       model="facebook/bart-large-mnli")
+
+### Sample (only for exploration - delete in production)
+df = df.sample(n=200).reset_index()
+
+### Run topic classification
+
 #topic classifier - labeling
-candidate_labels = ['Labour market', 'transport', 'social media']
-cl = classifier(list_sq, candidate_labels, multi_class=False)
+def topics_classification(row, t0):
+    cl = classifier(row['statement'], candidate_label, multi_label=False)
+    cl = cl['labels'][0]
+    if int(row.name) % 10 == 0:
+         print(row.name, '/', df.shape[0], 'rows labeled in', int(round((time.time()-t0), 0)), 'seconds.')
+    return cl
 
-for i in range(len(cl)):
-    for k in cl[i]:
-        print(cl[i][k])
+t0 = time.time()
+df['topic'] = df.apply(lambda row: topics_classification(row, t0), axis=1)
 
-sequences_list = []
-topics_list = []
-scores_topics_list = []
-for i in range(len(cl)):
-    sequences_list.append(cl[i]['sequence'])
-    topics_list.append(cl[i]['labels'][0])
-    scores_topics_list.append(cl[i]['scores'][0])
-#print(sequences_list)
-#print(topics_list)
-#print(scores_topics_list)
-df = pd.DataFrame(data={'sequence':sequences_list, 'labels':topics_list, 'scores':scores_topics_list})
+# get distribution of topics
+df.groupby('topic').size()
 
-df
+# chop substring at the end of string
+def rchop(s, suffix):
+    if suffix and s.endswith(suffix):
+        return s[:-len(suffix)]
+    return s
+
+path = rchop(path, '.csv')
+path_plus_topic = path + 'topic_labeled' + '.csv'
+df.to_csv(path_plus_topic, sep='|')
+
+print('...topic model finished in {} seconds.'.format(int(round((time.time()-t_minus_one), 0))))
