@@ -16,8 +16,8 @@ from transformers import DefaultDataCollator
 
 from transformers import AutoTokenizer
 from transformers import TFAutoModelForSequenceClassification
-X_train = pd.read_csv('../../warc_dl_output/dataset/X_train.csv')["statement"]
-y_train = pd.read_csv('../../warc_dl_output/dataset/y_train.csv')["future"]
+X_train = pd.read_csv('../../dataset/X_train.csv')["statement"]
+y_train = pd.read_csv('../../dataset/y_train.csv')["future"]
 params = {'MAX_LENGTH': 128,
           'EPOCHS': 50,
           #learningrate
