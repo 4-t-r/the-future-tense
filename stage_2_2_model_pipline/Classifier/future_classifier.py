@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 from transformers import DistilBertTokenizerFast, AutoTokenizer
 from transformers import TFDistilBertModel, DistilBertConfig, AutoModelForSequenceClassification, \
-    TFDistilBertForSequenceClassification
+    TFDistilBertForSequenceClassification, TFAutoModelForSequenceClassification
 import os
 
 
@@ -12,11 +12,13 @@ class FutureClassifier:
     """
 
     def __init__(self):
-        self.tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
+        self.tokenizer = AutoTokenizer.from_pretrained("fidsinn/distilbert-base-future")
+        #self.tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
         #print(os.path.abspath('../../models/future_statements_model/checkpoints/my_checkpoint'))
-        self.model_weights_path = '../../models/future_statements_model/checkpoints/my_checkpoint'
-        self.model = TFDistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased')
-        self.model.load_weights(self.model_weights_path)
+        #self.model_weights_path = '../../models/future_statements_model/checkpoints/my_checkpoint'
+        self.model = TFAutoModelForSequenceClassification.from_pretrained("fidsinn/distilbert-base-future")
+        #self.model = TFDistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased')
+        #self.model.load_weights(self.model_weights_path)
 
     def tokenize_statement(self, statements):
         """

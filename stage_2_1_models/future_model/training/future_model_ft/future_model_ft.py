@@ -140,11 +140,11 @@ else:
     print('Already trained weights available...')
     model.load_weights('../../future_statements_model/checkpoints/my_checkpoint')
 
-print('Evaluate model:')
-print('\"model.evaluate\":')
-loss, acc = model.evaluate(x=[X_test_ids, X_test_attention], y=y_test, verbose=1)
-print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
-print('')
+# print('Evaluate model:')
+#print('\"model.evaluate\":')
+#loss, acc = model.evaluate(x=[X_test_ids, X_test_attention], y=y_test, verbose=1)
+#print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
+#print('')
 
 print('\"model.predict\":')
 y_pred = model.predict([X_test_ids, X_test_attention], verbose=1)

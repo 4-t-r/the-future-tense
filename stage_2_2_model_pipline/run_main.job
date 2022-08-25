@@ -1,0 +1,16 @@
+#!/bin/bash -l 
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=5
+#SBATCH --mem=20G
+
+#SBATCH --job-name=run_main
+#SBATCH --time=4:00:00
+
+#SBATCH --gres=gpu:1g.5gb
+
+#SBATCH -o slurm_logs/%j.%x.out
+#SBATCH -e slurm_logs/%j.%x.err
+
+#pip install -r ../../requirements.txt --user
+
+srun python3 main.py -f statements_total.csv
