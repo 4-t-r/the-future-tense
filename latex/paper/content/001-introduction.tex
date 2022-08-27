@@ -8,33 +8,43 @@ At the time of writing, use cases range from self-driving cars, personalization 
 This rapid development of \emph{intelligent machines} in everyday life and application has led to both hopes and fears among the general population.
 \citet{cave2019} identify four dichotomy categories of excitement and fears about artificial intelligence.
 These are immortality and inhumanity, ease and obsolescence, gratification and alienation and dominance and uprising (Table~\ref{dichotomy-categories}).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[t]
-    \centering
-    \resizebox{\columnwidth}{!}{%
-    \begin{tabular}{lll}
-        \toprule
-        \textbf{Dichotomy} & \textbf{Hope}  & \textbf{Fear} \\
-        \midrule
-        Immortality and Inhumanity & Much longer lives & Losing one's identity \\
-        Ease and Obsolescence & Life free of work & Becoming redundant \\
-        Gratification and Alienation & AI can fulfil one's desires & Humans will become redundant to each other \\
-        Dominance and Uprising & AI offers power over others & AI will turn against humans \\
-        \bottomrule
-    \end{tabular}
-    }
-\caption{\label{dichotomy-categories}
-Categories of dichotomies of hopes and fears towards AI.
-Based on \citet{cave2019}.
 They further argue that such perceptions, which may not align with reality, can yet influence the development, regulation, and applications of AI.
 The encouragement of research into AI ethics by various public policy groups and governments may be a reflection of this point \citep{leslie2019}.
 \\
-Hence, it should be of great importance to policy makers, social scientists but also researchers working on artificial intelligence how general society perceives the future of the rapid advances in this field.
-In our work, we employ a large language model approach to analyse Web Archive* data of the past ~10 years concerning statements about the future of AI.
-Applying a topic clustering approach, we thereby seek to go beyond \citet{cave2019} categorisation and understand the most common topics regarding AI in online content.
-By examining the prevalence and sentiment of clusters and topics within clusters, we can learn how to direct education, ethics, and research efforts for a better future with AI.
+In our work, we seek to follow up on \citet{cave2019} analysis and examine the views of the English-speaking online community regarding the future of artificial intelligence. We discern the most common clusters of topics that are formed around AI and the average sentiment for each topic using machine learning. To that end, we employ natural language processing (NLP) to extract and analyze statements about the future of AI from the Web Archive \citep{Deckers2022}, a collection of website snapshots which offers us data from the past ~10 years.
+We are applying three models on this data.
+The first model is our finetuned future model, which is able to recognize statements about the future.
+Subsequently, this data is fed into an existent sentiment classifier  to add sentiments.
+Finally a topic is assigned to every sentence by the last model.
+This is followed by an analysis of the individual topic clusters.
+While our analysis solely concerns artificial intelligence, our pipeline and models offer a way to study online views concerning the future for any topic. By examining the prevalence and sentiment of AI topics specifically, we hope to inform social science researchers, philosophers, and policy makers about the development of artificial intelligence in the general population’s perception, to direct efforts towards a better future with AI.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}
+\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
+\footnotesize\centering
+\captionsetup{size=footnotesize}
+\resizebox{\columnwidth}{!}{%
+%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{
+    c|c|c}
+
+\hline
+
+\textbf{Dichotomy} & \textbf{Hope} & \textbf{Fear}\\
+\hline
+Immortality and Inhumanity & Much longer lives & long one's identity \\
+Ease and Obsolescence & Life free of work & Becoming redundant \\
+Gratification and Alienation  & AI can fulfil one's desires & Humans will become redundant to each other \\
+Dominance and uprising & AI offers power over others & AI will turn against humans \\
+\hline
+\end{tabular}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\caption{\label{dichotomy-categories}
+Categories of dichotomies of hopes and fears towards AI.
+Based on \citet{cave2019}.
 }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
