@@ -31,7 +31,7 @@ We separated hostnames in four groups depending on the initial hostname characte
 This way we could pin down the problematic websites more precisely.
 In the end we managed to work through all WARC files in group \texttt{i-p} and \texttt{yz0-9}, and most of the WARC files in groups \texttt{a-h} and \texttt{q-x}.
 The final yield of the WARC data extraction stage was a total amount of 222246 AI statements.
-In the next steps, starting with the model pipeline, our objective was to further refine this initial data set.
+In the next stage, the model pipeline, our objective was to further refine this initial data set.
 
 \subsection{Model Pipeline}
 The model pipeline follows the WARC data extraction step and is designed to prepare our final data set, which consists of the future statements and their associated sentiment and topic labels.
@@ -86,24 +86,17 @@ Subsequently we tested the model on our test set containing 500 records never se
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}
-\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
-\footnotesize\centering
-\captionsetup{size=footnotesize}
-\resizebox{\columnwidth}{!}{%
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tabular}{
-    ccccc}
-
-\hline
-
-\textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Accuracy} & \textbf{Val. Loss} & \textbf{Val. Accuracy}\\
-\hline
-0 & 0.3816 & 0.8594 & 0.1547 & 0.9475 \\
-1 & 0.1142 & 0.9613 & 0.1272 & 0.9625 \\
-\hline
-\end{tabular}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \centering
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{rrrrr}
+        \toprule
+        \textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Accuracy} & \textbf{Val. Loss} & \textbf{Val. Accuracy}\\
+        \midrule
+        0 & 0.3816 & 0.8594 & 0.1547 & 0.9475 \\
+        1 & 0.1142 & 0.9613 & 0.1272 & 0.9625 \\
+        \bottomrule
+    \end{tabular}
+    }
 \caption{\label{future-model-train}
 Training Results
 }
@@ -113,21 +106,19 @@ Training Results
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}
-\small
-\captionsetup{size=footnotesize}
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tabular}{
-    c|cc}
-\hline
-& 1 & 2\\
-\hline
-true future statement & 232 & 13 \\
-true no future statements & 18 & 237 \\
-\hline
-\end{tabular}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[b]
+    \centering
+    \tiny
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{lrr}
+        \toprule
+        {} & 1 & 2 \\
+        \midrule
+        True future statements & 232 & 13 \\
+        True non-future statements & 18 & 237 \\
+        \bottomrule
+    \end{tabular}
+    }
 \caption{\label{cm}
 Confusion Matrix\\
 column 1: classified as future statements\\
