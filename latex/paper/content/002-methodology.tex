@@ -62,26 +62,19 @@ This way for every topic a sentiment analysis can be conducted separately.
 In the following sections, each step of the implementation is discussed in detail.
 
 
-\begin{table}
-\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
-\footnotesize\centering
-\captionsetup{size=footnotesize}
-\resizebox{\columnwidth}{!}{%
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tabular}{
-    cccc}
-
-\hline
-
-\textbf{statement} & \textbf{Sentiment} & \textbf{Topic} & \textbf{url} \\
-\hline
-AI can be a risk for many workers. & NEG & finances & ...\\
-AI will definitely revolutionize games! & POS &  gaming & ...\\
-... & ... & ... & ... \\
-\hline
-\end{tabular}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+    \centering
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{llll}
+        \toprule
+        \textbf{statement} & \textbf{sentiment} & \textbf{topic} & \textbf{url} \\
+        \midrule
+        AI can be a risk for many workers. & NEG & finances & ... \\
+        AI will definitely revolutionize games! & POS & gaming & ... \\
+        ... & ... & ... & ... \\
+        \bottomrule
+    \end{tabular}
+    }
 \caption{\label{data-schema}
 Data schema for visualization and analysis
 }
