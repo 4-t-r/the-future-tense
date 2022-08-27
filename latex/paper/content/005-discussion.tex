@@ -1,4 +1,71 @@
 \section{Discussion}
+
+\subsection{Websites Examination}
+
+As mentioned in Section XX, the Model Pipeline produces the final data set for the analysis of the AI statements. 
+A constituent of this data set is the url from which a particular AI terms was sampled.
+Table~\ref{Top-Domains} presents the domains that contain most of the statements in our final data set, which we derived from the urls of those.
+The domain from which we retrieved the most testimonials is lesswrong.com
+The site deals with phylosophical and gesitescientific questions on the topic of AI. 
+Following this, as well as at the lower part of the list of the top 10 domains, are three sites from the field of gaming (acceleratingfuture.com, mugenguild.com, slightlymagic.net).
+Two other pages catch attention in this list.
+The first one is dodsbir.net, which deals with the research of defence and military needs (dodsbir.net).
+A store with speech recognition devices is also available (knowbrainer.com).
+At first glance, these sources appear relatively diversified
+Nevertheless a number of scientific blogs on AI-related topics are also included. which are lead by researchers or from the tech industry.
+Latter are mostly data scientists.
+The proportion of such blogs among the main domains 10 corresponds to half.
+Considering the other domains, many scientific websites as well as websites about gaming are also very abundant.
+Thus, rather statements about the future of people from AI related fields are included.
+This could mean that this topic has a lower role in the general population and thus it is dealt very little with AI-specific topics in the public society.
+It would be interesting to observe what kind of domains would have appeared if data from the last few months were used.
+More people might feel affected by the latest developments in this area.
+Consequently, there could be more blogs with people from other sectors who would exchange opinions about these developments.
+\\
+Upon closer examination of the domains, we noticed that the content of the corresponding pages is not at all about AI technologies.
+An example is basketbawful.blogspot.com. 
+This blog does not contain information about technologies.
+Nevertheless, a basketball player with the initials AI is often mentioned there.
+http://allallergy.net is another page from which we mistakenly extracted sentences by applying the regex we previously defined. 
+On this page alzheimer's illness is abbreviated as AI.
+Accordingly, we removed any statements from such domains from our final data set created by the model pipeline.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}
+\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
+\centering
+\captionsetup{size=footnotesize}
+\resizebox{\columnwidth}{!}{%
+%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{rll}
+
+\hline
+
+\textbf{AI statements} & \textbf{Website} & \textbf{Description} \\
+\hline
+210 & lesswrong.com & philosophical blog about AI developments \\
+198 & arcengames.com & page of an indie game developer \\
+182 & acceleratingfuture.com & blog about perspectives and emerging technologies \\
+156 & heatonresearch.com & blog of the data scientist \\
+106 & dodsbir.net & research blog of the department of defense \\
+76 & kdnuggets.com & blog of data scientists for analytics and machine learning \\
+71 & knowbrainer.com & Shop containing speech recognition devices\\
+58 & mugenguild.com & 2D fighting game \\
+52 & aidreams.co.uk & Robotics and AI blog\\
+51 & slightlymagic.net & Rules Engine for the game "Magic: the Gathering" \\
+
+\hline
+\end{tabular}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\caption{\label{Top-Domains}
+Top Domains
+}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Project Limits}
+
 Since we had a limited time for this project, there are some aspects where we would have liked to continue our work.
 From a technical point of view, we would have preferred to spend additional time on labelling more data for the sentiment model.
 Thus, it could have been possible to fine-tune this model as well.
@@ -9,3 +76,9 @@ Unfortunately, the location containing the corresponding date on the website doe
 Accordingly, we would have needed more time for the date extraction.
 Providing a year for each statement could illustrate how the perception of a certain topic in the field of AI has changed over time.
 Having insights about such trends, allows monitoring the developments in cultural perceptions over time periods.
+\\
+
+
+
+
+
