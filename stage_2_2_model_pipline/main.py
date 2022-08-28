@@ -3,6 +3,7 @@ import pandas as pd
 from classification_pipeline import ClassificationPipeline
 import numpy as np
 import csv
+import torch
 
 
 def get_future_statements(future_model, statements, urls):
@@ -40,7 +41,7 @@ def get_unique_future_statements(statements, urls):
 
 
 def write_header():
-    future_statements = open("future_statements.csv", 'a+', newline='')
+    future_statements = open("output/future_statements.csv", 'a+', newline='')
 
     csv_writer = csv.writer(future_statements, delimiter='|', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
@@ -49,7 +50,7 @@ def write_header():
 
 def write_statements_to_csv(statements, sentiments, topics, urls):
 
-    future_statements = open("future_statements.csv", 'a+', newline='')
+    future_statements = open("output/future_statements.csv", 'a+', newline='')
 
     csv_writer = csv.writer(future_statements, delimiter='|', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
@@ -58,6 +59,8 @@ def write_statements_to_csv(statements, sentiments, topics, urls):
 
 
 def main():
+    print('Cuda available:',torch.cuda.is_available())
+
     parser = ArgumentParser(description='A test program.')
     parser.add_argument("-f", "--input_file", help="file containing statements")
     args = parser.parse_args()

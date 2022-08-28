@@ -11,7 +11,8 @@ class TopicClassifier:
 
     def __init__(self):
         self.classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
-        self.candidate_labels = ['Labour market', 'transport', 'social media']
+        self.candidate_labels = ['machine human interface', 'finance', 'social media', 'search engine', 'computer vision',
+                                 'natural language technologiy', 'gaming', 'transhumanism', 'research computing']
 
     def predict_topic(self, statement_list):
         #return self.classifier(statement_list, self.candidate_labels, multi_class=False)
