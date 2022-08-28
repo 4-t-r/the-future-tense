@@ -1,7 +1,7 @@
 # the-future-tense
 Welcome to our github page!! We are four Students from the Leipzig University.
 
-Within the scope of the seminar "Big Data and Language Technologies 2022" we decided to examine perceptions towards the future of AI. Therefore we analyzed several AI related topics.
+Within the scope of the seminar "Big Data and Language Technologies 2022" we decided to examine perceptions towards the future of AI. Therefore we analyzed statements about the future corresponding to several AI related topics.
 To realize this we utlized the web Archive of the Webis Group (https://webis.de/), from which we extracted AI statements using the WARC-DL pipeline (https://github.com/webis-de/WARC-DL). 
 
 In the following we describe our approach and explain how our code can be executed.
