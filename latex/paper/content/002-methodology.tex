@@ -1,6 +1,6 @@
 \section{Methodology}
 
-For the realization of our concept, the following 3 objectives have to be accomplished:
+For the realization of our concept, the following three objectives have to be accomplished:
 
 \begin{enumerate}
     \item Obtaining of a sufficiently large data set with different expressions about the topic of AI.
@@ -9,29 +9,43 @@ For the realization of our concept, the following 3 objectives have to be accomp
 \end{enumerate}%
 %
 %
-\textbf{Raw Data Extraction:}
-Since a web archive with the corresponding data extraction pipeline is at our disposal, we utilize this one.
-The data set consists of long texts.
-For that reason the text must be splitted into separate sentences.
-Then, sentences about AI can be ex tracted for later processing by applying Regex.
+\underline{1. WARC Data Extraction:}
+\\
+Initially, we outline the raw data acquiring containing AI expressions. 
+Since the web archive provided by the Webis group with the corresponding WARC-DL data extraction pipeline \citep{Deckers2022} is at our disposal, we utilize those. 
+The data set consists of long texts. 
+For that reason, the text must be splitted into separate sentences. 
+Then, sentences about AI can be extracted for later processing by applying Regex. 
 \\
 \\
 %
-\textbf{Data Transformation:}
-For later analysis, the data must be converted to required target schema, illustrated in Table~\ref{data-schema}, several challenges have to be handled within this stage.
+\underline{2. Data Transformation:}
 \\
-First, statements about the future must be extracted from all the expressions.
-For that purpose we train a model with the ability to distinguish between statements about the future and all other types of terms.
-Subsequently two further models are applied to add a sentiment and a topic to every future statement. statement.
-The urls of the pages are also included in the data schema for a later consideration.
+For later analysis, the data must be converted to required target schema, illustrated in Table~\ref{data-schema}. Therefore we employ the model pipeline, which generates the final data set with the attributes future statement, sentiment, topic and url. Within this model pipeline three models are applied sequentially: 
+\begin{itemize}
+    \item Future statements model:\\
+    This model is able to distinguish between statements about the future and all other types of terms. 
+On the basis of its classifications, statements about the future are extracted.
+    \item Sentiment model:\\
+A sentiment is assigned to every future statement by this model
+    \item Topic model: \\
+    Before our selected topic model enables the assignment of reasonable topics, those must be provided as label candidates to this topic model.  
+Accordingly, the Model Pipeline runs twice. In the first execution the chosen model runs with dummy topics. Based on the output the topic selection is conducted. 
+For each subsequent run, the model pipeline is considered complete.
+\end{itemize}
+
+The URLs of the pages are also included in the data schema for a later discussion. This pipeline generates the final data set with the attributes future statement, sentiment, topic and URL. The resulting data set can then be used for analysis and interpretation. 
 \\
-Now the corresponding data set is prepared for further analysis.
 \\
+\underline{3. Analysis:}
 \\
-\textbf{Analysis:}
-For the analysis we start with a graphical visualization.
-Therefore, we decided to group all statements according to their topics.
-This way for every topic a sentiment analysis can be conducted separately.
+For the analysis we start with a graphical visualization. 
+Therefore, we decided to group all statements according to their topics. 
+This way for every topic a sentiment analysis can be conducted separately. 
+
+ 
+
+In the following sections, each step of the implementation is discussed in detail. 
 
 
 \begin{table}
@@ -59,19 +73,6 @@ Data schema for visualization and analysis
 }
 \end{table}
 
-
-\section{Implementation}
-As previously described, our approach consists of three steps.
-Initially, we outline the raw data acquiring containing AI expressions.
-Towards this objective, we utilize the WARC-DL pipeline \citep{Deckers2022} to extract the data from the given web archive.
-For the preparation of this data for analysis, we developed the Model Pipeline which sequentially applies three models to the AI sentences:
-\begin{itemize}
-    \item Future statements extraction model
-    \item Sentiment assignment model
-    \item Topic assignment model
-\end{itemize}
-
-The Model Pipeline and all the incorporated models are covered in detail below. This pipeline generates the final data set with the attributes future statement, sentiment, topic and url. The resulting data set can then be used for analysis and interpretation. 
 
 \subsection{WARC Data Extraction}
 The Webis Group\footnote{\url{https://webis.de}} had provided us with access to 37908 WARC files, with a total amount of \highlight{XXXXXXTB} of website data, and a high-performance computer cluster where we were able to schedule jobs.
