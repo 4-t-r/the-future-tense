@@ -59,4 +59,4 @@ The visualization for the analysis is generated at this stage.
 
 
 
-[chart-relative]: images/overview.png "overview-chart"
+[chart-relative]: images/project_overview.png "overview-chart"
