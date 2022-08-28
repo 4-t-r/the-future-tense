@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#SBATCH --export=ALL
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=20
+#SBATCH --mem=200G
+#SBATCH --gres=gpu:1g.5gb
+#_BATCH --gres=gpu:ampere:1
+
+srun --mem=32g enroot import --output 20ng.sqsh docker://ghcr.io#USERNAME/REPO:BRANCH

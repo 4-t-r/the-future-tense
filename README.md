@@ -1,31 +1,56 @@
 # the-future-tense
-Big Data and Language Technologies 2022
+Within the scope of the seminar "Big Data and Language Technologies 2022" we decided to examine perceptions towards the future of AI. Therefore we analyzed several AI related topics.
+To realize this we utlized the web Archive of the Webis Group (https://webis.de/), from which we extracted AI statements using the WARC-DL pipeline (https://github.com/webis-de/WARC-DL). 
 
-## Example: Build future statements model
+In the following we describe our approach and explain how our code can be executed.
 
-1) Activate venv
+## Workflow
+The following chart shows the workflow of our project. First AI statements are extracted from the WARC archive. Afterwards the model pipeline is excuted. Since the Topic model contains dummy topics only, the output of the Model Pipeline is utilized for the topic selection.
+After this step the selected topics are given to the topic assignment model and the Model Pipeline is ready to use. Subsequently we utilize the output of further executions for the analyzis and visualization.
 
-2) `cd datasets/future_statements_dataset`
 
-3) `./extract.py`
+![overview-chart][chart-relative]
 
-4) `cd src`
+### Stage_1 WARC-DL Extraction
 
-5) `./train_future_model.py`
+### Stage_2_1 Models
 
-## Compiling LaTeX
-### Exposé
+All scripts at this step serve as the preparation of the model pipeline.
 
-1) `cd latex`
+#### Future Model Training
 
-2) `make expose`
+1) Navigate to the directory: `the-future-tense/stage_2_1_models/future_model/dataset`
 
-3) `make expose-full` (with bibliography)
+2) Extract dataset to train the future model: `./extract.py`
 
-### Paper
+3) Navigate to the model directory: `the-future-tense/stage_2_1_models/future_model/training/future_model_ft`
 
-1) `cd latex`
+4) Run the jupyter notebook script: `future_model_ft.ipynp`
 
-2) `make paper`
+#### Sentiment Model Evaluation
 
-3) `make paper-full` (with bibliography)
+1) Navigate to the directory: `the-future-tense/stage_2_1_models/sentiment_model`
+
+2) Run the sentiment model test: `./test_sentiment_model.py`
+
+#### Topic Selection
+
+1) Navigate to the following directory: `the-future-tense/stage_2_1_models/topic_model`
+
+2) Run the following jupyter notebook : `topic_eval.ipynb`
+
+### Stage_2_2 Model Pipeline
+
+1) Navigate to the Model Pipeline directory: `the-future-tense/stage_2_2_model_pipeline`
+
+2) Execute the Model Pipeline: `./run_main.job`
+
+### Stage_3 Visualization
+
+1) Navigate to the visualization directory: `the-future-tense/stage_3_visualization`
+
+2) Execute the jupyter notebook `visualize.ipynb`
+
+
+
+[chart-relative]: images/overview.png "overview-chart"
