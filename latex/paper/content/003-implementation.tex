@@ -8,8 +8,8 @@ For the preparation of this data for analysis, we developed the Model Pipeline w
     \item Sentiment assignment model
     \item Topic assignment model
 \end{itemize}
-The Model Pipeline and all the incorporated models are covered in detail below. This way the final data set is generated with the attributes future statement, sentiment and topic.
-Finally, the latter created data set serves as a base for a sentiment analysis about the future of AI divided in several subtopics, which we will also address.
+
+The Model Pipeline and all the incorporated models are covered in detail below. This pipeline generates the final data set with the attributes future statement, sentiment, topic and url. The resulting data set can then be used for analysis and interpretation. 
 
 \subsection{WARC Data Extraction}
 The Webis Group\footnote{\url{https://webis.de}} had provided us with access to 37908 WARC files, with a total amount of \highlight{XXXXXXTB} of website data, and a high-performance computer cluster where we were able to schedule jobs.
@@ -83,59 +83,6 @@ After only two epochs the training ended with an accuracy over 96\% as displayed
 \\
 Subsequently we tested the model on our test set containing 500 records never seen by the model and achieved an accuracy of 93.8\%, as seen in the confusion matrix in (Table~\ref{cm}).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}
-\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
-\footnotesize\centering
-\captionsetup{size=footnotesize}
-\resizebox{\columnwidth}{!}{%
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tabular}{
-    ccccc}
-
-\hline
-
-\textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Accuracy} & \textbf{Val. Loss} & \textbf{Val. Accuracy}\\
-\hline
-0 & 0.3816 & 0.8594 & 0.1547 & 0.9475 \\
-1 & 0.1142 & 0.9613 & 0.1272 & 0.9625 \\
-\hline
-\end{tabular}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\caption{\label{future-model-train}
-Training Results
-}
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}
-\small
-\captionsetup{size=footnotesize}
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tabular}{
-    c|cc}
-\hline
-& 1 & 2\\
-\hline
-true future statement & 232 & 13 \\
-true no future statements & 18 & 237 \\
-\hline
-\end{tabular}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\caption{\label{cm}
-Confusion Matrix\\
-column 1: classified as future statements\\
-column 2: classified as no future statements
-}
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Sentiment Model}
 In order to assign sentiments to future statements for later analysis, we decided to select a ready-trained model.
@@ -155,13 +102,19 @@ For this reason, we decided to keep only statements about the future if the sent
 
 \subsection{Topic Model}
 \label{topic-model}
+For assigning topics to the future statements we employ the bart-large-mnli model from Facebook, which was pretrained on the MultiNli \citep{N18-1101} data set, which consists of 433000 pairs of sentences annotated with textual supplementary information. The bart-large-mnli is a natural language processing model based on the technique of \citet{yin2019benchmarking} utilizing pre-trained NLI models as ready-to-use zero-shot sequence classifiers.
+The approach involves specifying the sequence for classification as an NLI prerequisite and then constructing a hypothesis of every possible label candidate.
+Afterwards probabilities of agreement and contradictions are transformed into annotation probabilities.
+Before we are able to use the bart-large-mnli it is necessary to define the topics, which can be assigned to every statement by this model.
+For instance, to verify if a sentence is a political or a technological statement, we can provide the model with the label candidats politics and technology. Then the model will apply one of the labels to the sentence.
+In the following section our topic selection approach is described in detail.
 
 \subsubsection{Topic Discovery with LDA}
 For analyzing the overarching topics within our future statements, we used Latent Dirichlet Allocation (LDA). LDA is a subtype of the Dirichlet Process Mixture Models (DPMMs), a set of non-parametric, “fully-Bayesian” unsupervised clustering models which are commonly used for topic cluster analysis. DPMMs use a stochastic process to generalize the Dirichlet distribution (the conjugate prior for a categorical or multinomial distribution) for infinitely many categories \citep{li2019tutorial}.
 Applied to NLP, a Latent Dirichlet Allocation model clusters observations into unobserved groups of related data. It has the advantage of following a generative process that is immune to overfitting with increasing size of the data corpus and can be scaled to a data cluster in machine learning \citep{pritchard2000inference}
 \\
 \\
-We prepared our dataset for LDA by removing punctuation, words with less than three letters and stopwords. The cleaned data was then converted into lowercase and fed into a tokenizer. From there on, we created bigrams (sets of two words) from the tokens and employed a Word2Vec model to select only the most occuring ones.
+We prepared our data set for LDA by removing punctuation, words with less than three letters and stopwords. The cleaned data was then converted into lowercase and fed into a tokenizer. From there on, we created bigrams (sets of two words) from the tokens and employed a Word2Vec model to select only the most occuring ones.
 Finally, bigrams that occurred in more than XX\% and less than XX of the documents were filtered out. The remaining bigrams were inputted into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names, from which we selected the best-fitting ones if possible. 
 For some sets of words, the suggested titles could provide only inspiration and had to be adapted.
 \\
@@ -181,3 +134,5 @@ A further group of statements was represented by the keywords:
 \\
 GPT3 offered \emph{transhumanism} as a suitable headline.
 Correspondingly, we have incorporated this as a category for our topic model.
+\\
+In conclusion, with this approach we received the following headings for our Topic Model: search engine, finance, transhumanism, machine human interface, social media, search engine natural language technologies

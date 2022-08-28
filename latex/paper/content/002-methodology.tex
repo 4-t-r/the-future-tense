@@ -1,6 +1,6 @@
 \section{Methodology}
 
-For analyzing society's perception of the future of AI, divided into different fields, we have to achieve the following objectives:
+For the realization of our concept, the following 3 objectives have to be accomplished:
 
 \begin{enumerate}
     \item Obtaining of a sufficiently large data set with different expressions about the topic of AI.
@@ -8,14 +8,13 @@ For analyzing society's perception of the future of AI, divided into different f
     \item Creation of a visualization from which society's perceptions on different topics of AI can be extracted.
 \end{enumerate}%
 %
-The following paragraphs discuss how the individual steps could be realised.
+The following paragraphs describe our realization of the individual steps. 
 \\
 \\
 For the purpose of extracting sufficiently large data sets about AI, an appropriate sized source is required.
-An option would be to crawl a correspondingly large amount of data on the web.
-If available, an already existing data set or web archive can be consulted.
-Since such a web archive was actually already at our disposal, we decided to utilize this one.
-If the data set consists of long texts, it would be reasonable to split this texts into separate sentences.
+Since a web archive with the corresponding data extraction pipeline is at our disposal, we utilize this one.
+The data set consists of long texts.
+For that reason the text must be splitted into separate sentences.
 Then, regex can be applied to extract sentences about AI for later processing.
 \\
 \\
@@ -24,22 +23,18 @@ After the raw data extraction, a transformation of this data to an appropriate f
 To achieve this, several challenges have to be handled within this stage.
 \\
 First, statements about the future must be extracted from all the expressions.
-One way to solve this could be using regex.
-Another possibility would be to train a model with the ability to distinguish between statements about the future and all other types of terms.
-To add a sentiment to each record, an existing model can be applied.
-If this model does not perform sufficiently, finetuning is an option for improvement.
-Finally, a topic has to be associated with each statement.
-The urls of the pages may also be included in the data schema in case a close examination of these becomes relevant.
-The domain of Deep Learning offers possibilities in this regard as well.
-After a detailed examination of the different statements and subsequent determination of the topics, an existing model can likewise be employed and finetuned if required.
+For that purpose we train a model with the ability to distinguish between statements about the future and all other types of terms.
+To add a sentiment to each record, we apply an existing pre-trained model.
+Finally, a topic can be associated with each statement.
+Once again, we use a pre-trained model.
+The urls of the pages are also included in the data schema for a later close validation.
 \\
 Now the corresponding data set is prepared for further analysis.
 \\
 \\
-For the analysis it would be beneficial to start with a graphical visualization.
+For the analysis we start with a graphical visualization.
 Therefore, we decided to group all statements according to their topics.
 For each topic, a chart can be generated indicating which proportion of the corresponding statements is negative, neutral or positive.
-
 
 \begin{table}
 \setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
@@ -55,9 +50,9 @@ For each topic, a chart can be generated indicating which proportion of the corr
 
 \textbf{statement} & \textbf{Sentiment} & \textbf{Topic} & \textbf{url} \\
 \hline
-AI can be a risk for many workers. & NEG & job market & ...\\
+AI can be a risk for many workers. & NEG & finances & ...\\
 AI will definitely revolutionize games! & POS &  gaming & ...\\
-... & ... & ... & ...\\
+... & ... & ... & ... \\
 \hline
 \end{tabular}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
