@@ -4,35 +4,36 @@ For the realization of our concept, the following 3 objectives have to be accomp
 
 \begin{enumerate}
     \item Obtaining of a sufficiently large data set with different expressions about the topic of AI.
-    \item Transformation of this raw data into a data set that includes only statements about the future, with a topic and a sentiment for each record.
+    \item Raw data transformation into a data set that to the target schema illustrated in Table~\ref{data-schema}
     \item Creation of a visualization from which society's perceptions on different topics of AI can be extracted.
 \end{enumerate}%
 %
 %
-For the purpose of extracting sufficiently large data sets about AI, an appropriate sized source is required.
+\textbf{Raw Data Extraction:}
 Since a web archive with the corresponding data extraction pipeline is at our disposal, we utilize this one.
 The data set consists of long texts.
 For that reason the text must be splitted into separate sentences.
-Then, regex can be applied to extract sentences about AI for later processing.
+Then, sentences about AI can be ex tracted for later processing by applying Regex.
 \\
 \\
-After the raw data extraction, a transformation of this data to an appropriate form for visualization and analysis is required.
-(Table~\ref{data-schema}) illustrates such a target schema.
-To achieve this, several challenges have to be handled within this stage.
+%
+\textbf{Data Transformation:}
+In this step a data transformation is conducted for later analysis.
+To achieve the required schema, illustrated in Table~\ref{data-schema}, several challenges have to be handled within this stage.
 \\
 First, statements about the future must be extracted from all the expressions.
 For that purpose we train a model with the ability to distinguish between statements about the future and all other types of terms.
-To add a sentiment to each record, we apply an existing pre-trained model.
-Finally, a topic can be associated with each statement.
-Once again, we use a pre-trained model.
-The urls of the pages are also included in the data schema for a later close validation.
+Two further models must be applied to add a sentiment and a topic to every future statement.
+The urls of the pages are also included in the data schema for a later consideration.
 \\
 Now the corresponding data set is prepared for further analysis.
 \\
 \\
+\textbf{Analysis:}
 For the analysis we start with a graphical visualization.
 Therefore, we decided to group all statements according to their topics.
-For each topic, a chart can be generated indicating which proportion of the corresponding statements is negative, neutral or positive.
+This way for every topic a sentiment analysis can be conducted.
+
 
 \begin{table}
 \setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
