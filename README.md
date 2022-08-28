@@ -17,7 +17,7 @@ After this step the selected topics are given to the topic assignment model and 
 
 ### Stage_2_1 Models
 
-All scripts at this step serve as the preparation of the model pipeline.
+All scripts at this step serve as the preparation for the model pipeline.
 
 #### Future Model Training
 
@@ -43,11 +43,15 @@ All scripts at this step serve as the preparation of the model pipeline.
 
 ### Stage_2_2 Model Pipeline
 
+The Model Pipeline can now be executed in order to create the final dataset.
+
 1) Navigate to the Model Pipeline directory: `the-future-tense/stage_2_2_model_pipeline`
 
-2) Execute the Model Pipeline: `./run_main.job`
+2) Execute the Model Pipeline: `sbatch run_main.job`
 
 ### Stage_3 Visualization
+
+The visualization for the analysis is generated at this stage.
 
 1) Navigate to the visualization directory: `the-future-tense/stage_3_visualization`
 
