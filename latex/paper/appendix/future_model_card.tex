@@ -1,3 +1,4 @@
+\appendix
 \section{Model Card: Future Statement Model}
 This model is a finetuned on 2500 expressions, which contained 1250 future statements. distilbert-base-uncased serves as a base model 
 \\
@@ -7,7 +8,6 @@ This model is a finetuned on 2500 expressions, which contained 1250 future state
 %
 \begin{itemize}
     \item Huggingface name: distilbert-base-future
-    \item url: https://huggingface.co/fidsinn/distilbert-base-future
     \item Creation Date: 11/08/22
     \item Version: 1.0
     \item model type: text classification
@@ -33,8 +33,8 @@ The following hyperparameters were used during training
 %
 \textbf{Training Results}
 \\
-For finetuning, we splitted 80\% of of records from our self-annotated future-tatements dataset. This corresponds to 2000 records.
-The remaining 500 will be used to test the resulting distilbert-base-future model
+For finetuning, we have 80\% of of records from our self-annotated future-tatements dataset. This corresponds to 2000 records.
+The remaining 500 will be used to test the final distilbert-base-future model
 \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,6 +66,13 @@ Training Results
 %
 %
 \\
+\textbf{Framework versions}
+\begin{itemize}
+    \item Transformers 4.18.0
+    \item Tensorflow 2.8.0
+    \item Tokenizers 0.12.1
+\end{itemize}%
+%
 \textbf{Test Set Results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,11 +99,3 @@ column 2: classified as no future statements
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\\
-\textbf{Framework versions}
-\begin{itemize}
-    \item Transformers 4.18.0
-    \item Tensorflow 2.8.0
-    \item Tokenizers 0.12.1
-\end{itemize}%
-%
