@@ -9,72 +9,64 @@ For the realization of our concept, the following three objectives have to be ac
 \end{enumerate}%
 %
 %
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\linewidth]{overview}
-    \caption{
-        The statement extraction, filter and final topic assignment process.
-        AI statements are extracted from website HTMLs located inside WARC files (left part).
-        The extraction process involves the application of two regexes (statement regex and AI regex).
-        Statements then enter the model pipeline (left side), where they are further filtered through the future model and the sentiment model.
-        The model pipeline runs two times in total. The first time the topic model assigns dummy topics.
-        After the topic selection process (green circle), where we fine-tune the topic model, the model pipeline runs a second time.
-        Now the topic model assigns the final topics to the statements.
-        The output is a \texttt{.csv} file with the schema \texttt{statement|sentiment|topic|url}.
-    }
-    \label{fig:overview}
-\end{figure}
 \underline{1. WARC Data Extraction:}
 \\
-Initially, we outline the raw data acquiring containing AI expressions.
-Since the web archive provided by the Webis group with the corresponding WARC-DL data extraction pipeline \citep{Deckers2022} is at our disposal, we utilize those.
-The data set consists of long texts.
-For that reason, the text must be splitted into separate sentences.
-Then, sentences about AI can be extracted for later processing by applying Regex.
+Initially, we outline the raw data acquiring containing AI expressions. 
+Since the web archive provided by the Webis group with the corresponding WARC-DL data extraction pipeline \citep{Deckers2022} is at our disposal, we utilize those. 
+The data set consists of long texts. 
+For that reason, the text must be splitted into separate sentences. 
+Then, sentences about AI can be extracted for later processing by applying Regex. 
 \\
 \\
 %
 \underline{2. Data Transformation:}
 \\
-For later analysis, the data must be converted to required target schema, illustrated in Table~\ref{data-schema}. Therefore we employ the model pipeline, which generates the final data set with the attributes future statement, sentiment, topic and url. Within this model pipeline three models are applied sequentially:
+For later analysis, the data must be converted to required target schema, illustrated in Table~\ref{data-schema}. Therefore we employ the model pipeline, which generates the final data set with the attributes future statement, sentiment, topic and url. Within this model pipeline three models are applied sequentially: 
 \begin{itemize}
     \item Future statements model:\\
-    This model is able to distinguish between statements about the future and all other types of terms.
+    This model is able to distinguish between statements about the future and all other types of terms. 
 On the basis of its classifications, statements about the future are extracted.
     \item Sentiment model:\\
 A sentiment is assigned to every future statement by this model
     \item Topic model: \\
-    Before our selected topic model enables the assignment of reasonable topics, those must be provided as label candidates to this topic model.
-Accordingly, the Model Pipeline runs twice. In the first execution the chosen model runs with dummy topics. Based on the output the topic selection is conducted.
+    Before our selected topic model enables the assignment of reasonable topics, those must be provided as label candidates to this topic model.  
+Accordingly, the Model Pipeline runs twice. In the first execution the chosen model runs with dummy topics. Based on the output the topic selection is conducted. 
 For each subsequent run, the model pipeline is considered complete.
 \end{itemize}
 
-The URLs of the pages are also included in the data schema for a later discussion. This pipeline generates the final data set with the attributes future statement, sentiment, topic and URL. The resulting data set can then be used for analysis and interpretation.
+The URLs of the pages are also included in the data schema for a later discussion. This pipeline generates the final data set with the attributes future statement, sentiment, topic and URL. The resulting data set can then be used for analysis and interpretation. 
 \\
 \\
 \underline{3. Analysis:}
 \\
-For the analysis we start with a graphical visualization.
-Therefore, we decided to group all statements according to their topics.
-This way for every topic a sentiment analysis can be conducted separately.
+For the analysis we start with a graphical visualization. 
+Therefore, we decided to group all statements according to their topics. 
+This way for every topic a sentiment analysis can be conducted separately. 
 \\
 \\
-In the following sections, each step of the implementation is discussed in detail.
+In the following sections, each step of the implementation is discussed in detail. 
 
 
-\begin{table}[t]
-    \centering
-    \resizebox{\columnwidth}{!}{%
-    \begin{tabular}{llll}
-        \toprule
-        \textbf{statement} & \textbf{sentiment} & \textbf{topic} & \textbf{url} \\
-        \midrule
-        AI can be a risk for many workers. & NEG & finances & ... \\
-        AI will definitely revolutionize games! & POS & gaming & ... \\
-        ... & ... & ... & ... \\
-        \bottomrule
-    \end{tabular}
-    }
+\begin{table}
+\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
+\footnotesize\centering
+\captionsetup{size=footnotesize}
+\resizebox{\columnwidth}{!}{%
+%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{
+    cccc}
+
+\hline
+
+\textbf{statement} & \textbf{Sentiment} & \textbf{Topic} & \textbf{url} \\
+\hline
+AI can be a risk for many workers. & NEG & finances & ...\\
+AI will definitely revolutionize games! & POS &  gaming & ...\\
+... & ... & ... & ... \\
+\hline
+\end{tabular}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \caption{\label{data-schema}
 Data schema for visualization and analysis
 }
@@ -160,7 +152,7 @@ The chosen sentiment model is the SentimentAnalyzer of the open-source library p
 It uses the BERTweet \citep{bertweet} as a base model, pre-trained on english tweets.
 
 \subsubsection{Evaluation}
-To evaluate the SentimentAnalyzer, we annotated 500 future statements, which were previously used for training the future model, as negative, positive or neutral and received an accuracy of about 65\%.
+To evaluate the SentimentAnalyzer, we annotated 604 future statements, which were previously used for training the future model, as negative, positive or neutral and received an accuracy of about 65\%.
 \\
 We then analyzed all misclassified statements.
 We noticed that some of the statements could not be assigned impartially to one of the three categories.
@@ -172,18 +164,6 @@ For this reason, we decided to keep only statements about the future if the sent
 
 \subsection{Topic Model}
 \label{topic-model}
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\linewidth]{topic_selection}
-    \caption{
-        The three steps of topic selection.
-        First, the LDA Model generates a set of subtopics for a topic cluster.
-        In this example, there are four subtopics (small blue circles).
-        Then, GPT-3 proposes a possible general topic for the subtopic set (large yellow circle).
-        Lastly, we either pick this final topic as proposed, or replace it with a more suitable one from the same category, e.g. \texttt{level} would become \texttt{gaming}.
-    }
-    \label{fig:topic_selection}
-\end{figure}
 For assigning topics to the future statements we employ the bart-large-mnli model from Facebook, which was pretrained on the MultiNli \citep{N18-1101} data set, which consists of 433000 pairs of sentences annotated with textual supplementary information. The bart-large-mnli is a natural language processing model based on the technique of \citet{yin2019benchmarking} utilizing pre-trained NLI models as ready-to-use zero-shot sequence classifiers.
 The approach involves specifying the sequence for classification as an NLI prerequisite and then constructing a hypothesis of every possible label candidate.
 Afterwards probabilities of agreement and contradictions are transformed into annotation probabilities.
@@ -197,14 +177,14 @@ Applied to NLP, a Latent Dirichlet Allocation model clusters observations into u
 \\
 \\
 We prepared our data set for LDA by removing punctuation, words with less than three letters and stopwords. The cleaned data was then converted into lowercase and fed into a tokenizer. From there on, we created bigrams (sets of two words) from the tokens and employed a Word2Vec model to select only the most occuring ones.
-Finally, bigrams that occurred in more than XX\% and less than XX of the documents were filtered out. The remaining bigrams were inputted into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names, from which we selected the best-fitting ones if possible.
+Finally, bigrams that occurred in more than XX\% and less than XX of the documents were filtered out. The remaining bigrams were inputted into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names, from which we selected the best-fitting ones if possible. 
 For some sets of words, the suggested titles could provide only inspiration and had to be adapted.
 \\
 In the following set, the most frequently occurring words for one of our statement clusters are provided:
 \\
 "autopilot, translation, machine, money, business, site, search, article, engine, traffic, page, list, marketing, internet, everything, income, link, cash, help, button"
 \\
-The headings generated by GPT3 for this set of keywords were
+The headings generated by GPT3 for this set of keywords were 
 \\
 \emph{Social Media Marketing}, \emph{Search Engine Optimization}, \emph{Internet marketing}.
 We found that these keywords are covering two topics.
