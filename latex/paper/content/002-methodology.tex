@@ -3,8 +3,8 @@
 For the realization of our concept, the following three objectives have to be accomplished:
 
 \begin{enumerate}
-    \item Obtaining of a sufficiently large data set with different expressions about the topic of AI.
-    \item Raw data transformation into a data set that to the target schema illustrated in \autoref{fig:overview}.
+    \item Obtaining a sufficiently large data set with different expressions about the topic of AI.
+    \item Raw data transformation into a data set that matches the target schema illustrated in \autoref{fig:overview}.
     \item Creation of a visualization from which society's perceptions on different topics of AI can be extracted.
 \end{enumerate}%
 %
@@ -26,15 +26,15 @@ For the realization of our concept, the following three objectives have to be ac
 \end{figure}
 \underline{1. WARC Data Extraction:}
 \\
-Initially, we outline the raw data acquiring containing AI expressions.
-Since the web archive provided by the Webis Group with the corresponding WARC-DL data extraction pipeline \citep{Deckers2022} is at our disposal, we utilize those.
+Initially, we outline the raw data acquisition containing AI expressions.
+Since a web archive with the corresponding WARC-DL data extraction pipeline \citep{Deckers2022} is at our disposal, we utilize both.
 Sentences about AI can be extracted for later processing by applying Regex on every sentence of the data.
 \\
 \\
 %
 \underline{2. Data Transformation:}
 \\
-For later analysis, the data must be converted to required target schema, illustrated in \autoref{fig:overview}.
+For later analysis, the data must be converted to the required target schema, illustrated in \autoref{fig:overview}.
 Therefore we employ the model pipeline, which generates the final data set with the attributes future statement, sentiment, topic and url.
 Within this model pipeline three models are applied sequentially:
 \begin{itemize}
@@ -63,14 +63,14 @@ In the following sections, each step of the implementation is discussed in detai
 
 
 \subsection{WARC Data Extraction}
-The Webis Group\footnote{\url{https://webis.de}} had provided us with access to 37908 WARC files, with a total amount of \highlight{XXXXXXTB} of website data, and a high-performance computer cluster where we were able to schedule jobs.
-Additionally, we decided to utilize the WARC-DL pipeline \citep{Deckers2022}, a Python software pipeline tightly coupled with the WARC endpoint, and using the FastWARC\footnote{\url{https://resiliparse.chatnoir.eu/en/stable/man/fastwarc.html}} library under the hood to iterate over WARC records.
+The Webis Group\footnote{\url{https://webis.de}} had granted us with access to 37,908 WARC files, with a total amount of \highlight{XXXXXXTB} of website data, and a high-performance computer cluster where we were able to schedule jobs.
+Additionally, we decided to utilize the WARC-DL pipeline \citep{Deckers2022}, a Python software pipeline tightly coupled with the WARC endpoint, and using the FastWARC\footnote{\url{https://resiliparse.chatnoir.eu/en/stable/man/fastwarc.html}} library under the hood for iterating over WARC records.
 It enabled us to extract text automatically from the WARC records using several customizable filters.
 We made some slight modifications to the source code, in order to make it fit our needs better.
 \\
-Since we were going to analyze AI statements, we did not need all of the text provided by a website html, but grammatically correct statements of the English language.
+Since we were going to analyze AI statements, we did not need all of the text provided by a website HTML, but grammatically correct statements of the English language.
 It is not possible to extract all statements with an accuracy of 100\% using regex only, so we narrowed it down to passages which started with a capital letter and ended with a period or exclamation mark.
-We built a regex pattern which extracted a list of all valid statements from a html source.
+We built a regex pattern which extracted a list of all valid statements from an HTML source.
 \\
 Furthermore, we were only interested in statements about AI, so we compiled a list of AI keywords beforehand and applied a second regex on the extracted statements.
 We compiled a blacklist which contained keywords for filtering out hostnames related to pornographic websites, and a whitelist to only accept top level domains which were most common, and where the websites most likely contained English text.
@@ -81,7 +81,7 @@ Jobs would suddenly stop extraction because of connection errors or out-of-memor
 We separated hostnames in four groups depending on the initial hostname character: \texttt{a-h}, \texttt{i-p}, \texttt{q-x} and \texttt{yz0-9}.
 This way we could pin down the problematic websites more precisely.
 In the end we managed to work through all WARC files in group \texttt{i-p} and \texttt{yz0-9}, and most of the WARC files in groups \texttt{a-h} and \texttt{q-x}.
-The final yield of the WARC data extraction stage was a total amount of 222246 AI statements.
+The final yield of the WARC data extraction stage was a total amount of 222,246 AI statements.
 In the next steps, starting with the model pipeline, our objective was to further refine this initial data set.
 
 \subsection{Model Pipeline}
@@ -124,30 +124,29 @@ If those exist the text is split into sentences and observed for specific expres
 To find the phrases that are not future statements, both the web crawler and the sentence extraction tool look only at the corresponding records that do not contain the previously considered expressions.
 A careful manual review of all terms gathered by the automated systems was subsequently performed to remove the incorrect records.
 \\
-Finally, we constructed a data set with 1250 future statements and 1250 other phrases that did not contain future statements.
+Finally, we constructed a data set with 1,250 future statements and 1,250 other phrases that did not contain future statements.
 
 \subsubsection{Training}
 As previously described we used the DistilBERT base model and finetuned it with the data set specified in \ref{training}.
-We split the data set of 2500 records into a training and a test set, where the test set contains 20\% of the records.
+We split the data set of 2,500 records into a training and a test set, where the test set contains 20\% of the records.
 From the training set we split further 20\% for validation data.
 \\
-After only two epochs the training ended with an accuracy over 96\% as displayed in (Table~\ref{future-model-train}).
+After only two epochs the training ended with an accuracy over 96\% as displayed in Table~\ref{future-model-train}.
 \\
 Subsequently we tested the model on our test set containing 500 records never seen by the model and achieved an accuracy of 93.8\%, as seen in the confusion matrix in \autoref{fig:cm}.
 
 
 \subsection{Sentiment Model}
 In order to assign sentiments to future statements for later analysis, we decided to select a ready-trained model.
-The chosen sentiment model is the SentimentAnalyzer of the open-source library pysentimiento \citep{perez2021pysentimiento}, which was further trained on about 40k tweets.
+The chosen sentiment model is the SentimentAnalyzer of the open-source library pysentimiento \citep{perez2021pysentimiento}, which was further trained on about 40,000 tweets.
 It uses the BERTweet \citep{bertweet} as a base model, pre-trained on english tweets.
 
 \subsubsection{Evaluation}
-To evaluate the SentimentAnalyzer, we annotated 604 future statements, which were previously used for training the future model, as negative, positive or neutral and received an accuracy of about 65\%.
+To evaluate the SentimentAnalyzer, we annotated 604 future statements, previously used for training the future model, as negative, positive or neutral and received an accuracy of about 65\%.
 \\
-We then analyzed all misclassified statements.
-We noticed that some of the statements could not be assigned impartially to one of the three categories.
+We then analyzed all misclassified statements and noticed that some of them could not be assigned impartially to one of the three categories.
 An Example is \emph{``AI will reinvent how we think about education''}.
-In the case of the sentence, we disagreed on whether we should value the sentence as neutral or positive and decided to use the neutral label.
+In the case of this sentence, we disagreed on whether we should value the sentence as neutral or positive and decided to use the neutral label.
 Subsequently, this statement was given a positive rating by the model.
 On closer examination of the statements that were labeled differently by us and by the model, we found over 90\% of the labels given by the model to be valid, if these annotations were assigned with probability over 70\%.
 For this reason, we decided to keep only statements about the future if the sentiment model assigned an annotation with a confidence above 70\%.
@@ -166,11 +165,11 @@ For this reason, we decided to keep only statements about the future if the sent
     }
     \label{fig:topic_selection}
 \end{figure}
-For assigning topics to the future statements we employ the bart-large-mnli model from Facebook, which was pretrained on the MultiNli \citep{N18-1101} data set, which consists of 433000 pairs of sentences annotated with textual supplementary information. The bart-large-mnli is a natural language processing model based on the technique of \citet{yin2019benchmarking} utilizing pre-trained NLI models as ready-to-use zero-shot sequence classifiers.
+For assigning topics to the future statements we employ the bart-large-mnli model from Facebook, which was pretrained on the MultiNLI \citep{N18-1101} data set, which consists of 433,000 pairs of sentences annotated with textual supplementary information. The bart-large-mnli is a natural language processing model based on the technique of \citet{yin2019benchmarking} utilizing pre-trained NLI models as ready-to-use zero-shot sequence classifiers.
 The approach involves specifying the sequence for classification as an NLI prerequisite and then constructing a hypothesis of every possible label candidate.
 Afterwards probabilities of agreement and contradictions are transformed into annotation probabilities.
 Before we are able to use the bart-large-mnli it is necessary to define the topics, which can be assigned to every statement by this model.
-For instance, to verify if a sentence is a political or a technological statement, we can provide the model with the label candidats politics and technology. Then the model will apply one of the labels to the sentence.
+For instance, to verify if a sentence is a political or a technological statement, we can provide the model with the label candidates: \emph{politics} and \emph{technology}. Then the model will apply one of the labels to the sentence.
 In the following section our topic selection approach is described in detail.
 
 \subsubsection{Topic Discovery with LDA}
@@ -179,8 +178,9 @@ For analyzing the overarching topics within our future statements, we used Laten
 Applied to NLP, a Latent Dirichlet Allocation model clusters observations into unobserved groups of related data. It has the advantage of following a generative process that is immune to overfitting with increasing size of the data corpus and can be scaled to a data cluster in machine learning \citep{pritchard2000inference}
 \\
 \\
-We prepared our data set for LDA by removing punctuation, words with less than three letters and stopwords. The cleaned data was then converted into lowercase and fed into a tokenizer. From there on, we created bigrams (sets of two words) from the tokens and employed a Word2Vec model to select only the most occuring ones.
-Finally, bigrams that occurred in more than 60\% statements and less than 20 of the documents were filtered out. The remaining bigrams were inputted into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names.
+We preprocessed our data set for LDA.
+From there on, we created bigrams (sets of two words) from the tokens and employed a Word2Vec model to select only the most occuring ones.
+Finally, bigrams that occurred in more than 60\% statements and less than 20 of the documents were filtered out. The remaining bigram candidates were fed into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names.
 \\
 Inspired by these suggestions, we created the topics that we found to be the best fit for the set of tokens of every cluster.
 Correspondingly, we have incorporated this as a category for our topic model.
@@ -199,13 +199,6 @@ The first one found was selected.
 To obtain the most suitable assignment of subtopics to statements, we maintained the order of these subcategories within each original list.
 In conclusion the more meaningful statement subtopics found by the LDA model were prioritized. Sentences that did not contain any of this subtopics were marked as 'undefined'.
 This way, we were able to obtain the average sentiment scores for each theme and subcategory.
-\\
-\\
-To complement the analysis of subtopics, we added a network column to the dataset.
-This contains a list of all subtopics within the corresponding tuple of a statement.
-For the implementation of a subcategory network, each node represents such a subtopic.
-When implementing edges between these nodes, a tuple needs at least two subtopics in its network attribute to create an edge between them.
-Using this method, the resulting network included 182 nodes.
 \\
 \\
 Furthermore, we added to every statement a number, mapped to every statement for a later sentiment score calculation. To negatively perceived sentences we assigned a \texttt{–1}, while positively labeled terms receive a \texttt{1}. Finally, every statement containing a neutral sentiment obtains a \texttt{0}.
