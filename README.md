@@ -55,7 +55,9 @@ The visualization for the analysis is generated at this stage.
 
 1) Navigate to the visualization directory: `the-future-tense/stage_3_visualization`
 
-2) Execute the jupyter notebook `visualize.ipynb`
+2. Deposit your [Openai API-Key](https://beta.openai.com/account/api-keys) in your `.env` as OPENAI_API_KEY
+
+3. Execute the jupyter notebook `visualize.ipynb`
 
 
 

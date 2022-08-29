@@ -8,10 +8,7 @@
 
 #SBATCH --gres=gpu:1g.5gb
 
-#SBATCH -o slurm_logs/%j.%x.out
-#SBATCH -e slurm_logs/%j.%x.err
-
-#pip install -r ../../requirements.txt --user
+pip install -r ../../../../requirements.txt --user
 
 srun python3 upload_model_ft.py
 #srun python3 future_model_ft.py
