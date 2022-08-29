@@ -51,7 +51,6 @@ clean:
       *.blg \
       *.log \
       *.out \
-      *.pdf \
       ./expose/*.aux \
       ./expose/*.bbl \
       ./expose/*.blg \
@@ -63,4 +62,5 @@ clean:
       ./paper/*.blg \
       ./paper/*.log \
       ./paper/*.out \
-      ./paper/paper.pdf \
+      ./paper/*.pdf \
+      paper.pdf \
