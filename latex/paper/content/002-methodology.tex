@@ -4,7 +4,7 @@ For the realization of our concept, the following three objectives have to be ac
 
 \begin{enumerate}
     \item Obtaining of a sufficiently large data set with different expressions about the topic of AI.
-    \item Raw data transformation into a data set that to the target schema illustrated in Table~\ref{data-schema}
+    \item Raw data transformation into a data set that to the target schema illustrated in \autoref{fig:overview}.
     \item Creation of a visualization from which society's perceptions on different topics of AI can be extracted.
 \end{enumerate}%
 %
@@ -27,16 +27,16 @@ For the realization of our concept, the following three objectives have to be ac
 \underline{1. WARC Data Extraction:}
 \\
 Initially, we outline the raw data acquiring containing AI expressions.
-Since the web archive provided by the Webis group with the corresponding WARC-DL data extraction pipeline \citep{Deckers2022} is at our disposal, we utilize those.
-The data set consists of long texts.
-For that reason, the text must be split into separate sentences.
-Then, sentences about AI can be extracted for later processing by applying Regex.
+Since the web archive provided by the Webis Group with the corresponding WARC-DL data extraction pipeline \citep{Deckers2022} is at our disposal, we utilize those.
+Sentences about AI can be extracted for later processing by applying Regex on every sentence of the data.
 \\
 \\
 %
 \underline{2. Data Transformation:}
 \\
-For later analysis, the data must be converted to required target schema, illustrated in Table~\ref{data-schema}. Therefore we employ the model pipeline, which generates the final data set with the attributes future statement, sentiment, topic and url. Within this model pipeline three models are applied sequentially:
+For later analysis, the data must be converted to required target schema, illustrated in \autoref{fig:overview}.
+Therefore we employ the model pipeline, which generates the final data set with the attributes future statement, sentiment, topic and url.
+Within this model pipeline three models are applied sequentially:
 \begin{itemize}
     \item Future statements model:\\
     This model is able to distinguish between statements about the future and all other types of terms.
@@ -62,25 +62,6 @@ This way for every topic a sentiment analysis can be conducted separately.
 In the following sections, each step of the implementation is discussed in detail.
 
 
-\begin{table}[t]
-    \centering
-    \resizebox{\columnwidth}{!}{%
-    \begin{tabular}{llll}
-        \toprule
-        \textbf{statement} & \textbf{sentiment} & \textbf{topic} & \textbf{url} \\
-        \midrule
-        AI can be a risk for many workers. & NEG & finances & ... \\
-        AI will definitely revolutionize games! & POS & gaming & ... \\
-        ... & ... & ... & ... \\
-        \bottomrule
-    \end{tabular}
-    }
-\caption{\label{data-schema}
-Data schema for visualization and analysis
-}
-\end{table}
-
-
 \subsection{WARC Data Extraction}
 The Webis Group\footnote{\url{https://webis.de}} had provided us with access to 37908 WARC files, with a total amount of \highlight{XXXXXXTB} of website data, and a high-performance computer cluster where we were able to schedule jobs.
 Additionally, we decided to utilize the WARC-DL pipeline \citep{Deckers2022}, a Python software pipeline tightly coupled with the WARC endpoint, and using the FastWARC\footnote{\url{https://resiliparse.chatnoir.eu/en/stable/man/fastwarc.html}} library under the hood to iterate over WARC records.
@@ -104,6 +85,7 @@ The final yield of the WARC data extraction stage was a total amount of 222246 A
 In the next steps, starting with the model pipeline, our objective was to further refine this initial data set.
 
 \subsection{Model Pipeline}
+\label{model-pipeline}
 The model pipeline follows the WARC data extraction step and is designed to prepare our final data set, which consists of the future statements and their associated sentiment and topic labels.
 The processing within the model pipeline is performed on batches of 30 records each from the WARC-DL output.
 \\
@@ -192,38 +174,23 @@ For instance, to verify if a sentence is a political or a technological statemen
 In the following section our topic selection approach is described in detail.
 
 \subsubsection{Topic Discovery with LDA}
+\label{lda}
 For analyzing the overarching topics within our future statements, we used Latent Dirichlet Allocation (LDA). LDA is a subtype of the Dirichlet Process Mixture Models (DPMMs), a set of non-parametric, “fully-Bayesian” unsupervised clustering models which are commonly used for topic cluster analysis. DPMMs use a stochastic process to generalize the Dirichlet distribution (the conjugate prior for a categorical or multinomial distribution) for infinitely many categories \citep{li2019tutorial}.
 Applied to NLP, a Latent Dirichlet Allocation model clusters observations into unobserved groups of related data. It has the advantage of following a generative process that is immune to overfitting with increasing size of the data corpus and can be scaled to a data cluster in machine learning \citep{pritchard2000inference}
 \\
 \\
 We prepared our data set for LDA by removing punctuation, words with less than three letters and stopwords. The cleaned data was then converted into lowercase and fed into a tokenizer. From there on, we created bigrams (sets of two words) from the tokens and employed a Word2Vec model to select only the most occuring ones.
-Finally, bigrams that occurred in more than XX\% and less than XX of the documents were filtered out. The remaining bigrams were inputted into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names, from which we selected the best-fitting ones if possible.
-For some sets of words, the suggested titles could provide only inspiration and had to be adapted.
+Finally, bigrams that occurred in more than 60\% statements and less than 20 of the documents were filtered out. The remaining bigrams were inputted into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names.
 \\
-In the following set, the most frequently occurring words for one of our statement clusters are provided:
-\\
-"autopilot, translation, machine, money, business, site, search, article, engine, traffic, page, list, marketing, internet, everything, income, link, cash, help, button"
-\\
-The headings generated by GPT3 for this set of keywords were
-\\
-\emph{Social Media Marketing}, \emph{Search Engine Optimization}, \emph{Internet marketing}.
-We found that these keywords are covering two topics.
-Therefore we chose the categories \emph{search engine} and\emph{finance}
-\\
-A further group of statements was represented by the keywords:
-\\
-"intelligence, year, human, machine, technology, mind, development, robotics, position, form, reason, action, release, campaign, world, nanotechnology, singularity, view, look, life"
-\\
-GPT3 offered \emph{transhumanism} as a suitable headline.
+Inspired by these suggestions, we created the topics that we found to be the best fit for the set of tokens of every cluster.
 Correspondingly, we have incorporated this as a category for our topic model.
-\\
-In conclusion, with this approach we received the following headings for our Topic Model: search engine, finance, transhumanism, machine human interface, social media, search engine natural language technologies
+In conclusion, with this approach we received the following headings for our Topic Model: search engine, finance, transhumanism, machine human interface, social media, search engine natural language technologies.
 
 
 \subsection{Analysis}
 For the analysis of the previously created data set in \ref{model-pipeline}, we focused on the attributes topic, subtopic, network, and sentiment of each tuple.
 Since the future dataset generated by the Model Pipeline only captures the topic or category of a future statement and the sentiment attribute, we included further subtopics.
-To accomplish this, we proceeded as described in section \ref{topic-model}.
+To accomplish this, we proceeded as described in section \ref{lda}.
 Consequently in the resulting data set for every statement not only a topic but also a subtopic was contained.
 This way we intended to analyze such a future statement category in more detail.
 To accomplish this we extracted the original subcategory list of each topic utilizing the LDA model and combined these lists to a single one. We aimed to find a subtopic for almost every statement.
