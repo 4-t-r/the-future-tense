@@ -5,18 +5,18 @@ Often intertwined with the concept of an artificial man, humanoid automata with 
 Yet, it has been in the past decades that the rise of computing power according to Moore’s Law\footnote{\url{https://www.britannica.com/technology/Moores-law}} has enabled a wide-scale application of AI technologies.
 At the time of writing, use cases range from self-driving cars, personalization of ads in online browsing to highly complex predication tasks for protein folding \citep{jumper2021}.
 \\
-This rapid development of \emph{intelligent machines} in everyday life and application has led to both hopes and fears among the general population.
-\citet{cave2019} identify four dichotomy categories of excitement and fears about artificial intelligence.
+This rapid development of \emph{intelligent machines} in everyday life and applications has led to both hopes and fears among the general population.
+\citet{cave2019} identify four dichotomous categories of excitement and fears about artificial intelligence.
 These are immortality and inhumanity, ease and obsolescence, gratification and alienation and dominance and uprising (\autoref{dichotomy-categories}).
 They further argue that such perceptions, which may not align with reality, can yet influence the development, regulation, and application of AI.
 The encouragement of research into AI ethics by various public policy groups and governments may be a reflection of this point \citep{leslie2019}.
 \\
-In our work, we seek to follow up on the analysis of \citet{cave2019} and examine the views of the English-speaking online community regarding the future of artificial intelligence. We discern the most common clusters of topics that are formed around AI and the average sentiment for each topic using machine learning. To that end, we employ natural language processing (NLP) to extract and analyze statements about the future of AI from the Web Archive \citep{Deckers2022}, a collection of website snapshots which offers us data from the past ~10 years.
-We are applying a pipeline that consists of three models on this data.
-The first model is our finetuned future model, which is able to recognize statements about the future.
-Subsequently, this data is fed into an existent sentiment classifier  to add sentiments.
-Finally a topic is assigned to every sentence by the last model.
-This is followed by an analysis of the individual topic clusters.
+In our work, we seek to follow up on the analysis of \citet{cave2019} and examine the views of the English-speaking online community regarding the future of artificial intelligence. We discern the most common clusters of topics that are formed around AI and the average sentiment for each topic using machine learning. To that end, we employ natural language processing (NLP) to extract and analyze statements about the future of AI from the Web Archive \citep{Deckers2022}, a collection of website snapshots which offers us data from the past \textasciitilde10 years.
+We apply a pipeline integrating three models on this data.
+The first model is a finetuned future model, which is able to recognize statements about the future.
+This data is then fed into an existent sentiment classifier to add sentiments.
+Finally, our last model assigns a topic to each sentence.
+This dataset is subsequently analyzed for its the individual topic clusters.
 While our analysis solely concerns artificial intelligence, our pipeline and models offer a way to study online views concerning the future for any topic. By examining the prevalence and sentiment of AI topics specifically, we hope to inform social science researchers, philosophers, and policy makers about the development of artificial intelligence in the general population’s perception, to direct efforts towards a better future with AI.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
