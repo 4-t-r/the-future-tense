@@ -20,7 +20,7 @@ For the realization of our concept, the following three objectives have to be ac
         The model pipeline runs two times in total. The first time the topic model assigns dummy topics.
         After the topic selection process (green circle), where we fine-tune the topic model, the model pipeline runs a second time.
         Now the topic model assigns the final topics to the statements.
-        The output is a \texttt{.csv} file with the schema \texttt{statement|sentiment|topic|url}.
+        The output is a CSV file with the schema \texttt{statement|sentiment|topic|url}.
     }
     \label{fig:overview}
 \end{figure}
@@ -94,7 +94,7 @@ Subsequently, the chosen sentiment model assigns a sentiment to each future stat
 In this step some future terms can be sorted out.
 This concerns the statements to which a sentiment is classified with a probability of less than 70\%.
 The remaining future statements receive a topic.
-Finally those are persisted in a csv file.
+Finally those are persisted in a CSV file.
 \\
 In the following sections \ref{future-model} - \ref{topic-model} we will go into detail about each individual model.
 In this context, we describe how the future model was trained and justify our decision for the sentiment and the topic model selection.
@@ -131,7 +131,7 @@ As previously described we used the DistilBERT base model and finetuned it with 
 We split the data set of 2,500 records into a training and a test set, where the test set contains 20\% of the records.
 From the training set we split further 20\% for validation data.
 \\
-After only two epochs the training ended with an accuracy over 96\% as displayed in Table~\ref{future-model-train}.
+After only two epochs the training ended with an accuracy over 96\% as displayed in \autoref{future-model-train}.
 \\
 Subsequently we tested the model on our test set containing 500 records never seen by the model and achieved an accuracy of 93.8\%, as seen in the confusion matrix in \autoref{fig:cm}.
 
