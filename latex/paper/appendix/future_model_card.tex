@@ -70,19 +70,16 @@ The remaining 500 will be used to test the final distilbert-base-future model
 %
 \textbf{Test Set Results}
 \begin{table}[ht]
-    \small
     \captionsetup{size=footnotesize}
-        \begin{tabular}{c|cc}
-        \hline
-        & 1 & 2\\
-        \hline
-        true future statement & 253 & 4 \\
-        true no future statements & 4 & 239 \\
-        \hline
+        \renewcommand\arraystretch{1.5}
+        \setlength\tabcolsep{0pt}
+        \begin{tabular}{c >{\bfseries}r @{\hspace{0.7em}}c @{\hspace{0.4em}}c}
+          \multirow{9}{*}{\parbox{1.1cm}{\bfseries\raggedleft True}} &    & \multicolumn{2}{c}{\bfseries Classified as} \\
+                                                                      &    & \bfseries f & \bfseries nf \\
+                                                                      & f  & \MyBox{253} & \MyBox{4} \\[2.1em]
+                                                                      & nf & \MyBox{4} & \MyBox{239} \\
         \end{tabular}
     \caption{\label{cm}
-    Confusion Matrix\\
-    column 1: classified as future statements\\
-    column 2: classified as no future statements
+    This confusion matrix displays the number of true future (f) and non-future (nf) statements in contrast to statements which were classified as such.
     }
 \end{table}
