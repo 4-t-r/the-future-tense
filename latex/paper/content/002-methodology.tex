@@ -239,3 +239,6 @@ This contains a list of all subtopics within the corresponding tuple of a statem
 For the implementation of a subcategory network, each node represents such a subtopic. 
 When implementing edges between these nodes, a tuple needs at least two subtopics in its network attribute to create an edge between them.
 Using this method, the resulting network included 182 nodes.
+\\
+\\
+Furthermore, we added to every statement a number, mapped to every statement for a later sentiment score calculation. To negatively perceived sentences we assigned a \texttt{–1}, while positively labeled terms receive a \texttt{1}. Finally, every statement containing a neutral sentiment obtains a \texttt{0}. 
