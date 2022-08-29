@@ -1,12 +1,24 @@
 \section{Data Set Card: Future Statements}
-The english language data set contains 2500 statements.
+\\
+\\
+\textbf{Data Set Description}
+\\
+\\
+This Data Set Card originates from \url{https://huggingface.co/datasets/fidsinn/future-statements}
+The english language data set contains 2,500 statements.
 50\% of the relate to future events and 50\% of which relate to non-future events.
 The statements were collected manually and programmatically from several websites and datasets.
-The sole purpose of this data set was to fine tune the distilbert-base-uncased model into our distilbert-base-future model.
-The data set is available on huggingface (\url{https://huggingface.co/datasets/fidsinn/future-statements}).
+The labels were set manually or programmatically (including corresponding manual examination of the labels).
 \\
 \\
-\textbf{Composition}
+\textbf{Dat Set Motivation}
+\\
+\\
+The sole purpose of this dataset was to fine tune the distilbert-base-uncased \url{https://huggingface.co/distilbert-base-uncased} model into our distilbert-base-future \url{https://huggingface.co/fidsinn/distilbert-base-future} model.
+The dataset was created by students from the University of Leipzig in the Big Data and Language Technologies Module of the Webis Group \url{https://huggingface.co/webis}.
+\\
+\\
+\textbf{Data Set Composition}
 \\
 \\
 The instances are represented by single-/ or multi-sentence statements from following sources (unequally distributed):
@@ -26,9 +38,39 @@ The instances are represented by single-/ or multi-sentence statements from foll
     \item \url{http://futurism.com}
 \end{itemize}
 %
-\textbf{Annotation}
+- The dataset consists of 2,500 statements in total, 50\% of which relate to future events and 50\% of which relate to non-future events.
+\\
+\\
+\textbf{Data Set Annotation}
 %The label is represented by the 'future'-column:
 \begin{itemize}
     \item 0: No future statement
     \item 1: future statement
 \end{itemize}%
+\\
+\\
+\textbf{Noise, Biases and Redundancies}
+\\
+\\
+The main goal of the data collection process was to find future statements and general statements in equal amount.
+The thematic content within the statements can be redundant and some topics can be much more present.
+The dataset was not created to work with the thematic content while only fine-tune an already existing model into a model which is sensible for future and non-future statements.
+Data in the 'statement'-column is publicly available and does not contain confidential information.
+It was collected in the months 06/2022-07/2022 but the content of the dataset is independent of the data collection period and can be from earlier periods.
+\\
+\\
+\textbf{Data Set Collection Process}
+\\
+\\
+The data is directly observable on the websites mentioned in upper section.
+It was collected manually and programmatically (using Pythons NLTK library for automatic sentence-extraction and Regex-filtering)
+from graduate students D. Baradari \url{https://huggingface.co/Dunya}, F. Bartels \url{https://huggingface.co/fidsinn}, A. Dewald, J. Peters \url{https://huggingface.co/jpeters92} as part of a data science module of the University of Leipzig.
+The data was obtained in the months 06/2022-07/2022 but the content of the dataset is independent of the data collection period and can be from earlier periods.
+\\
+\\
+\textbf{Dataset Maintenance}
+\\
+\\
+Curators of the dataset can be contacted via the Huggingface community tab \url{https://huggingface.co/datasets/fidsinn/future-statements/discussions}.
+
+It is not planned to update the dataset for further work or investigations.

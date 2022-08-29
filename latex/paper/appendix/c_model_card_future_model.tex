@@ -1,9 +1,13 @@
-\section{Model Card: Future Statement Model}
-This model is a finetuned on 2500 expressions, which contained 1250 future statements. distilbert-base-uncased serves as a base model
+\section{Model Card: Distilbert-Base-Future}
+This model is a finetuned on 2500 expressions, which contained 1250 future statements. distilbert-base-uncased serves as a base model.
+The corresponding Model Card can be found here: \url{https://huggingface.co/fidsinn/distilbert-base-future}.
+It includes an example for general use.
 \\
 \\
 %
 \textbf{Model Description}
+Contributors are D. Baradari, F. Bartels, A. Dewald, J. Peters.
+Questions and comments can be send via the Hugging Face community tab \url{https://huggingface.co/fidsinn/distilbert-base-future/discussions}
 %
 \begin{itemize}
     \item Huggingface name: distilbert-base-future
@@ -32,8 +36,26 @@ The following hyperparameters were used during training
 %
 \textbf{Training Results}
 \\
-For finetuning, we have 80\% of of records from our self-annotated future-tatements dataset. This corresponds to 2000 records.
-The remaining 500 will be used to test the final distilbert-base-future model
+It achieves the following results on the evaluation set:
+- Train Loss: 0.1142
+- Train Sparse Categorical Accuracy: 0.9613
+- Validation Loss: 0.1272
+- Validation Sparse Categorical Accuracy: 0.9625
+- Epoch: 1
+\\
+\\
+\textbf{Training and evaluation data}
+\\
+\\
+The Distilbert-base-future model was trained and evaluated on the Future Statements data set \url{https://huggingface.co/datasets/fidsinn/future-statements}
+We collected 2,500 statements, 50\% of which relate to future events and 50\% of which relate to non-future events.
+For finetuning, we have used 80\% of records from our self-annotated future-tatements dataset. This corresponds to 2,000 records.
+The remaining 500 were used to test the final distilbert-base-future model.
+The sole purpose of the dataset was the fine-tuning process of this model.
+\\
+\\
+\textbf{Training results}
+\\
 \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,14 +86,3 @@ The remaining 500 will be used to test the final distilbert-base-future model
     \item Tensorflow 2.8.0
     \item Tokenizers 0.12.1
 \end{itemize}%
-%
-\pagebreak
-\textbf{Test Set Results}
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{cm}
-    \caption{
-        Dummy caption.
-    }
-    \label{fig:cm}
-\end{figure}
