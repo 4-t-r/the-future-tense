@@ -1,4 +1,3 @@
-\appendix
 \section{Model Card: Future Statement Model}
 This model is a finetuned on 2500 expressions, which contained 1250 future statements. distilbert-base-uncased serves as a base model
 \\
@@ -39,19 +38,17 @@ The remaining 500 will be used to test the final distilbert-base-future model
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
-    \setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
+    \scriptsize
+    \setlength\tabcolsep{10pt} % let LaTeX compute intercolumn whitespace
     \footnotesize\centering
-    \captionsetup{size=footnotesize}
-    \resizebox{\columnwidth}{!}{%
-        \begin{tabular}{ccccc}
+    \begin{tabular}{ccccc}
         \toprule
         \textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Accuracy} & \textbf{Val. Loss} & \textbf{Val. Accuracy} \\
         \midrule
         0 & 0.3816 & 0.8594 & 0.1547 & 0.9475 \\
         1 & 0.1142 & 0.9613 & 0.1272 & 0.9625 \\
         \bottomrule
-        \end{tabular}
-        }
+    \end{tabular}
     \caption{\label{future-model-train}
     Training Results
     }
@@ -68,18 +65,13 @@ The remaining 500 will be used to test the final distilbert-base-future model
     \item Tokenizers 0.12.1
 \end{itemize}%
 %
+\pagebreak
 \textbf{Test Set Results}
-\begin{table}[ht]
-    \captionsetup{size=footnotesize}
-        \renewcommand\arraystretch{1.5}
-        \setlength\tabcolsep{0pt}
-        \begin{tabular}{c >{\bfseries}r @{\hspace{0.7em}}c @{\hspace{0.4em}}c}
-          \multirow{9}{*}{\parbox{1.1cm}{\bfseries\raggedleft True}} &    & \multicolumn{2}{c}{\bfseries Classified as} \\
-                                                                      &    & \bfseries f & \bfseries nf \\
-                                                                      & f  & \MyBox{253} & \MyBox{4} \\[2.1em]
-                                                                      & nf & \MyBox{4} & \MyBox{239} \\
-        \end{tabular}
-    \caption{\label{cm}
-    This confusion matrix displays the number of true future (f) and non-future (nf) statements in contrast to statements which were classified as such.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{cm}
+    \caption{
+        Dummy caption.
     }
-\end{table}
+    \label{fig:cm}
+\end{figure}
