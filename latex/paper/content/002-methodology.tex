@@ -64,14 +64,19 @@ In the following sections, each step of the implementation is discussed in detai
 
 \begin{table}[t]
     \centering
+    \scriptsize
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{llll}
         \toprule
         \textbf{statement} & \textbf{sentiment} & \textbf{topic} & \textbf{url} \\
         \midrule
-        AI can be a risk for many workers. & NEG & finances & ... \\
-        AI will definitely revolutionize games! & POS & gaming & ... \\
-        ... & ... & ... & ... \\
+        AI can be a risk     & \multirow{2}{*}{NEG} & \multirow{2}{*}{finances} & ... \\
+        for many workers.    &                      &                           & ... \\
+        \addlinespace[0.7em]
+        AI will definitely   & \multirow{2}{*}{POS} & \multirow{2}{*}{gaming}   & ... \\
+        revolutionize games! &                      &                           & ... \\
+        \addlinespace[0.7em]
+        ...                  & ...                  & ...                       & ... \\
         \bottomrule
     \end{tabular}
     }
