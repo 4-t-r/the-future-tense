@@ -1,6 +1,6 @@
 \appendix
 \section{Model Card: Future Statement Model}
-This model is a finetuned on 2500 expressions, which contained 1250 future statements. distilbert-base-uncased serves as a base model 
+This model is a finetuned on 2500 expressions, which contained 1250 future statements. distilbert-base-uncased serves as a base model
 \\
 \\
 %
@@ -25,7 +25,7 @@ This model is a finetuned on 2500 expressions, which contained 1250 future state
 \\
 The following hyperparameters were used during training
 \begin{itemize}
-    \item optimizer: 
+    \item optimizer:
     name: Adam, learning\_rate: 5e-05, decay: 0.0, beta\_1: 0.9, beta\_2: 0.999, epsilon: 1e-07, amsgrad: False
     \item training\_precision: float32
 \end{itemize}%
@@ -39,27 +39,22 @@ The remaining 500 will be used to test the final distilbert-base-future model
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
-\setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
-\footnotesize\centering
-\captionsetup{size=footnotesize}
-\resizebox{\columnwidth}{!}{%
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tabular}{
-    ccccc}
-
-\hline
-
-\textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Accuracy} & \textbf{Val. Loss} & \textbf{Val. Accuracy}\\
-\hline
-0 & 0.3816 & 0.8594 & 0.1547 & 0.9475 \\
-1 & 0.1142 & 0.9613 & 0.1272 & 0.9625 \\
-\hline
-\end{tabular}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\caption{\label{future-model-train}
-Training Results
-}
+    \setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
+    \footnotesize\centering
+    \captionsetup{size=footnotesize}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{ccccc}
+        \toprule
+        \textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Accuracy} & \textbf{Val. Loss} & \textbf{Val. Accuracy} \\
+        \midrule
+        0 & 0.3816 & 0.8594 & 0.1547 & 0.9475 \\
+        1 & 0.1142 & 0.9613 & 0.1272 & 0.9625 \\
+        \bottomrule
+        \end{tabular}
+        }
+    \caption{\label{future-model-train}
+    Training Results
+    }
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,28 +69,20 @@ Training Results
 \end{itemize}%
 %
 \textbf{Test Set Results}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
-\small
-\captionsetup{size=footnotesize}
-%\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tabular}{
-    c|cc}
-\hline
-& 1 & 2\\
-\hline
-true future statement & 253 & 4 \\
-true no future statements & 4 & 239 \\
-\hline
-\end{tabular}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\caption{\label{cm}
-Confusion Matrix\\
-column 1: classified as future statements\\
-column 2: classified as no future statements
-}
+    \small
+    \captionsetup{size=footnotesize}
+        \begin{tabular}{c|cc}
+        \hline
+        & 1 & 2\\
+        \hline
+        true future statement & 253 & 4 \\
+        true no future statements & 4 & 239 \\
+        \hline
+        \end{tabular}
+    \caption{\label{cm}
+    Confusion Matrix\\
+    column 1: classified as future statements\\
+    column 2: classified as no future statements
+    }
 \end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
