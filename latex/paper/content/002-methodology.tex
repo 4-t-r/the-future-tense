@@ -34,7 +34,9 @@ Sentences about AI can be extracted for later processing by applying Regex on ev
 %
 \underline{2. Data Transformation:}
 \\
-For later analysis, the data must be converted to required target schema, illustrated in Table~\ref{data-schema}. Therefore we employ the model pipeline, which generates the final data set with the attributes future statement, sentiment, topic and url. Within this model pipeline three models are applied sequentially:
+For later analysis, the data must be converted to required target schema, illustrated in \autoref{fig:overview}.
+Therefore we employ the model pipeline, which generates the final data set with the attributes future statement, sentiment, topic and url.
+Within this model pipeline three models are applied sequentially:
 \begin{itemize}
     \item Future statements model:\\
     This model is able to distinguish between statements about the future and all other types of terms.
@@ -178,11 +180,11 @@ Applied to NLP, a Latent Dirichlet Allocation model clusters observations into u
 \\
 \\
 We prepared our data set for LDA by removing punctuation, words with less than three letters and stopwords. The cleaned data was then converted into lowercase and fed into a tokenizer. From there on, we created bigrams (sets of two words) from the tokens and employed a Word2Vec model to select only the most occuring ones.
-Finally, bigrams that occurred in more than 60\% statements and less than 20 of the documents were filtered out. The remaining bigrams were inputted into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names. 
+Finally, bigrams that occurred in more than 60\% statements and less than 20 of the documents were filtered out. The remaining bigrams were inputted into an LDA model, returning clusters of related topics. To label each cluster with a matching headline or cluster name, we used OpenAI’s GPT-3 (text-davinci-002) to turn suggestions of cluster names.
 \\
-Inspired by these suggestions, we created the topics that we found to be the best fit for the set of tokens of every cluster. 
-Correspondingly, we have incorporated this as a category for our topic model. 
-In conclusion, with this approach we received the following headings for our Topic Model: search engine, finance, transhumanism, machine human interface, social media, search engine natural language technologies. 
+Inspired by these suggestions, we created the topics that we found to be the best fit for the set of tokens of every cluster.
+Correspondingly, we have incorporated this as a category for our topic model.
+In conclusion, with this approach we received the following headings for our Topic Model: search engine, finance, transhumanism, machine human interface, social media, search engine natural language technologies.
 
 
 \subsection{Analysis}
