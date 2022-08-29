@@ -6,6 +6,7 @@ Comparing our topic clusters with the dichotomies of hopes and fears by \citet{c
 Furthermore, there are no clusters that we consider well-fitting for \citet{cave2019} category Dominance and Uprising, which, curiously, is a category commonly discussed by popular figures such as the late Stephen Hawking \citep{hawking2014transcendence}. Overall, it rather that our clusters center around applications of artificial intelligence. This is further demonstrated by the fact that several subtopics repeat within clusters (Figure XXX). For instance, “autopilot” is present within the machine human inference, natural language processing, finance, search engine, social media, and transhumanism clusters. Other repeated subtopics include data, supercomputer, computer, intelligence, recognition, and machine. Together with the slightly positive but largely neutral overall sentiment, which suggests that people speak mainly rationally about the future of AI, we reason that discussions center primarily around areas of application of AI technology instead of opinionated positions about its benefits and risks. 
 
 \subsection{Topic Assignment}
+\label{topics}
 As described in section \ref{results} the most statements are assigned with the "machine human interface" topic.
 This is not surprising, since technical sources clearly dominate our websites. 
 Technological systems often require human operation and contain a corresponding interface as an implicit feature.
@@ -110,9 +111,13 @@ Top Domains
 
 Since we had a limited time for this project, there are some aspects where we would have liked to continue our work.
 From a technical point of view, we would have preferred to spend additional time on labelling more data for the sentiment model.
-Thus, it could have been possible to fine-tune this model as well.
+Thus, it could have been possible to finetune this model as well.
 With our current approach, we only keep the AI future predictions if the sentiment model makes a prediction with a certainty of more than 70\%.
 This results in the loss of a few additional statements that we would have available for analysis.
+\\
+Investing more time in topic selection would also be beneficial.
+Therefore, it might be reasonable to manually evaluate our statements with the corresponding topics with a subsequent performing of a another topic selection.
+Furthermore, better results can be achieved by finetuning the topic model.
 \\
 Unfortunately, the location containing the corresponding date on the website does not contain the corresponding date is not consistent.
 Accordingly, we would have needed more time for the date extraction.
