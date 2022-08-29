@@ -1,0 +1,150 @@
+\section{Discussion}
+
+\subsection{Results}
+Our results reveal a slightly positive outlook of people on future of AI.
+Interestingly, two thirds of our filtered statements were neutral, which, together with the nature of our top domain sources, suggests a large proportion of texts coming from academic or unbiased texts rather than strong opinions.
+The presence of about twice as many positively compared to negatively sentences and thereby a rather hopeful outlook into the future, may also be influenced by the optimism bias, which is when humans tend to overestimate the likelihood of positive events and underestimate that of negative \citep{sharot2011optimism}.
+These findings also align with a large-scale study made by Google researchers on the public opinion regarding the long-term impact of AI on society (Kelley et al., 2021).
+This study, which surveyed people from eight English and non-English speaking countries, shows a clear dominance of neutral perceptions in English-speaking countries (USA: 53\%, Australia: 57\%, Canada: 56\%) and a greater proportion of positive sentiments (USA: 21\%, Australia: 18\%, Canada: 20\%) than negative (USA: 17\%, Australia: 14\%, Canada: 15\%).
+Intriguingly, respondents from emerging economies such as Brazil, India and Nigeria exhibit far more optimistic opinions on the future of AI (BR: 38\%, IN: 51\%, NI: 37\%), a finding that has been repeatedly confirmed in a recent survey by the World Economic Forum \citep{Markovitz2022}.
+This difference may be due to these countries’ younger and generally more optimistic population, which may view AI as an essential opportunity for leapfrogging \citep{zhenmin2019frontier}.
+While we filtered our statements for English-speaking websites only, the prevalence of English as the world’s lingua franca must have led to the inclusion of opinions and statements from non-English speaking people.
+This may explain the slight skew towards positive sentiments in our data compared to sentiments from the USA, Australia and Canada from \citet{kelley2021exciting}.
+Comparing our topic clusters with the dichotomies of hopes and fears by \citet{cave2019}, we can only find a weak overlap between the data.
+\emph{machine human interface} and \emph{transhumanism} well match the authors’ first category of Immortality and Inhumanity.
+Interestingly, all subtopics within these clusters were labelled either neutral or positive, with those from \emph{transhumanism} even displaying the most positive sentiments.
+The only subtopic receiving a negative label when compared to the overall sentiment mean of 0.1 (\highlight{Appendix XXX}) is \emph{autopilot} from the \emph{machine human interface} cluster, suggesting the main concern to be losing conscious control by the use of such interfaces in the future.
+From this, we conclude a disproportionate number of opinions in favor of \emph{transhumanism} and a machine-enabled future in relation to opinions highlighting the possible (existential) risks and dangers to our ``human'' identity.
+The \emph{natural language technology} cluster in turn may point towards applications of such technologies that make life easier, such as Amazon’s Alexa, thereby fitting the category of Ease and possibly Gratification.
+Yet, the corresponding counterparts in the dichotomies are hard to find in our clusters, where the only negatively labelled subtopics exist in the gaming cluster.
+This aspect can be explained by the increasing prevalence of AI-mediated systems in games, from non-playable characters (which can include \emph{enemies}, a highly negative subtopic) to iterative game improvement and graphical enhancement \citep{anandrise}.
+While the latter two examples provide advantages for the gamer, it may be that the idea of an AI as the enemy predominates since this is the primary noticeable direct touchpoint between the user and an AI.
+Furthermore, there are no clusters that we consider well-fitting for \citet{cave2019} category Dominance and Uprising, which, curiously, is a category commonly discussed by popular figures such as the late Stephen Hawking \citep{hawking2014transcendence}.
+Overall, it rather that our clusters center around applications of artificial intelligence.
+This is further demonstrated by the fact that several subtopics repeat within clusters (\highlight{Figure XXX}). For instance, \emph{autopilot} is present within the \emph{machine human interface}, \emph{natural language processing}, \emph{finance}, \emph{search engine}, \emph{social media}, and \emph{transhumanism} clusters.
+Other repeated subtopics include \emph{data}, \emph{supercomputer}, \emph{computer}, \emph{intelligence}, \emph{recognition}, and \emph{machine}. Together with the slightly positive but largely neutral overall sentiment, which suggests that people speak mainly rationally about the future of AI, we reason that discussions center primarily around areas of application of AI technology instead of opinionated positions about its benefits and risks.
+
+\subsection{Topic Assignment}
+\label{topics}
+As described in section \ref{results} the most statements are assigned with the \emph{machine human interface} topic.
+This is not surprising, since technical sources clearly dominate our websites.
+Technological systems often require human operation and contain a corresponding interface as an implicit feature.
+Also search engines often need the handling from the outside.
+For this reason, many of these search engine related phrases end up in this category instead of in the search engine topic.
+Since search engines also correspond to natural language systems, they are often assigned to the category \emph{natural language technology}.
+To avoid this, more distinct generic terms for topics should have been chosen.
+This issue also arises in the field of \emph{human machine interface}.
+Statements that describe a friendly AI are grouped in this category.
+We would expect this kind of sentences in \emph{transhumanism}.
+The reason for this could be the categpry name, since it combines the terms human and machine.
+\\
+\emph{computer vision}, \emph{natural language technology}, \emph{social media}, \emph{transhumanism} and \emph{human machine interface} contain many statements that do not fit the corresponding topic.
+Whereas this appears quite random for \emph{natural language technology} and \emph{human machine interface}, since we did not define suitable topics for these sentences.
+In \emph{computer vision} many sentences end up containing words like scan, look, see.
+But these do not actually refer to the topic.
+Similarly \emph{social media} includes  statements with the word fans, even if this sentence is about attending a soccer match.
+But also in this category are plenty of randomly assigned statements.
+Nevertheless, the categories \emph{computer vision} and \emph{natural language technology} also contain appropriate phrases.
+The quality of these subjects is mixed.
+\emph{human machine interface} consists of far too many terms that do not fit to this topic.
+A possible solution for such random assignments could be to add the generic category \emph{others}.
+Furthermore, it should be considered whether the category human machine interface is actually useful.
+It does not seem specific enough to narrow down a particular topic.
+\\
+The Topic Model seems to assign the \emph{research computing} category to statements more reliably.
+Nevertheless, it is noticeable that educational topics that cannot be associated with research and hardware or software are also grouped under this theme.
+Sentences regarding technical topics, which have no connection with research, also often fall into this category.
+However, in the end it is a matter of interpretation whether these statements do not fall under \emph{research computing}.
+\\
+Finally, there are also topics that seem to be correctly assigned to their statements for the majority of the time.
+The corresponding categories are finance and gaming.
+This could be an indication that the model is not suitable for too specific technical terms.
+Providing more common topics contained in the everyday english language use, could result in a more reliable topic annotation.
+
+\subsection{Website Examination}
+The final data set, produced by the model pipeline, contains the URL for every AI future statement.
+\autoref{Top-Domains} presents the domains that are mostly occurring in this final data set.
+When examining the main domains, these appear relatively  diversified.
+A website dealing with phylosophical questions on the topic of AI is included (\texttt{lesswrong.com}).
+Following this, there are three sites from the field of gaming (\texttt{acceleratingfuture.com}, \texttt{mugenguild.com}, \texttt{slightlymagic.net}).
+Also, the blog of the department of defense is contained among these domains dealing with the research of defence and military needs (\texttt{dodsbir.net}).
+A store with speech recognition devices is also available (\texttt{knowbrainer.com}).
+Nevertheless a number of scientific blogs on AI-related topics are also include, which are lead by researchers or from the tech industry.
+Latter are mostly data scientists.
+Considering the other domains, many scientific websites as well as websites about gaming are also very abundant.
+Thus, rather the future statements were expressed by people from AI related fields.
+This could mean that this topic has a lower role in the general population and thus it is dealt very little with AI-specific topics in the public society.
+New discoveries could be made by observing domains containing statements from the last few months were used.
+More people might feel affected by the latest developments in this area.
+Consequently, there could be more blogs with people from other sectors who would exchange opinions about these developments.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}
+    \setlength\tabcolsep{2pt} % let LaTeX compute intercolumn whitespace
+    \centering
+    \captionsetup{size=footnotesize}
+    \resizebox{\columnwidth}{!}{%
+    %\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{tabular}{rll}
+        \toprule
+        \textbf{AI statements} & \textbf{Website} & \textbf{Description} \\
+        \midrule
+        \multirow{2}{*}{210\quad} & \multirow{2}{*}{lesswrong.com}          & Philosophical blog \\
+                                  &                                         & about AI developments \\
+        \addlinespace[0.7em]
+        \multirow{2}{*}{198\quad} & \multirow{2}{*}{arcengames.com}         & Page of an indie \\
+                                  &                                         & game developer \\
+        \addlinespace[0.7em]
+        \multirow{2}{*}{182\quad} & \multirow{2}{*}{acceleratingfuture.com} & Blog about perspectives \\
+                                  &                                         & and emerging technologies \\
+        \addlinespace[0.7em]
+        \multirow{2}{*}{156\quad} & \multirow{2}{*}{heatonresearch.com}     & Blog of a data \\
+                                  &                                         & scientist \\
+        \addlinespace[0.7em]
+        \multirow{2}{*}{106\quad} & \multirow{2}{*}{dodsbir.net}            & Research blog of the \\
+                                  &                                         & department of defense \\
+        \addlinespace[0.7em]
+        \multirow{2}{*}{76\quad}  & \multirow{2}{*}{kdnuggets.com}          & Blog of data scientists for \\
+                                  &                                         & analytics and machine learning \\
+        \addlinespace[0.7em]
+        \multirow{2}{*}{71\quad}  & \multirow{2}{*}{knowbrainer.com}        & Shop containing speech \\
+                                  &                                         & recognition devices\\
+        \addlinespace[0.7em]
+        {58\quad}                 & mugenguild.com                          & 2D fighting game \\
+        \addlinespace[0.7em]
+        {52\quad}                 & aidreams.co.uk                          & Robotics and AI blog\\
+        \addlinespace[0.7em]
+        \multirow{2}{*}{51\quad}  & \multirow{2}{*}{slightlymagic.net}      & Rules Engine for the game \\
+                                  &                                         & ``Magic: the Gathering'' \\
+        \bottomrule
+    \end{tabular}
+    }
+\caption{\label{Top-Domains}
+Top Domains
+}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Project Limitations}
+
+Since we had a limited time for this project, there are some aspects where we would have liked to continue our work.
+From a technical point of view, we would have preferred to spend additional time on labelling more data for the sentiment model.
+Thus, it could have been possible to finetune this model as well.
+With our current approach, we only keep the AI future predictions if the sentiment model makes a prediction with a certainty of more than 70\%.
+This results in the loss of a few additional statements that we would have available for analysis.
+\\
+Investing more time in topic selection would also be beneficial.
+Therefore, it might be reasonable to manually evaluate our statements with the corresponding topics with a subsequent performing of a another topic selection.
+Furthermore, better results can be achieved by finetuning the topic model.
+\\
+Unfortunately, the location containing the corresponding date on the website does not contain the corresponding date is not consistent.
+Accordingly, we would have needed more time for the date extraction.
+Providing a year for each statement could illustrate how the perception of a certain topic in the field of AI has changed over time.
+Having insights about such trends, allows monitoring the developments in cultural perceptions over time periods.
+\\
+
+
+
+
+

@@ -1,8 +1,9 @@
+.idea
 .DS_Store
 latex/.DS_Store
 
-datasets/future_statements_dataset/X_train.csv
-datasets/future_statements_dataset/y_train.csv
+stage_2_1_models/future_model/future_statements_dataset/X_train.csv
+stage_2_1_models/future_model/future_statements_dataset/y_train.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -138,3 +139,18 @@ dmypy.json
 src/slurm_logs/
 
 /src/test_finn.py
+
+/models
+
+/figures
+
+/src/future_model_ft/slurm_logs
+/src/future_model_ft/.ipynb_checkpoints
+
+/src/future_model_tl_ft/slurm_logs
+/src/future_model_tl_ft/.ipynb_checkpoints
+
+/src/topic_model/checkpoints
+/src/topic_model/saved_model
+/src/topic_model/slurm_logs
+/src/topic_model/.ipynb_checkpoints

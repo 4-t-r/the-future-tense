@@ -1,0 +1,34 @@
+\section{Data Set Card: Future Statements}
+The english language data set contains 2500 statements.
+50\% of the relate to future events and 50\% of which relate to non-future events.
+The statements were collected manually and programmatically from several websites and datasets.
+The sole purpose of this data set was to fine tune the distilbert-base-uncased model into our distilbert-base-future model.
+The data set is available on huggingface (\url{https://huggingface.co/datasets/fidsinn/future-statements}).
+\\
+\\
+\textbf{Composition}
+\\
+\\
+The instances are represented by single-/ or multi-sentence statements from following sources (unequally distributed):
+%
+\begin{itemize}
+    \item \url{http://www.kaggle.com/unitednations/un-general-debates}
+    \item \url{http://data.world/ian/united-nations-general-debate-corpus}
+    \item \url{http://gadebate.un.org/}
+    \item \url{http://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/0TJX8Y}
+    \item \url{http://www.wsj.com/}
+    \item \url{http://www.vox.com/}
+    \item \url{http://futechblog.com/}
+    \item \url{http://www.weforum.org/}
+    \item \url{http://wired.com/}
+    \item \url{http://openai.com/blog/}
+    \item \url{http://techcrunch.com/}
+    \item \url{http://futurism.com}
+\end{itemize}
+%
+\textbf{Annotation}
+%The label is represented by the 'future'-column:
+\begin{itemize}
+    \item 0: No future statement
+    \item 1: future statement
+\end{itemize}%

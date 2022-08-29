@@ -5,22 +5,27 @@
 .PHONY: help
 help:
 > @echo "Targets:"
+> @echo "... clean"
 > @echo "... expose"
+> @echo "... expose-full"
 > @echo "... paper"
 > @echo "... paper-full"
-> @echo "... clean"
 
 .PHONY: expose
 expose: clean
+> cd expose
 > pdflatex expose
+> mv -f expose.pdf ../expose.pdf
 
 .PHONY: expose-full
 expose-full: clean
+> cd expose
 > pdflatex expose
 > bibtex expose
 > pdflatex expose
 > pdflatex expose
 > pdflatex expose
+> mv -f expose.pdf ../expose.pdf
 
 .PHONY: paper
 paper: clean
@@ -42,14 +47,20 @@ paper-full: clean
 clean:
 > rm -f \
       *.aux \
+      *.bbl \
+      *.blg \
       *.log \
       *.out \
-      *.pdf \
-      *.blg \
-      *.bbl \
+      ./expose/*.aux \
+      ./expose/*.bbl \
+      ./expose/*.blg \
+      ./expose/*.log \
+      ./expose/*.out \
+      ./expose/*.pdf \
       ./paper/*.aux \
+      ./paper/*.bbl \
+      ./paper/*.blg \
       ./paper/*.log \
       ./paper/*.out \
       ./paper/*.pdf \
-      ./paper/*.blg \
-      ./paper/*.bbl \
+      paper.pdf \
